@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/src/css/style.css">
+</head>
+
+<body>
+
+    <header id="plantilla"></header>
+
+    <div class="main-container">
+        <nav>
+            <ul>                
+                <li><a href="empleado-sistemas-incidencias.html">Incidencias</a></li>
+                <li><a href="empleado-sistemas-categorias.html">Categorías</a></li>
+                <li><a href="empleado-sistemas-articulos.html">Artículos</a></li>
+                <li><a href="../../../index.html" class="active" aria-current="page" href="#">Salir</a></li>
+            </ul>
+        </nav>
+        <div class="right-container">
+            <main>
+                <div class="container">                    
+                    <div class="row">
+                        <div class="col-auto me-auto">
+                            <h3>Incidencias</h3>
+                        </div>
+                    </div>
+
+                    <!-- 👇 EL FORMULARIO DE FILTRO DE TU PROFESOR -->
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <form id="form-filtro">
+                                <fieldset>
+                                    <div class="col-mb-3">
+                                        <label for="articuloFiltro" class="form-label">Descripción Artículo</label>
+                                        <input type="text" id="articuloFiltro" class="form-control">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary mt-2">Filtrar</button>
+                                </fieldset>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- 👇 LA TABLA, CON TUS CLASES DE ESTILO -->
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Creado el</th>
+                                <th scope="col">Artículo</th>
+                                <th scope="col">Descripción</th>
+                                <th scope="col">Prioridad</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-incidencias">
+                        </tbody>
+                    </table>
+                </div>    
+            </main>
+        </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+    <script type="module">
+        import { mostrarHeader } from '../../header.js';
+        mostrarHeader('EMPLEADO SISTEMAS');
+    </script>
+    <script type="module" src="./empleado-sistemas-incidencias.js"></script>
+</body>
+
+</html>

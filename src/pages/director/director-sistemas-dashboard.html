@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap-reboot.min.css"> <!--PASE LOS IMPORTS A LINKS EN LOS HTML PARA QUE NO CARGA PARA EL ORTO-->
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/src/css/style.css">
+</head>
+
+<body>
+
+    <header id="plantilla"></header>
+
+    <div class="main-container">
+        <nav>
+            <ul>
+                <li>
+                    <a href="director-sistemas-dashboard.html">Dashboard</a>
+                </li>
+                <li>
+                    <a href="director-sistemas-incidencias.html">Incidencias</a>
+                </li>
+                <li>
+                    <a href="../../../index.html" class="active" aria-current="page" href="#">Salir</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="right-container">
+            <main>
+                <div class="container-fluid">
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h2 class="fw-bold  mb-1">Dashboard</h2>
+                        <p class="text-muted">Resumen general del estado de las incidencias del sistema.</p>
+                    </div>
+
+                    <div class="input-group input-group-sm w-auto" style="height: auto;">
+                        <span class="input-group-text">
+                            <i class="bi bi-calendar3"></i>
+                        </span>
+
+                        <select class="form-select form-select-sm" id="filtro-fecha" style="width: auto;">
+                            <option value="30dias">Ultimos 30 dias</option>
+                            <option value="7dias">Ultimos 7 dias</option>
+                            <option value="mes">Este mes</option>
+                            <option value="año">Este año</option>
+                        </select>
+                    </div>
+                </div>
+
+            
+
+                    <div class="row g-4 mb-4">
+                        <div class="col-6 col-md-4">
+                            <div class="card dashboard-card tinte-total p-3 flex-row align-items-center">
+                                <i class="bi bi-ticket-perforated-fill icono-total me-3"></i>
+                                <div>
+                                    <div id="total-incidencias" class="card-resumen-numero">0</div>
+                                    <div class="card-resumen-label">Total de Incidencias</div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    <div class="col-6 col-md-4">
+                        <div class="card dashboard-card tinte-pendiente  p-2 flex-row align-items-center">
+                            <i class="bi bi-exclamation-triangle-fill icono-pendiente me-3"></i>
+                            <div>
+                                <div id="pendientes" class="card-resumen-numero">0</div>
+                                <div class="card-resumen-label">Pendiente<br><a href="director-sistemas-incidencias.html">Ver más</a></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-4">
+                        <div class="card dashboard-card tinte-proceso p-3 flex-row align-items-center">
+                            <i class="bi bi-tools icono-proceso me-3"></i>
+                            <div>
+                                <div id="en-proceso" class="card-resumen-numero">0</div>
+                                <div class="card-resumen-label">En proceso<br><a href="director-sistemas-incidencias.html">Ver más</a></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-4">
+                        <div class="card dashboard-card tinte-finalizada p-3 flex-row align-items-center">
+                            <i class="bi bi-check-circle-fill icono-finalizada me-3"></i>
+                            <div>
+                                <div id="finalizadas" class="card-resumen-numero">0</div>
+                                <div class="card-resumen-label">Finalizada<br><a href="director-sistemas-incidencias.html">Ver más</a></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-4">
+                        <div class="card dashboard-card tinte-cancelada p-3 flex-row align-items-center">
+                            <i class="bi bi-x-circle-fill icono-cancelada me-3"></i>
+                            <div>
+                                <div id="canceladas" class="card-resumen-numero">0</div>
+                                <div class="card-resumen-label">Cancelada<br><a href="director-sistemas-incidencias.html">Ver más</a></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6 col-md-4">
+                        <div class="card dashboard-card tinte-reasignada p-3 flex-row align-items-center">
+                            <i class="bi bi-arrow-left-right icono-reasignado me-3"></i>
+                            <div>
+                                <div id="reasignadas" class="card-resumen-numero">0</div>
+                                <div class="card-resumen-label">Reasignado</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-7">
+                        <div class="card p-3" style="height: 250px; display: flex; flex-direction: column;">
+                            <h6 class="fw-bold mb-3">Incidencias por fecha</h6>
+                            <div class="d-flex align-items-center justify-content-center flex-grow-1"
+                                style="height: 180px;">  <!-- TARJETAS PARA PROXIMOS GRAFICOS EN DASHBOARD-->
+                                <canvas id="grafico-fechas"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <div class="card p-3" style="height: 250px; display: flex; flex-direction: column">
+                            <h6 class="fw-bold mb-3">Incidencias por estado</h6>
+                            <div class="d-flex align-items-center justify-content-center flex-grow-1" style="height: 180px;"> <!-- TARJETA PARA GRAFICO-->
+                                <canvas id="grafico-estados"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="row g-4 mb-4">
+                    <div class="col-md-7">
+                        <div class="card p-3">
+                            <h6 class="fw-bold mb-3">
+                                <i class="bi bi-exclamation-triangle-fill text-danger"></i>
+                                Incidencias prioritarias
+                            </h6>
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Articulos</th>
+                                            <th scope="col">Prioridad</th>
+                                            <th scope="col">Estado</th>
+                                            <th scope="col">Fecha</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">1042</th>
+                                            <td scope="row">PC de escritorio</td>
+                                            <td><span class="badge-prioridad badge-alta">ALTA</span></td>
+                                            <td><span class="badge-estado badge-pendiente">PENDIENTE</span></td>
+                                            <td>10/04/2026</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row">1032</th>
+                                            <td scope="row">Router</td>
+                                            <td><span class="badge-prioridad badge-alta">ALTA</span></td>
+                                            <td><span class="badge-estado badge-pendiente">PENDIENTE</span></td>
+                                            <td>09/04/2026</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-5">
+                        <div class="card p-3">
+                            <h6 class="fw-bold mb-3">Incidencia por categoria</h6>
+
+                            <div class="mb-2 d-flex justify-content-between">
+                                <span>Hardware</span>
+                                <span>12</span>
+                            </div>
+
+                            <div class="progress mb-3" style="height: 8px;">
+                                <div class="progress-bar" style="width: 60%"></div>
+                            </div>
+
+                            <div class="mb-2 d-flex justify-content-between">
+                                <span>Software</span>
+                                <span>7</span>
+                            </div>
+                            <div class="progress mb-3" style="height: 8px;">
+                                <div class="progress-bar" style="width: 35% ;"></div>
+                            </div>
+                            
+                            <div class="mb-2 d-flex justify-content-between">
+                                <span>Red</span>
+                                <span>4</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar" style="width: 20%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+
+                
+
+
+
+
+
+
+            </main>
+        <!-- <footer>
+        </footer> -->
+        </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="/src/pages/director/director-sistemas-dashboard.js"></script>
+    <script type="module">
+        import { mostrarHeader } from '../../header.js';
+        mostrarHeader('DIRECTOR');
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap-reboot.min.css">  <!--PASE LOS IMPORTS A LINKS EN LOS HTML PARA DISMINUIR FOUC-->
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/src/css/style.css">
+
+    
+</head>
+
+<body>
+    
+    <header id="plantilla"></header>
+
+    <div class="main-container">
+        <nav>
+            <ul>
+                
+                <li>
+                    <a href="director-sistemas-dashboard.html">Dashboard</a>
+                </li>
+                <li>
+                    <a href="director-sistemas-incidencias.html">Incidencias</a>
+                </li>
+                <li>
+                    <a href="../../../index.html" class="active" aria-current="page" href="#">Salir</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="right-container">
+            <main>
+                <div class="table-responsive">
+    <table class="table table-hover align-middle">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Artículo</th>
+                <th scope="col">Prioridad</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Técnico asignado</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="fila-prioridad-alta">
+                <th scope="row">1042</th>
+                <td>PC de escritorio</td>
+                <td><span class="badge-prioridad badge-alta">ALTA</span></td>
+                <td><span class="badge-estado badge-en-proceso">EN PROCESO</span></td>
+                <td>Juan Perez</td>
+                <td>10/04/2026</td>
+                <td>
+                    <button class="btn btn-info btn-sm" title="Reasignar" >
+                        Reasignar
+                    </button>
+                </td>
+            </tr>
+            <tr class="fila-prioridad-media">
+                <th scope="row">1039</th>
+                <td>Monitor</td>
+                <td><span class="badge-prioridad badge-media">MEDIA</span></td>
+                <td><span class="badge-estado badge-en-proceso">EN PROCESO</span></td>
+                <td>María López</td>
+                <td>10/04/2026</td>
+                <td>
+                    <button class="btn btn-info btn-sm" title="Reasignar" >
+                        Reasignar
+                    </button>
+                </td>
+            </tr>
+            <tr class="fila-prioridad-baja">
+                <th scope="row">1051</th>
+                <td>Impresora</td>
+                <td><span class="badge-prioridad badge-baja">BAJA</span></td>
+                <td><span class="badge-estado badge-pendiente">PENDIENTE</span></td>
+                <td>Lucas Martínez</td>
+                <td>09/04/2026</td>
+                <td>
+                    <button class="btn btn-info btn-sm" title="Reasignar" >
+                        Reasignar
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+                </div>
+            </main>
+            <!-- <footer>
+            </footer> -->
+        </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+     <script type="module">
+    import { mostrarHeader } from '../../header.js';
+    mostrarHeader('DIRECTOR');
+    </script>
+    
+    
+</body>
+
+</html>

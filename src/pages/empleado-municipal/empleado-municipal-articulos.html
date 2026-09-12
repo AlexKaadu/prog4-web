@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">   
+    <link rel="stylesheet" href="/src/css/style.css">
+
+    
+
+<body>
+
+    <header id="plantilla"></header> <!--NUEVO: CAMBIE EL HEADER POR UN PLACEHOLDER-->
+
+    <div class="main-container">
+        <nav>
+            <ul>
+                <li>
+                    <a href="./empleado-municipal-articulos.html">Artículos</a>
+                </li>
+                <li>
+                    <a href="./empleado-municipal-incidencias.html">Incidencias</a>
+                </li>
+                <li>
+                    <a href="../../../index.html" class="active" aria-current="page" href="#">Salir</a>
+                </li>
+
+            </ul>
+        </nav>
+        <div class="right-container">
+            <main>
+                <div class="container text-center">                    
+                    <div class="row">
+                        <div class="col-auto me-auto">
+                            <h3>Artículos</h3>
+                        </div>
+                    </div>
+                
+                
+                    <table class="table">
+                        <thead>
+                            <tr>
+                            <th scope="col">Código</th>
+                            <th scope="col">Categoria</th>
+                            <th scope="col">Descripción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1000</th>
+                                <td>Periféricos</td>
+                                <td>Teclado</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">1002</th>
+                                <td>Periféricos</td>
+                                <td>Mouse</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">1033</th>
+                                <td>Almacenamiento</td>
+                                <td>Disco Rígido</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>    
+            </main>
+            <!-- <footer>
+            </footer> -->
+        </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+    <script type="module">
+    import { mostrarHeader } from '../../header.js';
+    mostrarHeader('EMPLEADO MUNICIPAL');
+    </script>
+</body>
+
+</html>
