@@ -27,7 +27,7 @@ div.main-container{
     min-height: calc(100vh - 92px); 
 }
 
-nav{
+.menu-lateral{
     width: 250px; 
     flex-shrink: 0;
 
@@ -35,15 +35,15 @@ nav{
     background-color: #CCC;
 }
 
-nav ul{
+.menu-lateral ul{
     padding: 0;
 }
 
-nav ul li{
+.menu-lateral ul li{
     display: block;
 }
 
-nav ul li a, nav ul li a:link, nav ul li a:visited, nav ul li a:active, nav ul li a:hover{
+.menu-lateral ul li a, .menu-lateral ul li a:link, .menu-lateral ul li a:visited, .menu-lateral ul li a:active, .menu-lateral ul li a:hover{
     display: block;
     padding: 0.5rem 2rem;
 
@@ -52,11 +52,11 @@ nav ul li a, nav ul li a:link, nav ul li a:visited, nav ul li a:active, nav ul l
     text-decoration: none;
 }
 
-nav ul li a, nav ul li a:link, nav ul li a:visited, nav ul li a:active{
+.menu-lateral ul li a, .menu-lateral ul li a:link, .menu-lateral ul li a:visited, .menu-lateral ul li a:active{
     color: black;
 }
 
-nav ul li a:hover{
+.menu-lateral ul li a:hover{
     display: block;
     padding: 0.5rem 2rem;
 
@@ -173,7 +173,7 @@ footer{
     div.main-container {
         flex-direction: column;
     }
-    nav {
+    .menu-lateral {
         width: 100%;
         height: auto;
     }
@@ -206,3 +206,4 @@ footer{
     text-decoration: none;
     font-weight: 600;
 }
+

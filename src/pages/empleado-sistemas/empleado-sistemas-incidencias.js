@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function renderizarTabla(incidencias){
     const tbody = document.getElementById('tabla-incidencias');
-    tbody.textContent = '';
+    tbody.replaceChildren();
     
     for (let inc of incidencias){
         const row = document.createElement('tr');

@@ -1,106 +1,306 @@
 import { incidencias } from '../../../datos/incidencias-empleado-sistemas.js';
-import  Chart  from 'chart.js/auto';
+import Chart from 'chart.js/auto';
 
-const total = incidencias.length
-const pendientes = incidencias.filter(inc => inc.id_estado === 1).length;
-const enProceso = incidencias.filter(inc => inc.id_estado === 2).length;
-const resueltas = incidencias.filter(inc => inc.id_estado === 3).length;
-const canceladas = incidencias.filter(inc => inc.id_estado === 4).length;
+// Configuración de presentación
+const badgesEstado = {
+    1: '<span class="badge-estado badge-pendiente">PENDIENTE</span>',
+    2: '<span class="badge-estado badge-en-proceso">EN PROCESO</span>',
+    3: '<span class="badge-estado badge-resuelto">RESUELTA</span>',
+    4: '<span class="badge-estado badge-cancelado">CANCELADA</span>'
+};
 
-function actualizarTarjetas(incidencias){  // FUNCION PARA ACTUALIZAR LAS TARJEAS DEL DASHBOARD/DIRECTOR
-const total = incidencias.length
-const pendientes = incidencias.filter(inc => inc.id_estado === 1).length;
-const enProceso = incidencias.filter(inc => inc.id_estado === 2).length;
-const finalizadas = incidencias.filter(inc => inc.id_estado === 3).length;
-const canceladas = incidencias.filter(inc => inc.id_estado === 4).length;
+const badgesPrioridad = {
+    1: '<span class="badge-prioridad badge-baja">BAJA</span>',
+    2: '<span class="badge-prioridad badge-media">MEDIA</span>',
+    3: '<span class="badge-prioridad badge-alta">ALTA</span>'
+};
 
-document.getElementById('total-incidencias').textContent = total;
-document.getElementById('pendientes').textContent = pendientes;
-document.getElementById('en-proceso').textContent = enProceso;
-document.getElementById('finalizadas').textContent = finalizadas;
-document.getElementById('canceladas').textContent = canceladas;
+// Datos de la tabla de incidencias prioritarias
+const registrosPorPagina = 4;
+let paginaActual = 1;
+
+// Tabla de incidencias prioritarias
+function renderizarTablaPrioritarias(lista) {
+    const tbody = document.getElementById('tabla-prioritarias');
+    tbody.textContent = '';
+
+    const inicio = (paginaActual - 1) * registrosPorPagina;
+    const fin = inicio + registrosPorPagina;
+
+    const incidenciasDeLaPagina = lista.slice(inicio, fin);
+
+    incidenciasDeLaPagina.forEach(inc => {
+        const row = document.createElement('tr');
+
+        const tdId = document.createElement('td');
+        tdId.textContent  = inc.id_incidencia;
+        row.appendChild(tdId);
+
+        const tdArticulo = document.createElement('td');
+        tdArticulo.textContent = inc.articulo_descripcion;
+        row.appendChild(tdArticulo);
+
+        const tdPrioridad = document.createElement('td');
+        tdPrioridad.innerHTML = badgesPrioridad[inc.prioridad];
+        row.appendChild(tdPrioridad);
+
+        const tdEstado = document.createElement('td');
+        tdEstado.innerHTML = badgesEstado[inc.id_estado];
+        row.appendChild(tdEstado);
+
+        const tdFecha = document.createElement('td');
+        tdFecha.textContent = inc.creado;
+        row.appendChild(tdFecha);
+
+        tbody.appendChild(row);
+    });
+};
+
+
+
+// Paginación de incidencias prioritarias
+function renderizarPaginacion(lista) {
+    const contenedor = document.getElementById('paginacion-prioritarias');
+    contenedor.textContent = '';
+
+    const totalPaginas = Math.ceil(
+        lista.length / registrosPorPagina
+    );
+    
+    for (let numeroPagina = 1; numeroPagina <= totalPaginas; numeroPagina++) {
+        const elemento = document.createElement('li');
+        elemento.className = 'page-item';
+
+        const boton = document.createElement('button');
+        boton.className = 'page-link';
+        boton.textContent = numeroPagina;
+
+        boton.addEventListener('click', () => {
+            paginaActual = numeroPagina;
+
+            renderizarTablaPrioritarias(lista);
+            renderizarPaginacion(lista);
+        });
+        elemento.appendChild(boton);
+        contenedor.appendChild(elemento);
+    }
 }
 
-actualizarTarjetas(incidencias);
 
 
+
+// Tarjetas de resumen
+function actualizarTarjetas(incidencias) {
+    const total = incidencias.length;
+    const pendientes = incidencias.filter(inc => inc.id_estado === 1).length;
+    const enProceso = incidencias.filter(inc => inc.id_estado === 2).length;
+    const finalizadas = incidencias.filter(inc => inc.id_estado === 3).length;
+    const canceladas = incidencias.filter(inc => inc.id_estado === 4).length;
+
+    document.getElementById('total-incidencias').textContent = total;
+    document.getElementById('pendientes').textContent = pendientes;
+    document.getElementById('en-proceso').textContent = enProceso;
+    document.getElementById('finalizadas').textContent = finalizadas;
+    document.getElementById('canceladas').textContent = canceladas;
+}
+
+
+
+
+
+
+// Gráfico de estados
+let chartEstados = null;
 const graficoEstados = document.getElementById('grafico-estados');
 
-new Chart(graficoEstados, {
-    type: 'doughnut',
-    data: {
-        labels: ['Pendientes', 'En proceso', 'Finalizadas', 'Canceladas'], // GRAFICO DE TORTA
-        datasets: [{
-            data: [pendientes, enProceso, resueltas, canceladas],
-            backgroundColor: [
-                '#ff0e3e81',
-                '#28a7fc77',
-                '#43cc6c8f',
-                '#5b5c5b81'
-            ]
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false
-    }
-});
+function actualizarGraficoEstados(lista) {
+    const pendientes = lista.filter(inc => inc.id_estado === 1).length;
+    const enProceso = lista.filter(inc => inc.id_estado === 2).length;
+    const resueltas = lista.filter(inc => inc.id_estado === 3).length;
+    const canceladas = lista.filter(inc => inc.id_estado === 4).length;
 
+    const datos = [pendientes, enProceso, resueltas, canceladas];
 
-const incidenciasPorFecha = {};
-
-incidencias.forEach(inc => {
-    const fecha = inc.creado.split(' ')[0];     //SEPARA FECHA DE HORA POR UN ESPACIO ' ' Y TOMA LA FECHA [0]
-
-
-    if(incidenciasPorFecha[fecha]){             // PREGUNTA SI YA EXISTE LA FECHA SI EXISTE AUMENTE ++ SI NO EXISTE LE AGREGA 1
-        incidenciasPorFecha[fecha]++;
+    if (!chartEstados) {
+        chartEstados = new Chart(graficoEstados, {
+            type: 'doughnut',
+            data: {
+                labels: ['Pendientes', 'En proceso', 'Finalizadas', 'Canceladas'],
+                datasets: [{
+                    data: datos,
+                    backgroundColor: [
+                        '#ff0e3e81',
+                        '#28a7fc77',
+                        '#43cc6c8f',
+                        '#5b5c5b81'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
     } else {
-        incidenciasPorFecha[fecha] = 1;
+        chartEstados.data.datasets[0].data = datos;
+        chartEstados.update();
     }
-});
+}
 
-const fechas = Object.keys(incidenciasPorFecha);
-
-fechas.sort((fechaA, fechaB)=> {
-    const [diaA, mesA, anioA] = fechaA.split('-');         // METODO PARA ORDENAR LAS FECHAS
-    const [diaB, mesB, anioB] = fechaB.split('-');
-
-    return new Date(anioA, mesA - 1, diaA) -
-           new Date(anioB, mesB - 1, diaB);
-});
-
-
-const cantidades = fechas.map(fecha => incidenciasPorFecha[fecha]);
+// Gráfico de incidencias por fecha
+let chartFechas = null;
 const graficoFechas = document.getElementById('grafico-fechas');
 
-new Chart(graficoFechas, {       // GRAFICO DE LINEA
-    type: 'line',
-    data: {
-        labels: fechas,
-        datasets: [{
-            label: 'Incidencias creadas',
-            data: cantidades,
-            borderColor: '#36a2eb',
-            backgroundColor: '#36a2eb55',
-            borderWidth: 2,
-            fill: true,
-            tension: 0.3
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    stepSize: 1
+function actualizarGraficoFechas(lista){
+    const incidenciasPorFecha = {};
+
+    lista.forEach(inc => {
+        const fecha = inc.creado.split(' ')[0];
+
+        if (incidenciasPorFecha[fecha]) {
+            incidenciasPorFecha[fecha]++;
+        } else {
+            incidenciasPorFecha[fecha] = 1;
+        }
+    });
+
+    const fechas = Object.keys(incidenciasPorFecha);
+
+    fechas.sort((fechaA, fechaB) => parsearFechas(fechaA) - parsearFechas(fechaB));
+
+    const cantidades = fechas.map(fecha => incidenciasPorFecha[fecha]);
+
+    if (!chartFechas) {
+        chartFechas = new Chart(graficoFechas, {
+            type: 'line',
+            data: {
+                labels: fechas,
+                datasets: [{
+                    label: 'Incidencias creadas',
+                    data: cantidades,
+                    borderColor: '#36a2eb',
+                    backgroundColor: '#36a2eb55',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { beginAtZero: true, ticks: { stepSize: 1 } }
                 }
             }
-        }
+        });
+    } else {
+        chartFechas.data.labels = fechas;
+        chartFechas.data.datasets[0].data = cantidades;
+        chartFechas.update();
     }
-});
+}
+
+
+
+
+
+
+
+
+// Utilidades de fecha
+function parsearFechas(texto){
+    const soloFecha = texto.split(' ')[0];
+    const [dia, mes, anio] = soloFecha.split('-');
+    return new Date(anio, mes - 1, dia);
+}
+
+
+
+function filtrarPorFecha(incidencias, periodoSeleccionado) {
+
+    const hoy = new Date();
+
+    return incidencias.filter(inc => {
+        const fechaInc = parsearFechas(inc.creado);
+
+        
+        switch(periodoSeleccionado){
+            
+            case '7dias': {
+                const limite = new Date(hoy);
+                limite.setDate(limite.getDate() - 7);
+                return fechaInc >= limite;
+            }
+
+            case '30dias': {
+                const limite = new Date(hoy);
+                limite.setDate(limite.getDate() - 30 )
+                return fechaInc >= limite;
+            }
+
+            case 'mes': {
+            
+                const mesHoy = hoy.getMonth();
+                const anioHoy = hoy.getFullYear();
+
+                const mesInc = fechaInc.getMonth();
+                const anioInc = fechaInc.getFullYear();
+
+                return (mesInc === mesHoy) && (anioInc === anioHoy)
+            }
+
+            case 'año': {
+                const anioHoy = hoy.getFullYear();
+                const anioInc = fechaInc.getFullYear();
+
+                return (anioInc === anioHoy);
+            }
+
+            default:
+                return true;
+                
+
+        }
+    });
+
+}
+
+// Inicialización y eventos del filtro
+const filtroFecha = document.getElementById('filtro-fecha');
+
+function actualizarDashboard() {
+    paginaActual = 1;
+
+    const incidenciasFiltradas = filtrarPorFecha(incidencias, filtroFecha.value);
+
+    actualizarTarjetas(incidenciasFiltradas);
+    actualizarGraficoEstados(incidenciasFiltradas);
+    actualizarGraficoFechas(incidenciasFiltradas);
+
+    const prioritarias = incidenciasFiltradas.filter(inc =>
+        inc.prioridad === 3 && (inc.id_estado === 1 || inc.id_estado === 2)
+    );
+
+    renderizarTablaPrioritarias(prioritarias);
+    renderizarPaginacion(prioritarias)
+}
+
+filtroFecha.addEventListener('change', actualizarDashboard);
+
+actualizarDashboard();
+
+
+
+
+ 
+
+
+
+
+
+
+
+    
 
 
 

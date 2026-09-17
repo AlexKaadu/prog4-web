@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es"></html>
 
 <head>
     <meta charset="UTF-8">
@@ -17,7 +17,7 @@
     <header id="plantilla"></header>
 
     <div class="main-container">
-        <nav>
+        <nav class="menu-lateral">
             <ul>
                 <li>
                     <a href="director-sistemas-dashboard.html">Dashboard</a>
@@ -162,25 +162,16 @@
                                             <th scope="col">Fecha</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row">1042</th>
-                                            <td scope="row">PC de escritorio</td>
-                                            <td><span class="badge-prioridad badge-alta">ALTA</span></td>
-                                            <td><span class="badge-estado badge-pendiente">PENDIENTE</span></td>
-                                            <td>10/04/2026</td>
-                                        </tr>
-
-                                        <tr>
-                                            <th scope="row">1032</th>
-                                            <td scope="row">Router</td>
-                                            <td><span class="badge-prioridad badge-alta">ALTA</span></td>
-                                            <td><span class="badge-estado badge-pendiente">PENDIENTE</span></td>
-                                            <td>09/04/2026</td>
-                                        </tr>
+                                    <tbody id="tabla-prioritarias">
                                     </tbody>
                                 </table>
                             </div>
+                            <nav aria-label="Paginacion de incidencias prioritarias">
+                                <ul id="paginacion-prioritarias"
+                                    class="pagination pagination-sm justify-content-center">
+
+                                </ul>
+                            </nav >
                         </div>
                     </div>
 
