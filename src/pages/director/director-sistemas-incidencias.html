@@ -36,62 +36,53 @@
 
         <div class="right-container">
             <main>
-                <div class="table-responsive">
-    <table class="table table-hover align-middle">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Artículo</th>
-                <th scope="col">Prioridad</th>
-                <th scope="col">Estado</th>
-                <th scope="col">Técnico asignado</th>
-                <th scope="col">Fecha</th>
-                <th scope="col">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="fila-prioridad-alta">
-                <th scope="row">1042</th>
-                <td>PC de escritorio</td>
-                <td><span class="badge-prioridad badge-alta">ALTA</span></td>
-                <td><span class="badge-estado badge-en-proceso">EN PROCESO</span></td>
-                <td>Juan Perez</td>
-                <td>10/04/2026</td>
-                <td>
-                    <button class="btn btn-info btn-sm" title="Reasignar" >
-                        Reasignar
-                    </button>
-                </td>
-            </tr>
-            <tr class="fila-prioridad-media">
-                <th scope="row">1039</th>
-                <td>Monitor</td>
-                <td><span class="badge-prioridad badge-media">MEDIA</span></td>
-                <td><span class="badge-estado badge-en-proceso">EN PROCESO</span></td>
-                <td>María López</td>
-                <td>10/04/2026</td>
-                <td>
-                    <button class="btn btn-info btn-sm" title="Reasignar" >
-                        Reasignar
-                    </button>
-                </td>
-            </tr>
-            <tr class="fila-prioridad-baja">
-                <th scope="row">1051</th>
-                <td>Impresora</td>
-                <td><span class="badge-prioridad badge-baja">BAJA</span></td>
-                <td><span class="badge-estado badge-pendiente">PENDIENTE</span></td>
-                <td>Lucas Martínez</td>
-                <td>09/04/2026</td>
-                <td>
-                    <button class="btn btn-info btn-sm" title="Reasignar" >
-                        Reasignar
-                    </button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+
+                <div class="container-fluid">
+                    <div class="mb-4">
+                        <h2 class="fw-bold mb-1">Incidencias</h2>
+                        <p class="text-muted mb-0">Gestión y supervisión de las incidencias.</p>
+                    </div>
+
                 </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Artículo</th>
+                                <th scope="col">Prioridad</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Técnico asignado</th>
+                                <th scope="col">Fecha</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-incidencias-director"></tbody>
+                    </table>
+                </div>
+
+                <div class="modal" id="modalIncidencia" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Incidencia #<span id="modal-id"></span></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p><strong>Artículo:</strong> <span id="modal-articulo"></span></p>
+                                <p><strong>Pedido:</strong> <span id="modal-descripcion"></span></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button id="btn-asignar" class="btn btn-primary">Asignar</button>
+                                <button id="btn-cancelar" class="btn btn-danger">Cancelar incidencia</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <nav aria-label="Paginación de incidencias">
+                    <ul id="paginacion-incidencias-director" class="pagination pagination-sm justify-content-center"></ul>
+                </nav>
             </main>
             <!-- <footer>
             </footer> -->
@@ -99,6 +90,7 @@
     </div>
 
     <script type="module" src="/src/main.js"></script>
+    <script type="module" src="/src/pages/director/director-sistemas-incidencias.js"></script>
      <script type="module">
     import { mostrarHeader } from '../../header.js';
     mostrarHeader('DIRECTOR');
