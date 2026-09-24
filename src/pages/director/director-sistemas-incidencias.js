@@ -2,6 +2,7 @@ import { incidencias } from "../../../datos/incidencias-empleado-sistemas";
 import * as bootstrap from 'bootstrap';
 
 
+// Textos visuales usados para mostrar el estado de cada incidencia.
 const badgesEstado = {
     1: '<span class="badge-estado badge-pendiente">PENDIENTE</span>',
     2: '<span class="badge-estado badge-en-proceso">EN PROCESO</span>',
@@ -9,6 +10,7 @@ const badgesEstado = {
     4: '<span class="badge-estado badge-cancelado">CANCELADA</span>'
 };
 
+// Textos visuales usados para mostrar la prioridad de cada incidencia.
 const badgesPrioridad = {
     1: '<span class="badge-prioridad badge-baja">BAJA</span>',
     2: '<span class="badge-prioridad badge-media">MEDIA</span>',
@@ -18,6 +20,7 @@ const badgesPrioridad = {
 const registrosPorPagina = 10;
 let paginaActual = 1;
 
+// Construye la tabla con las incidencias correspondientes a la página actual.
 function renderTablaDirector(incidencias){
     const tbody = document.getElementById('tabla-incidencias-director');
     tbody.replaceChildren();
@@ -62,6 +65,7 @@ function renderTablaDirector(incidencias){
         boton.setAttribute('aria-label', 'Ver detalle');
         boton.innerHTML = '<i class="bi bi-eye-fill"></i>';
 
+        // Abre el detalle de la incidencia y prepara sus acciones.
         boton.addEventListener('click', () => {
             document.getElementById('modal-id').textContent = inc.id_incidencia;
             document.getElementById('modal-articulo').textContent = inc.articulo_descripcion;
@@ -82,8 +86,36 @@ function renderTablaDirector(incidencias){
                 btnCancelar.disabled = true;
             }
 
+            const selectTecnico = document.getElementById('select-tecnico');
+
+            if(inc.id_estado === 1 && !inc.asignado_a){
+                selectTecnico.disabled = false;
+            } else {
+                selectTecnico.disabled = true;
+            }
+
+
             const modal = new bootstrap.Modal(document.getElementById('modalIncidencia'));
             modal.show();
+
+
+            btnCancelar.onclick = () => {
+                if(inc.id_estado === 1){
+                    inc.id_estado = 4;
+                    modal.hide();
+                    renderTablaDirector(incidencias);
+                }
+            }
+
+            // Asigna un técnico y pasa la incidencia al estado "En proceso".
+            btnAsignar.onclick = () => {
+                if(inc.id_estado === 1){
+                    inc.asignado_a = selectTecnico.value;
+                    inc.id_estado = 2;
+                    modal.hide();
+                    renderTablaDirector(incidencias);
+                }
+            }
 
         });
         tdAcciones.appendChild(boton)
@@ -93,6 +125,8 @@ function renderTablaDirector(incidencias){
 
     }
 }
+
+// Genera los botones para cambiar de página.
 function renderizarPaginacion(incidencias){
     const contenedor = document.getElementById('paginacion-incidencias-director');
     contenedor.textContent = '';
@@ -118,6 +152,7 @@ function renderizarPaginacion(incidencias){
     }
 }
 
+// Carga inicialmente la tabla y la paginación.
 renderTablaDirector(incidencias);
 renderizarPaginacion(incidencias);
 
