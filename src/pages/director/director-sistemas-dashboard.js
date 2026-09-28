@@ -16,7 +16,7 @@ const badgesPrioridad = {
 };
 
 // Datos de la tabla de incidencias prioritarias
-const registrosPorPagina = 4;
+const registrosPorPagina = 5;
 let paginaActual = 1;
 
 // Tabla de incidencias prioritarias
@@ -200,6 +200,66 @@ function actualizarGraficoFechas(lista){
     }
 }
 
+function actualizarGraficoCategoria(lista){
+    const contenedor = document.getElementById('grafico-categorias');
+    contenedor.replaceChildren();
+
+    const incidenciasPorCategoria = {}
+
+    lista.forEach(inc => {
+        const categoria = inc.categoria;
+
+        if(incidenciasPorCategoria[categoria]){
+            incidenciasPorCategoria[categoria]++;
+        }else{
+            incidenciasPorCategoria[categoria] = 1;
+        }
+    });
+
+
+    const total = lista.length;
+    const categorias = Object.entries(incidenciasPorCategoria)
+        .sort(([, cantidadA], [, cantidadB]) => cantidadB - cantidadA);
+
+    categorias.forEach(([categoria, cantidad]) => {
+    const porcentaje = total > 0 ? (cantidad / total) * 100 : 0;
+
+    const divFila = document.createElement('div');
+    divFila.className = 'mb-2 d-flex justify-content-between';
+
+    const spanNombre = document.createElement('span');
+    spanNombre.textContent = categoria;
+
+     const spanCantidad = document.createElement('span');
+    spanCantidad.textContent = cantidad;
+
+    divFila.appendChild(spanNombre);
+    divFila.appendChild(spanCantidad);
+
+
+    const divProgress = document.createElement('div');
+    divProgress.className = 'progress mb-3';
+    divProgress.style.height = '8px';
+
+    const divBarra = document.createElement('div');
+    divBarra.className = 'progress-bar';
+    divBarra.style.width = porcentaje + '%';
+
+    divProgress.appendChild(divBarra);
+
+    contenedor.appendChild(divFila);
+    contenedor.appendChild(divProgress);
+
+
+
+    });
+
+
+
+}
+
+
+
 
 
 
@@ -276,6 +336,7 @@ function actualizarDashboard() {
     actualizarTarjetas(incidenciasFiltradas);
     actualizarGraficoEstados(incidenciasFiltradas);
     actualizarGraficoFechas(incidenciasFiltradas);
+    actualizarGraficoCategoria(incidenciasFiltradas);
 
     const prioritarias = incidenciasFiltradas.filter(inc =>
         inc.prioridad === 3 && (inc.id_estado === 1 || inc.id_estado === 2)
@@ -286,13 +347,7 @@ function actualizarDashboard() {
 }
 
 filtroFecha.addEventListener('change', actualizarDashboard);
-
 actualizarDashboard();
-
-
-
-
- 
 
 
 
@@ -301,6 +356,18 @@ actualizarDashboard();
 
 
     
+
+
+
+
+
+
+
+
+
+
+    
+
 
 
 

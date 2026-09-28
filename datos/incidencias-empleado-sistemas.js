@@ -8,6 +8,7 @@ export const incidencias = [
         prioridad: 3, // Alta
         articulo: "101",
         articulo_descripcion: "PC de Escritorio - Oficina de Rentas",
+        categoria: "PC Escritorio",
         descripcion_pedido: "La computadora no enciende tras un corte de luz.",
         descripcion_resolucion: ""
     },
@@ -20,6 +21,7 @@ export const incidencias = [
         prioridad: 2, // Media
         articulo: "102",
         articulo_descripcion: "Impresora HP Laserjet",
+        categoria: "Periféricos",
         descripcion_pedido: "Atasco constante de papel en la bandeja 2.",
         descripcion_resolucion: "Se reemplazó la unidad de papel y se recalibró la impresora."
     },
@@ -32,6 +34,7 @@ export const incidencias = [
         prioridad: 3,
         articulo: "103",
         articulo_descripcion: "Router de Red - Piso 2",
+        categoria: "Equipos de Red",
         descripcion_pedido: "Internet intermitente en todo el sector de Catastro.",
         descripcion_resolucion: ""
     },
@@ -44,6 +47,7 @@ export const incidencias = [
         prioridad: 1, // Baja
         articulo: "104",
         articulo_descripcion: "Teclado inalámbrico",
+        categoria: "Periféricos",
         descripcion_pedido: "Se solicitó cambio de pilas, resuelto por el propio empleado.",
         descripcion_resolucion: "Se dio por resuelto por el usuario sin intervención técnica."
     },
@@ -56,6 +60,7 @@ export const incidencias = [
         prioridad: 2,
         articulo: "105",
         articulo_descripcion: "Monitor Samsung 24 pulgadas",
+        categoria: "Periféricos",
         descripcion_pedido: "Pantalla parpadea cada cierto tiempo, sobre todo al arrancar la PC.",
         descripcion_resolucion: ""
     },
@@ -68,6 +73,7 @@ export const incidencias = [
         prioridad: 1,
         articulo: "106",
         articulo_descripcion: "Mouse óptico",
+        categoria: "Periféricos",
         descripcion_pedido: "El clic derecho no responde correctamente.",
         descripcion_resolucion: ""
     },
@@ -80,6 +86,7 @@ export const incidencias = [
         prioridad: 3,
         articulo: "107",
         articulo_descripcion: "Servidor de archivos - Sala de Sistemas",
+        categoria: "Almacenamiento",
         descripcion_pedido: "Caída total del servicio de archivos compartidos.",
         descripcion_resolucion: "Se reinició el servicio y se verificó el estado del almacenamiento."
     },
@@ -92,6 +99,7 @@ export const incidencias = [
         prioridad: 2,
         articulo: "108",
         articulo_descripcion: "Notebook - Dirección de Cultura",
+        categoria: "Notebooks",
         descripcion_pedido: "Se traba constantemente al abrir el navegador.",
         descripcion_resolucion: ""
     },
@@ -104,6 +112,7 @@ export const incidencias = [
         prioridad: 3,
         articulo: "109",
         articulo_descripcion: "Switch de red - Secretaría de Hacienda",
+        categoria: "Equipos de Red",
         descripcion_pedido: "Varios puestos pierden conexión durante la jornada.",
         descripcion_resolucion: ""
     },
@@ -116,6 +125,7 @@ export const incidencias = [
         prioridad: 2,
         articulo: "110",
         articulo_descripcion: "Proyector - Sala de reuniones",
+        categoria: "Periféricos",
         descripcion_pedido: "La imagen aparece con tonos violetas y baja nitidez.",
         descripcion_resolucion: "Se reemplazó el cable y se recalibró la proyección."
     },
@@ -128,6 +138,7 @@ export const incidencias = [
         prioridad: 1,
         articulo: "111",
         articulo_descripcion: "Teléfono IP - Mesa de entradas",
+        categoria: "Periféricos",
         descripcion_pedido: "No se escucha el audio en las llamadas entrantes.",
         descripcion_resolucion: ""
     },
@@ -140,6 +151,7 @@ export const incidencias = [
         prioridad: 1,
         articulo: "112",
         articulo_descripcion: "Escáner - Archivo municipal",
+        categoria: "Periféricos",
         descripcion_pedido: "El pedido se canceló porque el equipo fue reemplazado.",
         descripcion_resolucion: "Se canceló por reposición del equipo."
     },
@@ -152,6 +164,7 @@ export const incidencias = [
         prioridad: 3,
         articulo: "113",
         articulo_descripcion: "Servidor de aplicaciones - Sistemas",
+        categoria: "CPU",
         descripcion_pedido: "El servicio dejó de responder luego de una actualización.",
         descripcion_resolucion: "Se restauró la versión anterior y se validó la estabilidad."
     },
@@ -164,6 +177,7 @@ export const incidencias = [
         prioridad: 2,
         articulo: "114",
         articulo_descripcion: "Tablet - Inspección urbana",
+        categoria: "Notebooks",
         descripcion_pedido: "La batería se descarga por completo en pocas horas.",
         descripcion_resolucion: ""
     },
@@ -176,6 +190,7 @@ export const incidencias = [
         prioridad: 3,
         articulo: "115",
         articulo_descripcion: "PC de Escritorio - Obras públicas",
+        categoria: "PC Escritorio",
         descripcion_pedido: "El equipo se reinicia al abrir archivos de planos.",
         descripcion_resolucion: ""
     },
@@ -188,6 +203,7 @@ export const incidencias = [
         prioridad: 1,
         articulo: "116",
         articulo_descripcion: "Teclado - Oficina de Compras",
+        categoria: "Periféricos",
         descripcion_pedido: "Se reemplazó el teclado con teclas que no respondían.",
         descripcion_resolucion: "Se entregó un teclado nuevo y se verificó el funcionamiento."
     },
@@ -200,6 +216,7 @@ export const incidencias = [
         prioridad: 2,
         articulo: "117",
         articulo_descripcion: "Impresora multifunción - Tesorería",
+        categoria: "Periféricos",
         descripcion_pedido: "No permite escanear documentos hacia la carpeta compartida.",
         descripcion_resolucion: ""
     },
@@ -212,6 +229,7 @@ export const incidencias = [
         prioridad: 2,
         articulo: "118",
         articulo_descripcion: "Monitor LG 27 pulgadas - Catastro",
+        categoria: "Periféricos",
         descripcion_pedido: "La pantalla se apaga al mover el cable HDMI.",
         descripcion_resolucion: ""
     },
@@ -224,6 +242,7 @@ export const incidencias = [
         prioridad: 3,
         articulo: "119",
         articulo_descripcion: "Access point - Centro cultural",
+        categoria: "Equipos de Red",
         descripcion_pedido: "Se canceló el pedido porque el área fue trasladada.",
         descripcion_resolucion: "Se cerró la incidencia por cambio de área de trabajo."
     },
@@ -236,6 +255,7 @@ export const incidencias = [
         prioridad: 2,
         articulo: "120",
         articulo_descripcion: "Notebook - Recursos humanos",
+        categoria: "Notebooks",
         descripcion_pedido: "Se corrigió el error de inicio de sesión en el sistema.",
         descripcion_resolucion: "Se restauró el acceso y se validó la sesión."
     },
@@ -248,6 +268,7 @@ export const incidencias = [
         prioridad: 1,
         articulo: "121",
         articulo_descripcion: "Mouse inalámbrico - Turismo",
+        categoria: "Periféricos",
         descripcion_pedido: "El puntero se mueve de forma intermitente.",
         descripcion_resolucion: ""
     },
@@ -260,6 +281,7 @@ export const incidencias = [
         prioridad: 3,
         articulo: "122",
         articulo_descripcion: "Firewall - Sala de Sistemas",
+        categoria: "Equipos de Red",
         descripcion_pedido: "Algunos servicios externos no son accesibles desde la red.",
         descripcion_resolucion: ""
     },
@@ -272,6 +294,7 @@ export const incidencias = [
         prioridad: 1,
         articulo: "123",
         articulo_descripcion: "Auriculares - Atención ciudadana",
+        categoria: "Periféricos",
         descripcion_pedido: "Se entregó un reemplazo por falla en el micrófono.",
         descripcion_resolucion: "Se entregó un reemplazo y se validó el audio."
     },
@@ -284,6 +307,7 @@ export const incidencias = [
         prioridad: 3,
         articulo: "124",
         articulo_descripcion: "Servidor de base de datos - Sistemas",
+        categoria: "CPU",
         descripcion_pedido: "Las consultas tardan demasiado durante la mañana.",
         descripcion_resolucion: ""
     }

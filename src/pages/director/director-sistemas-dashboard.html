@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es"></html>
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -14,9 +14,11 @@
 
 <body>
 
+    <!-- La cabecera común se inserta desde la plantilla compartida. -->
     <header id="plantilla"></header>
 
     <div class="main-container">
+        <!-- Navegación del rol Director. -->
         <nav class="menu-lateral">
             <ul>
                 <li>
@@ -34,29 +36,40 @@
             <main>
                 <div class="container-fluid">
 
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div>
+                <!-- Título y controles que determinan el período del resumen. -->
+                <div class="dashboard-header d-flex justify-content-between align-items-center mb-4">
+                    <div class="dashboard-title">
                         <h2 class="fw-bold  mb-1">Dashboard</h2>
                         <p class="text-muted">Resumen general del estado de las incidencias del sistema.</p>
                     </div>
 
-                    <div class="input-group input-group-sm w-auto" style="height: auto;">
-                        <span class="input-group-text">
-                            <i class="bi bi-calendar3"></i>
-                        </span>
+                    <div id="controles-dashboard" class="d-flex align-items-center gap-2">
+                        <button id="btn-exportar-pdf" class="btn btn-outline-secondary btn-sm text-nowrap flex-shrink-0">
+                            <i class="bi bi-file-earmark-pdf"></i>
+                            Exportar PDF
+                        </button>
 
-                        <select class="form-select form-select-sm" id="filtro-fecha" style="width: auto;">
-                            <option value="30dias">Ultimos 30 dias</option>
-                            <option value="7dias">Ultimos 7 dias</option>
-                            <option value="mes">Este mes</option>
-                            <option value="año">Este año</option>
-                        </select>
+                        <div class="dashboard-filter-group input-group input-group-sm">
+                            <span class="input-group-text">
+                                <i class="bi bi-calendar3"></i>
+                            </span>
+
+                            <select class="form-select form-select-sm" id="filtro-fecha">
+                                <option value="30dias">Ultimos 30 dias</option>
+                                <option value="7dias">Ultimos 7 dias</option>
+                                <option value="mes">Este mes</option>
+                                <option value="año">Este año</option>
+                            </select>
+                        </div>
                     </div>
+
+
                 </div>
 
             
 
-                    <div class="row g-4 mb-4">
+                    <!-- El JavaScript actualiza estos conteos con las incidencias filtradas. -->
+                    <div class="row g-4 mb-4 justify-content-center">
                         <div class="col-6 col-md-4">
                             <div class="card dashboard-card tinte-total p-3 flex-row align-items-center">
                                 <i class="bi bi-ticket-perforated-fill icono-total me-3"></i>
@@ -108,24 +121,16 @@
                         </div>
                     </div>
 
-                    <div class="col-6 col-md-4">
-                        <div class="card dashboard-card tinte-reasignada p-3 flex-row align-items-center">
-                            <i class="bi bi-arrow-left-right icono-reasignado me-3"></i>
-                            <div>
-                                <div id="reasignadas" class="card-resumen-numero">0</div>
-                                <div class="card-resumen-label">Reasignado</div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 </div>
 
+                <!-- Chart.js dibuja los gráficos en estos canvas. -->
                 <div class="row g-4 mb-4">
                     <div class="col-md-7">
                         <div class="card p-3" style="height: 250px; display: flex; flex-direction: column;">
                             <h6 class="fw-bold mb-3">Incidencias por fecha</h6>
                             <div class="d-flex align-items-center justify-content-center flex-grow-1"
-                                style="height: 180px;">  <!-- TARJETAS PARA PROXIMOS GRAFICOS EN DASHBOARD-->
+                                style="height: 180px;">
                                 <canvas id="grafico-fechas"></canvas>
                             </div>
                         </div>
@@ -134,7 +139,7 @@
                     <div class="col-md-5">
                         <div class="card p-3" style="height: 250px; display: flex; flex-direction: column">
                             <h6 class="fw-bold mb-3">Incidencias por estado</h6>
-                            <div class="d-flex align-items-center justify-content-center flex-grow-1" style="height: 180px;"> <!-- TARJETA PARA GRAFICO-->
+                            <div class="d-flex align-items-center justify-content-center flex-grow-1" style="height: 180px;">
                                 <canvas id="grafico-estados"></canvas>
                             </div>
                         </div>
@@ -144,9 +149,10 @@
 
 
 
+                <!-- Filas y paginación de prioridades y barras de categorías generadas por JavaScript. -->
                 <div class="row g-4 mb-4">
                     <div class="col-md-7">
-                        <div class="card p-3">
+                        <div class="card p-3 h-100 d-flex flex-column">
                             <h6 class="fw-bold mb-3">
                                 <i class="bi bi-exclamation-triangle-fill text-danger"></i>
                                 Incidencias prioritarias
@@ -166,9 +172,9 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <nav aria-label="Paginacion de incidencias prioritarias">
+                            <nav class="mt-auto pt-3" aria-label="Paginacion de incidencias prioritarias">
                                 <ul id="paginacion-prioritarias"
-                                    class="pagination pagination-sm justify-content-center">
+                                    class="pagination pagination-sm justify-content-center mb-0">
 
                                 </ul>
                             </nav >
@@ -176,33 +182,9 @@
                     </div>
 
                     <div class="col-md-5">
-                        <div class="card p-3">
-                            <h6 class="fw-bold mb-3">Incidencia por categoria</h6>
-
-                            <div class="mb-2 d-flex justify-content-between">
-                                <span>Hardware</span>
-                                <span>12</span>
-                            </div>
-
-                            <div class="progress mb-3" style="height: 8px;">
-                                <div class="progress-bar" style="width: 60%"></div>
-                            </div>
-
-                            <div class="mb-2 d-flex justify-content-between">
-                                <span>Software</span>
-                                <span>7</span>
-                            </div>
-                            <div class="progress mb-3" style="height: 8px;">
-                                <div class="progress-bar" style="width: 35% ;"></div>
-                            </div>
-                            
-                            <div class="mb-2 d-flex justify-content-between">
-                                <span>Red</span>
-                                <span>4</span>
-                            </div>
-                            <div class="progress" style="height: 8px;">
-                                <div class="progress-bar" style="width: 20%;"></div>
-                            </div>
+                        <div class="card p-3 h-100">
+                            <h6 class="fw-bold mb-3">Incidencias por categoría</h6>
+                            <div id="grafico-categorias"></div>
                         </div>
                     </div>
                 </div>
@@ -222,6 +204,7 @@
         </div>
     </div>
 
+    <!-- Inicializa el dashboard y carga la cabecera con el rol Director. -->
     <script type="module" src="/src/main.js"></script>
     <script type="module" src="/src/pages/director/director-sistemas-dashboard.js"></script>
     <script type="module">

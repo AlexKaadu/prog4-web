@@ -156,3 +156,27 @@ function renderizarPaginacion(incidencias){
 renderTablaDirector(incidencias);
 renderizarPaginacion(incidencias);
 
+
+const filtroPrioridad = document.getElementById('filtro-prioridad');
+const filtroEstado = document.getElementById('filtro-estado');
+
+function aplicarFiltros() {
+    const prioridadSeleccionada = filtroPrioridad.value;
+    const estadoSeleccionado = filtroEstado.value;
+
+    const incidenciasFiltradas = incidencias.filter(inc => {
+        const coincidePrioridad = prioridadSeleccionada === 'todas'
+            || inc.prioridad === Number(prioridadSeleccionada);
+        const coincideEstado = estadoSeleccionado === 'todas'
+            || inc.id_estado === Number(estadoSeleccionado);
+
+        return coincidePrioridad && coincideEstado;
+    });
+
+    paginaActual = 1;
+    renderTablaDirector(incidenciasFiltradas);
+    renderizarPaginacion(incidenciasFiltradas);
+}
+
+filtroPrioridad.addEventListener('change', aplicarFiltros);
+filtroEstado.addEventListener('change', aplicarFiltros);

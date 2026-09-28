@@ -43,52 +43,82 @@
                         <p class="text-muted mb-0">Gestión y supervisión de las incidencias.</p>
                     </div>
 
-                </div>
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Artículo</th>
-                                <th scope="col">Prioridad</th>
-                                <th scope="col">Estado</th>
-                                <th scope="col">Técnico asignado</th>
-                                <th scope="col">Fecha</th>
-                                <th scope="col">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabla-incidencias-director"></tbody>
-                    </table>
-                </div>
+                    <div class="d-flex justify-content-end mb-3">          
+                        <div class="input-group input-group-sm w-auto" style="height: auto;">
+                            <span class="input-group-text">
+                                <i class="bi bi-flag"></i>
+                            </span>
+                            <select class="form-select form-select-sm" id="filtro-prioridad" style="width: auto;">
+                                <option value="todas">Todas las prioridades</option>
+                                <option value="1">Baja</option>
+                                <option value="2">Media</option>
+                                <option value="3">Alta</option>
+                            </select>
+                        </div>
 
-                <div class="modal" id="modalIncidencia" tabindex="-1">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title">Incidencia #<span id="modal-id"></span></h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p><strong>Artículo:</strong> <span id="modal-articulo"></span></p>
-                                <p><strong>Pedido:</strong> <span id="modal-descripcion"></span></p>
-                                <div class="mb-2">
-                                    <label for="select-tecnico" class="form-label">Asignar a:</label>
-                                    <select class="form-select" id="select-tecnico">
-                                        <option value="" selected disabled>Cargando técnicos...</option>
-                                    </select>
+                        <div class="input-group input-group-sm w-auto" style="height: auto;">
+                            <span class="input-group-text">
+                                <i class="bi bi-info-circle"></i>
+                            </span>
+                            <select class="form-select form-select-sm" id="filtro-estado" style="width: auto;">
+                                <option value="todas">Todos los estados</option>
+                                <option value="1">Pendiente</option>
+                                <option value="2">En proceso</option>
+                                <option value="3">Resuelta</option>
+                                <option value="4">Cancelada</option>
+                            </select>
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Artículo</th>
+                                    <th scope="col">Prioridad</th>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col">Técnico asignado</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-incidencias-director"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="modal" id="modalIncidencia" tabindex="-1">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Incidencia #<span id="modal-id"></span></h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button id="btn-asignar" class="btn btn-primary">Asignar</button>
-                                <button id="btn-cancelar" class="btn btn-danger">Cancelar incidencia</button>
+                                <div class="modal-body">
+                                    <p><strong>Artículo:</strong> <span id="modal-articulo"></span></p>
+                                    <p><strong>Pedido:</strong> <span id="modal-descripcion"></span></p>
+                                    <div class="mb-2">
+                                        <label for="select-tecnico" class="form-label">Asignar a:</label>
+                                        <select class="form-select" id="select-tecnico">
+                                            <option value="" selected disabled>Cargando técnicos...</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button id="btn-asignar" class="btn btn-primary">Asignar</button>
+                                    <button id="btn-cancelar" class="btn btn-danger">Cancelar incidencia</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <nav aria-label="Paginación de incidencias">
-                    <ul id="paginacion-incidencias-director" class="pagination pagination-sm justify-content-center"></ul>
-                </nav>
+                    <nav aria-label="Paginación de incidencias">
+                        <ul id="paginacion-incidencias-director" class="pagination pagination-sm justify-content-center"></ul>
+                    </nav>
+                </div>
             </main>
             <!-- <footer>
             </footer> -->

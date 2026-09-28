@@ -1,3 +1,4 @@
+/* Estructura compartida: cabecera, navegación lateral y contenido. */
 header{
     display: flex;
     justify-content: space-between;
@@ -89,7 +90,7 @@ footer{
     background-color: green;
 }
 
-/* NUEVO */
+/* Perfil del usuario mostrado en la cabecera. */
 
 
 .usuario-header {
@@ -127,6 +128,7 @@ footer{
 }
 
 
+/* Indicadores numéricos y colores del dashboard. */
 .card-resumen-numero {
     font-size: 1.5rem;
     font-weight: bold;
@@ -141,7 +143,6 @@ footer{
 .icono-pendiente { color: #ff0e3e; font-size: 1.8rem; }
 .icono-proceso { color: #059bff; font-size: 1.8rem; }
 .icono-cancelada { color: #5b5c5b; font-size: 1.8rem; }
-.icono-reasignado { color: #facd04; font-size: 1.8rem; }
 .icono-finalizada{color: #43cc6c; font-size: 1.8rem;}
 
 .tinte-total {background-color: #ff8d2f49 ;}
@@ -149,7 +150,6 @@ footer{
 .tinte-proceso {background-color:#28a7fc36 ;}
 .tinte-finalizada {background-color: #43cc6c46 ;}
 .tinte-cancelada {background-color: #5b5c5b2d ;}
-.tinte-reasignada {background-color: #facd0438 ;}
 
 
 
@@ -170,6 +170,7 @@ footer{
 
 
 @media (max-width: 768px) {
+    /* En pantallas pequeñas, la navegación pasa encima del contenido. */
     div.main-container {
         flex-direction: column;
     }
@@ -179,7 +180,44 @@ footer{
     }
 }
 
+@media (max-width: 576px) {
+    /* El título ocupa su propia fila y los controles permanecen juntos. */
+    .dashboard-header {
+        flex-wrap: wrap;
+        align-items: flex-start !important;
+        gap: 0.75rem;
+    }
 
+    .dashboard-title {
+        flex: 1 1 100%;
+    }
+
+    #controles-dashboard {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+    }
+
+    .dashboard-filter-group {
+        flex: 1 1 0;
+        min-width: 0;
+        flex-wrap: nowrap;
+    }
+
+    .dashboard-filter-group .input-group-text {
+        flex: 0 0 auto;
+    }
+
+    /* Permite que el selector use el espacio restante sin partirse. */
+    #filtro-fecha {
+        flex: 1 1 0;
+        width: 1%;
+        min-width: 0;
+    }
+}
+
+
+/* Colores visuales para prioridades y estados en tablas. */
 .fila-prioridad-alta td:first-child { border-left: 4px solid #e63946; }
 .fila-prioridad-media td:first-child { border-left: 4px solid #f0a500; }
 .fila-prioridad-baja td:first-child { border-left: 4px solid #2a9d8f; }
@@ -199,11 +237,21 @@ footer{
 .badge-en-proceso { background-color: #dce8fc; color: #2563eb; }
 .badge-resuelto { background-color: #d9f7e5; color: #16a34a; }
 .badge-cancelado { background-color: #eee; color: #666; }
-.badge-reasignado { background-color: #fff0d9; color: #f77f00; }
 
 .link-accion {
     font-size: 0.85rem;
     text-decoration: none;
     font-weight: 600;
 }
+
+
+/* btn exportar pdf */
+#btn-exportar-pdf:hover {
+    background-color: #198754;
+    border-color: #198754;
+    color: #fff;
+}
+
+
+
 
