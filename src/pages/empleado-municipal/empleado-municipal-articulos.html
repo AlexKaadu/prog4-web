@@ -4,70 +4,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio</title>
-    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap-reboot.min.css">
+    <title>Artículos</title>
     <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">   
     <link rel="stylesheet" href="/src/css/style.css">
-
+</head>
     
-
 <body>
 
-    <header id="plantilla"></header> <!--NUEVO: CAMBIE EL HEADER POR UN PLACEHOLDER-->
+    <header id="plantilla"></header>
 
+    <!-- Menú + Contenido -->
     <div class="main-container">
+
+        <!-- Menú -->
         <nav class="menu-lateral">
             <ul>
                 <li>
-                    <a href="./empleado-municipal-articulos.html">Artículos</a>
+                    <a href="./empleado-municipal-articulos.html" class="active" aria-current="page" >Artículos</a>
                 </li>
                 <li>
                     <a href="./empleado-municipal-incidencias.html">Incidencias</a>
                 </li>
                 <li>
-                    <a href="../../../index.html" class="active" aria-current="page" href="#">Salir</a>
+                    <a href="../../../index.html">Salir</a>
                 </li>
 
             </ul>
         </nav>
+
+        <!-- Contenido principal -->
         <div class="right-container">
             <main>
-                <div class="container text-center">                    
-                    <div class="row">
-                        <div class="col-auto me-auto">
-                            <h3>Artículos</h3>
+                
+                <!-- Tabla + Filtros -->
+                <div class="container text-start">  
+                    
+                    <!-- Encabezado de la tabla + Filtros -->
+                    <div class="row align-items-end mb-3">
+
+                        <!-- Encabezado -->
+                        <div class="col-md">
+                            <h1>Artículos</h1>
+                            <p>Artículos disponibles para reportar incidencias.</p>
                         </div>
+
+                        <!-- Filtros -->
+                         <div class="col-md-6 d-flex gap-3">
+
+                            <input type="search" class="form-control" placeholder="Buscar por artículo" aria-label="Buscar por artículo">
+
+                            <select class="form-select" aria-label="Filtrar por categoría">
+                                <option>Todas las categorías</option>
+                            </select>
+
+                         </div>
+
                     </div>
                 
-                
+                    <!-- Tabla -->
                     <table class="table">
+
                         <thead>
                             <tr>
-                            <th scope="col">Código</th>
-                            <th scope="col">Categoria</th>
-                            <th scope="col">Descripción</th>
+                                <th scope="col">Identificador</th>
+                                <th scope="col">Artículo</th>
+                                <th scope="col">Categoría</th>
+                                <th scope="col">Área</th>
+                                <th scope="col">Acciones</th>
                             </tr>
                         </thead>
+
                         <tbody>
                             <tr>
-                                <th scope="row">1000</th>
-                                <td>Periféricos</td>
+                                <td>ART-101</td>
                                 <td>Teclado</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">1002</th>
                                 <td>Periféricos</td>
-                                <td>Mouse</td>
+                                <td>Rentas</td>
+                                <td>
+                                    <button type="button" class="btn btn-primary">Informar problema</button>
+                                </td>
                             </tr>
+
                             <tr>
-                                <th scope="row">1033</th>
-                                <td>Almacenamiento</td>
-                                <td>Disco Rígido</td>
+                                <td>ART-102</td>
+                                <td>Mouse</td>
+                                <td>Periféricos</td>
+                                <td>Rentas</td>
+                                <td>
+                                    <button type="button" class="btn btn-primary">Informar problema</button>
+                                </td>
                             </tr>
                         </tbody>
+
                     </table>
-                </div>    
+
+                </div>
+
             </main>
             <!-- <footer>
             </footer> -->
@@ -75,10 +108,12 @@
     </div>
 
     <script type="module" src="/src/main.js"></script>
+
     <script type="module">
     import { mostrarHeader } from '../../header.js';
     mostrarHeader('EMPLEADO MUNICIPAL');
     </script>
+
 </body>
 
 </html>
