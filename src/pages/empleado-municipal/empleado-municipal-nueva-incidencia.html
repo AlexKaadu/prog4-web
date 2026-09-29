@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva Incidencia</title>
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/src/css/style.css">
+</head>
+
+<body>
+    
+    <header id="plantilla"></header>
+
+    <!-- Menú + Contenido -->
+    <div class="main-container">
+
+        <!-- Menú -->
+        <nav class="menu-lateral">
+            <ul>
+                <li>
+                    <a href="./empleado-municipal-articulos.html">Artículos</a>
+                </li>
+                <li>
+                    <a href="./empleado-municipal-nueva-incidencia.html" class="active" aria-current="page">Nueva incidencia</a>
+                </li>
+                <li>
+                    <a href="./empleado-municipal-incidencias.html">Incidencias</a>
+                </li>
+                <li>
+                    <a href="../../../index.html">Salir</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Contenido principal -->
+        <div class="right-container">
+
+            <main>
+
+                <!-- Formulario -->
+                <div class="container text-start">
+
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+
+                            <!-- Encabezado-->
+                            <h1>Nueva incidencia</h1>
+                            <p>Cuéntanos qué pasa.</p>
+                            
+                            <!-- Campos -->
+                            <form class="card p-3">
+
+                                <div class="mb-3">
+                                    <label for="articulo" class="form-label">Artículo</label>
+                                    <select id="articulo" name="articulo" class="form-select" required>
+                                        <option value="" selected disabled>Seleccione un artículo</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="prioridad" class="form-label">Prioridad</label>
+                                    <select id="prioridad" name="prioridad" class="form-select" required>
+                                        <option value="" selected disabled>Seleccione una prioridad</option>
+                                        <option value="baja">Baja</option>
+                                        <option value="media">Media</option>
+                                        <option value="alta">Alta</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="descripcion" class="form-label">Descripción del problema</label>
+                                    <textarea id="descripcion" name="descripcion" class="form-control" rows="5" maxlength="500" required placeholder="Ej.: La impresora del mostrador no toma papel desde ayer."></textarea>
+                                </div>
+
+                                <div class="d-flex gap-2">
+                                    <button type="submit" class="btn btn-primary">Crear incidencia</button>
+
+                                    <a href="./empleado-municipal-incidencias.html" class="btn btn-danger">Cancelar</a>
+                                </div>
+
+                            </form>
+                            
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+
+            <!-- <footer>
+            </footer> -->
+
+        </div>
+
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+
+    <script type="module">
+    import { mostrarHeader } from '../../header.js';
+    mostrarHeader('EMPLEADO MUNICIPAL');
+    </script>
+
+</body>
+
+</html>
