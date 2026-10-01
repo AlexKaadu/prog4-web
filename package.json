@@ -1,10 +1,36 @@
 {
-  "devDependencies": {
-    "vite": "^8.2.2"
+
+  "scripts": {
+
+    "dev": "vite",
+
+    "build": "vite build",
+
+    "start:api": "node server/server.js"
+
   },
+
+  "devDependencies": {
+
+    "vite": "^8.2.2"
+
+  },
+
   "dependencies": {
+
     "bootstrap": "^5.3.8",
+
     "bootstrap-icons": "^1.13.1",
-    "chart.js": "^4.5.1"
+
+    "chart.js": "^4.5.1",
+
+    "cors": "^2.8.6",
+
+    "express": "^5.2.1",
+
+    "express-validator": "^7.3.2",
+
+    "pdfkit": "^0.20.2"
   }
-} 
+}
+
