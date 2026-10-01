@@ -22,13 +22,13 @@
         <nav class="menu-lateral">
             <ul>
                 <li>
-                    <a href="director-sistemas-dashboard.html">Dashboard</a>
+                    <a href="director-sistemas-dashboard.html" class="active" aria-current="page">Dashboard</a>
                 </li>
                 <li>
                     <a href="director-sistemas-incidencias.html">Incidencias</a>
                 </li>
                 <li>
-                    <a href="../../../index.html" class="active" aria-current="page" href="#">Salir</a>
+                    <a href="../../../index.html">Salir</a>
                 </li>
             </ul>
         </nav>
@@ -49,17 +49,17 @@
                             Exportar PDF
                         </button>
 
-                        <div class="dashboard-filter-group input-group input-group-sm">
-                            <span class="input-group-text">
-                                <i class="bi bi-calendar3"></i>
-                            </span>
-
-                            <select class="form-select form-select-sm" id="filtro-fecha">
-                                <option value="30dias">Ultimos 30 dias</option>
-                                <option value="7dias">Ultimos 7 dias</option>
-                                <option value="mes">Este mes</option>
-                                <option value="año">Este año</option>
-                            </select>
+                        <div class="dropdown dashboard-filter-group filtro-incidencia-dropdown">
+                            <button class="btn btn-outline-secondary btn-sm dropdown-toggle filtro-incidencia-trigger"
+                                type="button" id="dropdown-filtro-fecha" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="filtro-incidencia-text" id="texto-filtro-fecha">Fecha: 30 días</span>
+                            </button>
+                            <ul class="dropdown-menu" id="menu-filtro-fecha" aria-labelledby="dropdown-filtro-fecha">
+                                <li><button class="dropdown-item active" type="button" data-valor="30dias" data-etiqueta="Fecha: 30 días">Últimos 30 días</button></li>
+                                <li><button class="dropdown-item" type="button" data-valor="7dias" data-etiqueta="Fecha: 7 días">Últimos 7 días</button></li>
+                                <li><button class="dropdown-item" type="button" data-valor="mes" data-etiqueta="Fecha: Este mes">Este mes</button></li>
+                                <li><button class="dropdown-item" type="button" data-valor="año" data-etiqueta="Fecha: Este año">Este año</button></li>
+                            </ul>
                         </div>
                     </div>
 
@@ -146,19 +146,41 @@
                     </div>
                 </div>
 
+                <div class="row g-4 mb-4">
+                    <div class="col-12 col-md-7">
+                        <div class="card p-3 h-100 d-flex flex-column">
+                            <h6 class="fw-bold mb-3">Incidencias por prioridad</h6>
+                            <div class="d-flex align-items-center justify-content-center flex-grow-1" style="height: 210px;">
+                                <canvas id="grafico-prioridad"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-5">
+                        <div class="card p-3 h-100">
+                            <h6 class="fw-bold mb-3">Incidencias por categoría</h6>
+                            <div id="grafico-categorias"></div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                
+                
+
 
 
 
                 <!-- Filas y paginación de prioridades y barras de categorías generadas por JavaScript. -->
                 <div class="row g-4 mb-4">
-                    <div class="col-md-7">
+                    <div class="col-12">
                         <div class="card p-3 h-100 d-flex flex-column">
                             <h6 class="fw-bold mb-3">
                                 <i class="bi bi-exclamation-triangle-fill text-danger"></i>
                                 Incidencias prioritarias
                             </h6>
-                            <div class="table-responsive">
-                                <table class="table table-hover align-middle">
+                            <div class="table-responsive tabla-prioritarias-wrapper">
+                                <table class="table table-hover align-middle tabla-prioritarias">
                                     <thead>
                                         <tr>
                                             <th scope="col">#</th>
@@ -181,22 +203,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-5">
-                        <div class="card p-3 h-100">
-                            <h6 class="fw-bold mb-3">Incidencias por categoría</h6>
-                            <div id="grafico-categorias"></div>
-                        </div>
-                    </div>
                 </div>
-
-                
-
-                
-
-
-
-
-
 
             </main>
         <!-- <footer>

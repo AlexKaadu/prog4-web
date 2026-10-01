@@ -200,6 +200,56 @@ function actualizarGraficoFechas(lista){
     }
 }
 
+
+let chartPrioridad = null;
+const graficoPrioridad = document.getElementById('grafico-prioridad');
+
+function actualizarGraficoPrioridad(lista) {
+    const datos = [3, 2, 1].map(prioridad =>
+        lista.filter(inc => inc.prioridad === prioridad).length
+    );
+
+    if (!chartPrioridad) {
+        chartPrioridad = new Chart(graficoPrioridad, {
+            type: 'bar',
+            data: {
+                labels: ['Alta', 'Media', 'Baja'],
+                datasets: [{
+                    label: 'Incidencias',
+                    data: datos,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.18)',
+                        'rgba(255, 159, 64, 0.18)',
+                        'rgba(81, 175, 69, 0.35)'
+                    ],
+                    borderColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(255, 159, 64)',
+                        'rgb(15, 207, 15)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { stepSize: 1 }
+                    }
+                }
+            }
+        });
+    } else {
+        chartPrioridad.data.datasets[0].data = datos;
+        chartPrioridad.update();
+    }
+}
+
+
+
+
 function actualizarGraficoCategoria(lista){
     const contenedor = document.getElementById('grafico-categorias');
     contenedor.replaceChildren();
@@ -253,10 +303,9 @@ function actualizarGraficoCategoria(lista){
 
 
     });
-
-
-
 }
+
+
 
 
 
@@ -326,17 +375,20 @@ function filtrarPorFecha(incidencias, periodoSeleccionado) {
 }
 
 // Inicialización y eventos del filtro
-const filtroFecha = document.getElementById('filtro-fecha');
+let periodoFechaSeleccionado = '30dias';
+const menuFiltroFecha = document.getElementById('menu-filtro-fecha');
+const textoFiltroFecha = document.getElementById('texto-filtro-fecha');
 
 function actualizarDashboard() {
     paginaActual = 1;
 
-    const incidenciasFiltradas = filtrarPorFecha(incidencias, filtroFecha.value);
+    const incidenciasFiltradas = filtrarPorFecha(incidencias, periodoFechaSeleccionado);
 
     actualizarTarjetas(incidenciasFiltradas);
     actualizarGraficoEstados(incidenciasFiltradas);
     actualizarGraficoFechas(incidenciasFiltradas);
     actualizarGraficoCategoria(incidenciasFiltradas);
+    actualizarGraficoPrioridad(incidenciasFiltradas);
 
     const prioritarias = incidenciasFiltradas.filter(inc =>
         inc.prioridad === 3 && (inc.id_estado === 1 || inc.id_estado === 2)
@@ -346,7 +398,61 @@ function actualizarDashboard() {
     renderizarPaginacion(prioritarias)
 }
 
-filtroFecha.addEventListener('change', actualizarDashboard);
+menuFiltroFecha.addEventListener('click', event => {
+    const opcion = event.target.closest('.dropdown-item[data-valor]');
+    if (!opcion) return;
+
+    periodoFechaSeleccionado = opcion.dataset.valor;
+    textoFiltroFecha.textContent = opcion.dataset.etiqueta;
+    menuFiltroFecha.querySelectorAll('.dropdown-item').forEach(item => {
+        item.classList.toggle('active', item === opcion);
+    });
+    actualizarDashboard();
+});
+
+document.getElementById('btn-exportar-pdf').addEventListener('click', async event => {
+    const boton = event.currentTarget;
+    const textoOriginal = boton.innerHTML;
+    boton.disabled = true;
+    boton.innerHTML = '<i class="bi bi-hourglass-split"></i> Generando PDF...';
+
+    try {
+        [chartFechas, chartEstados, chartPrioridad].forEach(chart => {
+            if (chart) chart.update('none');
+        });
+
+        const graficos = {
+            porFecha: document.getElementById('grafico-fechas').toDataURL('image/png'),
+            porEstado: document.getElementById('grafico-estados').toDataURL('image/png'),
+            porPrioridad: document.getElementById('grafico-prioridad').toDataURL('image/png'),
+        };
+
+        const respuesta = await fetch('http://localhost:3000/api/v1/reportes/dashboard', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ periodo: periodoFechaSeleccionado, graficos })
+        });
+
+        if (!respuesta.ok) {
+            throw new Error('No se pudo generar el PDF.');
+        }
+
+        const archivo = await respuesta.blob();
+        const url = URL.createObjectURL(archivo);
+        const enlace = document.createElement('a');
+        enlace.href = url;
+        enlace.download = 'dashboard.pdf';
+        enlace.click();
+        URL.revokeObjectURL(url);
+    } catch (error) {
+        console.error(error);
+        alert('No se pudo generar el PDF. Comprueba que el servidor esté activo.');
+    } finally {
+        boton.disabled = false;
+        boton.innerHTML = textoOriginal;
+    }
+});
+
 actualizarDashboard();
 
 

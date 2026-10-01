@@ -201,21 +201,86 @@ footer{
     .dashboard-filter-group {
         flex: 1 1 0;
         min-width: 0;
-        flex-wrap: nowrap;
-    }
-
-    .dashboard-filter-group .input-group-text {
-        flex: 0 0 auto;
-    }
-
-    /* Permite que el selector use el espacio restante sin partirse. */
-    #filtro-fecha {
-        flex: 1 1 0;
-        width: 1%;
-        min-width: 0;
     }
 }
 
+.filtros-incidencias {
+    width: 100%;
+}
+
+.filtro-incidencia-dropdown {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.filtro-incidencia-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-width: 0;
+    text-align: left;
+}
+
+.filtro-incidencia-trigger::after {
+    flex: 0 0 auto;
+    margin-left: 0.5rem;
+}
+
+.filtro-incidencia-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.filtros-incidencias .dropdown-menu,
+#controles-dashboard .dropdown-menu {
+    width: 100%;
+}
+
+
+
+
+@media (min-width: 576px) {
+    .filtros-incidencias .filtro-incidencia-dropdown {
+        flex: 0 0 160px;
+    }
+}
+
+#controles-dashboard .dashboard-filter-group {
+    flex: 0 1 170px;
+}
+
+
+/* Colores visuales para prioridades y estados en tablas. */
+.tabla-prioritarias-wrapper {
+    min-width: 0;
+    overflow-x: auto;
+}
+
+.tabla-prioritarias {
+    min-width: 620px;
+    table-layout: fixed;
+}
+
+.tabla-prioritarias th:nth-child(1),
+.tabla-prioritarias td:nth-child(1) { width: 48px; }
+.tabla-prioritarias th:nth-child(2),
+.tabla-prioritarias td:nth-child(2) { width: 220px; }
+.tabla-prioritarias th:nth-child(3),
+.tabla-prioritarias td:nth-child(3) { width: 100px; }
+.tabla-prioritarias th:nth-child(4),
+.tabla-prioritarias td:nth-child(4) { width: 130px; }
+.tabla-prioritarias th:nth-child(5),
+.tabla-prioritarias td:nth-child(5) { width: 120px; }
+
+.tabla-prioritarias td:nth-child(2) {
+    overflow-wrap: anywhere;
+}
+
+.tabla-prioritarias td:nth-child(n + 3) {
+    white-space: nowrap;
+}
 
 /* Colores visuales para prioridades y estados en tablas. */
 .fila-prioridad-alta td:first-child { border-left: 4px solid #e63946; }
@@ -250,6 +315,22 @@ footer{
     background-color: #198754;
     border-color: #198754;
     color: #fff;
+}
+
+@media (min-width: 768px){
+    .filtros .input-group{
+        width: auto;
+    }
+
+    .filtros .form-select {
+        width: auto;
+        flex: 0 1 auto;
+
+    }
+}
+
+.filtros .input-group-text{
+    background-color: #acecac;
 }
 
 

@@ -157,13 +157,10 @@ renderTablaDirector(incidencias);
 renderizarPaginacion(incidencias);
 
 
-const filtroPrioridad = document.getElementById('filtro-prioridad');
-const filtroEstado = document.getElementById('filtro-estado');
+let prioridadSeleccionada = 'todas';
+let estadoSeleccionado = 'todas';
 
 function aplicarFiltros() {
-    const prioridadSeleccionada = filtroPrioridad.value;
-    const estadoSeleccionado = filtroEstado.value;
-
     const incidenciasFiltradas = incidencias.filter(inc => {
         const coincidePrioridad = prioridadSeleccionada === 'todas'
             || inc.prioridad === Number(prioridadSeleccionada);
@@ -178,5 +175,27 @@ function aplicarFiltros() {
     renderizarPaginacion(incidenciasFiltradas);
 }
 
-filtroPrioridad.addEventListener('change', aplicarFiltros);
-filtroEstado.addEventListener('change', aplicarFiltros);
+function configurarFiltroDropdown(menuId, textoId, actualizarSeleccion) {
+    const menu = document.getElementById(menuId);
+    const texto = document.getElementById(textoId);
+
+    menu.addEventListener('click', event => {
+        const opcion = event.target.closest('.dropdown-item[data-valor]');
+        if (!opcion) return;
+
+        actualizarSeleccion(opcion.dataset.valor);
+        texto.textContent = opcion.dataset.etiqueta;
+        menu.querySelectorAll('.dropdown-item').forEach(item => {
+            item.classList.toggle('active', item === opcion);
+        });
+        aplicarFiltros();
+    });
+}
+
+configurarFiltroDropdown('menu-filtro-prioridad', 'texto-filtro-prioridad', valor => {
+    prioridadSeleccionada = valor;
+});
+
+configurarFiltroDropdown('menu-filtro-estado', 'texto-filtro-estado', valor => {
+    estadoSeleccionado = valor;
+});
