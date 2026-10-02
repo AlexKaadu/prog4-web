@@ -32,32 +32,37 @@ function renderTablaDirector(incidencias){
         const row = document.createElement('tr');
 
         const tdId = document.createElement('td');
+        tdId.dataset.label = 'N.º';
         tdId.textContent = inc.id_incidencia;
         row.appendChild(tdId);
 
         const tdArticulo = document.createElement('td');
+        tdArticulo.dataset.label = 'Articulo';
         tdArticulo.textContent = inc.articulo_descripcion;
-        tdArticulo.className = 'text-truncate';
-        tdArticulo.style.maxWidth = '50px';
         row.appendChild(tdArticulo);
 
         const tdPrioridad = document.createElement('td');
+        tdPrioridad.dataset.label = 'Prioridad';
         tdPrioridad.innerHTML = badgesPrioridad[inc.prioridad];
         row.appendChild(tdPrioridad);
 
         const tdEstado = document.createElement('td');
+        tdEstado.dataset.label = 'Estado';
         tdEstado.innerHTML = badgesEstado[inc.id_estado];
         row.appendChild(tdEstado);
 
         const tdTecnicoAsignado = document.createElement('td');
+        tdTecnicoAsignado.dataset.label = 'Tecnico asignado';
         tdTecnicoAsignado.textContent = inc.asignado_a ? inc.asignado_a : "Sin asignar";
         row.appendChild(tdTecnicoAsignado);
 
         const tdCreado = document.createElement('td');
+        tdCreado.dataset.label = 'Fecha';
         tdCreado.textContent = inc.creado;
         row.appendChild(tdCreado);
 
         const tdAcciones = document.createElement('td');
+        tdAcciones.dataset.label  = 'Acciones';
         
         const boton = document.createElement('button');
         boton.type = 'button';

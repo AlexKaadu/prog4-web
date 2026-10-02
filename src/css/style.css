@@ -333,6 +333,68 @@ footer{
     background-color: #acecac;
 }
 
+@media (max-width: 767.98px) {
+    .tabla-incidencias-wrapper{
+        overflow: visible;
+    }
+
+    .tabla-incidencias-director thead {
+        display: none;
+    }
+
+    .tabla-incidencias-director tbody {
+        display: grid;
+        gap: 12px;
+    }
+
+    .tabla-incidencias-director tbody tr {
+        position: relative;
+        display:  grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        padding: 0.75rem;
+        border: 1px solid #d9dee3;
+        border-radius: 8px;
+        background: #fff;
+    }
+
+    .tabla-incidencias-director tbody td {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        min-width : 0;
+        padding: 0.4rem 0;
+    }
+
+    .tabla-incidencias-director tbody td::before {
+    content: attr(data-label);
+    color: #68727d;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    }
+
+    .tabla-incidencias-director tbody td:nth-child(7) {
+        position: absolute;
+        top: 0.65rem;
+        right: 0.75rem;
+        padding: 0;
+    }
+
+    .tabla-incidencias-director tbody td:nth-child(7)::before {
+        content: none;
+    }
+
+    .tabla-incidencias-director tbody td:nth-child(7) .btn {
+        width: 30px;
+        height: 30px;
+        padding: 0;
+    }
+
+
+
+
+}
+
 
 
 
