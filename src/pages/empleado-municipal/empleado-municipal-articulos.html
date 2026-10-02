@@ -54,10 +54,15 @@
                         <!-- Filtros -->
                          <div class="col-md-6 d-flex gap-3">
 
-                            <input type="search" class="form-control" placeholder="Buscar por artículo" aria-label="Buscar por artículo">
+                            <input type="search" id="filtro-articulo" class="form-control" placeholder="Buscar por artículo" aria-label="Buscar por artículo">
 
-                            <select class="form-select" aria-label="Filtrar por categoría">
-                                <option>Todas las categorías</option>
+                            <select id="filtro-categoria" class="form-select" aria-label="Filtrar por categoría">
+                                <option value="0">Todas las categorías</option>
+                                <option value="1">Periféricos</option>
+                                <option value="2">Notebooks</option>
+                                <option value="3">PC-Escritorio</option>
+                                <option value="4">Almacenamiento</option>
+                                <option value="5">Equipos de Red</option>
                             </select>
 
                          </div>
@@ -77,7 +82,7 @@
                             </tr>
                         </thead>
 
-                        <tbody>
+                        <tbody id="tabla-articulos-datos">
                             <tr>
                                 <td>ART-101</td>
                                 <td>Teclado</td>
@@ -116,6 +121,8 @@
     mostrarHeader('EMPLEADO MUNICIPAL');
     </script>
 
+    <script type="module" src="/src/pages/empleado-municipal/empleado-municipal-articulos.js"></script>
+    
 </body>
 
 </html>
