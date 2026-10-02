@@ -1,7 +1,7 @@
 import { incidencias } from '../../../datos/incidencias-empleado-sistemas.js';
 import Chart from 'chart.js/auto';
 
-// Configuración de presentación
+// Plantillas HTML para mostrar los estados y prioridades como etiquetas visuales.
 const badgesEstado = {
     1: '<span class="badge-estado badge-pendiente">PENDIENTE</span>',
     2: '<span class="badge-estado badge-en-proceso">EN PROCESO</span>',
@@ -15,11 +15,11 @@ const badgesPrioridad = {
     3: '<span class="badge-prioridad badge-alta">ALTA</span>'
 };
 
-// Datos de la tabla de incidencias prioritarias
+// La tabla muestra cinco incidencias prioritarias por página.
 const registrosPorPagina = 5;
 let paginaActual = 1;
 
-// Tabla de incidencias prioritarias
+/** Renderiza en el DOM la página actual de la tabla de incidencias prioritarias. */
 function renderizarTablaPrioritarias(lista) {
     const tbody = document.getElementById('tabla-prioritarias');
     tbody.textContent = '';
@@ -58,7 +58,7 @@ function renderizarTablaPrioritarias(lista) {
 
 
 
-// Paginación de incidencias prioritarias
+/** Crea los controles de paginación y enlaza cada botón con la página elegida. */
 function renderizarPaginacion(lista) {
     const contenedor = document.getElementById('paginacion-prioritarias');
     contenedor.textContent = '';
@@ -89,7 +89,7 @@ function renderizarPaginacion(lista) {
 
 
 
-// Tarjetas de resumen
+/** Calcula los totales por estado y actualiza las tarjetas de resumen del dashboard. */
 function actualizarTarjetas(incidencias) {
     const total = incidencias.length;
     const pendientes = incidencias.filter(inc => inc.id_estado === 1).length;
@@ -109,10 +109,11 @@ function actualizarTarjetas(incidencias) {
 
 
 
-// Gráfico de estados
+// Las instancias se conservan para actualizar sus datos sin recrear los gráficos.
 let chartEstados = null;
 const graficoEstados = document.getElementById('grafico-estados');
 
+/** Crea o actualiza el gráfico de dona con el número de incidencias por estado. */
 function actualizarGraficoEstados(lista) {
     const pendientes = lista.filter(inc => inc.id_estado === 1).length;
     const enProceso = lista.filter(inc => inc.id_estado === 2).length;
@@ -148,10 +149,11 @@ function actualizarGraficoEstados(lista) {
     }
 }
 
-// Gráfico de incidencias por fecha
+// Gráfico de incidencias agrupadas por día de creación.
 let chartFechas = null;
 const graficoFechas = document.getElementById('grafico-fechas');
 
+/** Agrupa las incidencias por fecha, ordena los días y crea o actualiza el gráfico. */
 function actualizarGraficoFechas(lista){
     const incidenciasPorFecha = {};
 
@@ -207,6 +209,7 @@ function actualizarGraficoFechas(lista){
 let chartPrioridad = null;
 const graficoPrioridad = document.getElementById('grafico-prioridad');
 
+/** Crea o actualiza el gráfico de barras con los totales por nivel de prioridad. */
 function actualizarGraficoPrioridad(lista) {
     const datos = [3, 2, 1].map(prioridad =>
         lista.filter(inc => inc.prioridad === prioridad).length
@@ -221,9 +224,9 @@ function actualizarGraficoPrioridad(lista) {
                     label: 'Incidencias',
                     data: datos,
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.18)',
-                        'rgba(255, 159, 64, 0.18)',
-                        'rgba(81, 175, 69, 0.35)'
+                        'rgba(255, 99, 133, 0.52)',
+                        'rgba(255, 160, 64, 0.36)',
+                        'rgba(81, 175, 69, 0.37)'
                     ],
                     borderColor: [
                         'rgb(255, 99, 132)',
@@ -254,6 +257,7 @@ function actualizarGraficoPrioridad(lista) {
 
 
 
+/** Muestra cada categoría, su cantidad y su proporción respecto al total filtrado. */
 function actualizarGraficoCategoria(lista){
     const contenedor = document.getElementById('grafico-categorias');
     contenedor.replaceChildren();
@@ -320,7 +324,7 @@ function actualizarGraficoCategoria(lista){
 
 
 
-// Utilidades de fecha
+// Convierte una fecha con formato día-mes-año (con hora opcional) a un objeto Date.
 function parsearFechas(texto){
     const soloFecha = texto.split(' ')[0];
     const [dia, mes, anio] = soloFecha.split('-');
@@ -329,6 +333,7 @@ function parsearFechas(texto){
 
 
 
+/** Devuelve las incidencias que corresponden al periodo seleccionado en el menú. */
 function filtrarPorFecha(incidencias, periodoSeleccionado) {
 
     const hoy = new Date();
@@ -378,11 +383,12 @@ function filtrarPorFecha(incidencias, periodoSeleccionado) {
 
 }
 
-// Inicialización y eventos del filtro
+// Periodo inicial del dashboard y referencias a los controles del filtro.
 let periodoFechaSeleccionado = '30dias';
 const menuFiltroFecha = document.getElementById('menu-filtro-fecha');
 const textoFiltroFecha = document.getElementById('texto-filtro-fecha');
 
+/** Filtra los datos y sincroniza tarjetas, gráficos y tabla prioritaria. */
 function actualizarDashboard() {
     paginaActual = 1;
 
@@ -414,6 +420,7 @@ menuFiltroFecha.addEventListener('click', event => {
     actualizarDashboard();
 });
 
+// Solicita al servidor el PDF del dashboard junto con imágenes de los gráficos.
 document.getElementById('btn-exportar-pdf').addEventListener('click', async event => {
     const boton = event.currentTarget;
     const textoOriginal = boton.innerHTML;
@@ -457,6 +464,7 @@ document.getElementById('btn-exportar-pdf').addEventListener('click', async even
     }
 });
 
+// Presenta el dashboard con el periodo predeterminado al cargar el módulo.
 actualizarDashboard();
 
 

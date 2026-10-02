@@ -1,98 +1,94 @@
-/* Estructura compartida: cabecera, navegación lateral y contenido. */
-header{
+/* =========================================================
+   BASE / LAYOUT GENERAL
+   ========================================================= */
+header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 1rem;
+    padding: 1rem;
     width: 100%;
-    
     background-color: rgba(52, 163, 61, 0.856);
 }
-
-
-
-#plantilla:empty {
-    visibility: hidden;
-}
-
-
 
 header img.logo {
     height: 60px;
 }
 
-div.main-container{
+#plantilla:empty {
+    visibility: hidden;
+}
+
+.main-container {
     display: flex;
     justify-content: flex-start;
-    align-items: stretch; 
-    min-height: calc(100vh - 92px); 
+    align-items: stretch;
+    min-height: calc(100vh - 92px);
 }
 
-.menu-lateral{
-    width: 250px; 
-    flex-shrink: 0;
-
-    height: 100vh;
-    background-color: #CCC;
-}
-
-.menu-lateral ul{
-    padding: 0;
-}
-
-.menu-lateral ul li{
-    display: block;
-}
-
-.menu-lateral ul li a, .menu-lateral ul li a:link, .menu-lateral ul li a:visited, .menu-lateral ul li a:active, .menu-lateral ul li a:hover{
-    display: block;
-    padding: 0.5rem 2rem;
-
-    background-color: #CCC;
-
-    text-decoration: none;
-}
-
-.menu-lateral ul li a, .menu-lateral ul li a:link, .menu-lateral ul li a:visited, .menu-lateral ul li a:active{
-    color: black;
-}
-
-.menu-lateral ul li a:hover{
-    display: block;
-    padding: 0.5rem 2rem;
-
-    color: white;
-    background-color: #8cc856;
-
-    text-decoration: none;
-}
-
-div.right-container{
+.right-container {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    flex-grow: 1; 
+    flex-grow: 1;
 }
 
-main{    
-
-    flex-grow: 1; 
+main {
+    flex-grow: 1;
     background-color: #EEE;
     padding: 2rem;
-    
 }
 
-
-
-footer{
+footer {
     width: 100%;
     height: 100px;
     background-color: green;
 }
 
-/* Perfil del usuario mostrado en la cabecera. */
+/* =========================================================
+   MENÚ LATERAL
+   ========================================================= */
+.menu-lateral {
+    width: 250px;
+    flex-shrink: 0;
+    min-height: calc(100vh - 92px);
+    height: auto;
+    background-color: #CCC;
+}
 
+.menu-lateral ul {
+    padding: 0;
+}
 
+.menu-lateral ul li {
+    display: block;
+}
+
+.menu-lateral ul li a,
+.menu-lateral ul li a:link,
+.menu-lateral ul li a:visited,
+.menu-lateral ul li a:active,
+.menu-lateral ul li a:hover {
+    display: block;
+    padding: 0.5rem 2rem;
+    background-color: #CCC;
+    text-decoration: none;
+}
+
+.menu-lateral ul li a,
+.menu-lateral ul li a:link,
+.menu-lateral ul li a:visited,
+.menu-lateral ul li a:active {
+    color: black;
+}
+
+.menu-lateral ul li a:hover {
+    color: white;
+    background-color: #8cc856;
+}
+
+/* =========================================================
+   CABECERA / USUARIO
+   ========================================================= */
 .usuario-header {
     display: flex;
     align-items: center;
@@ -127,8 +123,9 @@ footer{
     font-size: 1.2rem;
 }
 
-
-/* Indicadores numéricos y colores del dashboard. */
+/* =========================================================
+   DASHBOARD
+   ========================================================= */
 .card-resumen-numero {
     font-size: 1.5rem;
     font-weight: bold;
@@ -143,67 +140,30 @@ footer{
 .icono-pendiente { color: #ff0e3e; font-size: 1.8rem; }
 .icono-proceso { color: #059bff; font-size: 1.8rem; }
 .icono-cancelada { color: #5b5c5b; font-size: 1.8rem; }
-.icono-finalizada{color: #43cc6c; font-size: 1.8rem;}
+.icono-finalizada { color: #43cc6c; font-size: 1.8rem; }
 
-.tinte-total {background-color: #ff8d2f49 ;}
+.tinte-total { background-color: #ff8d2f49; }
 .tinte-pendiente { background-color: #ff0e3e2d; }
-.tinte-proceso {background-color:#28a7fc36 ;}
-.tinte-finalizada {background-color: #43cc6c46 ;}
-.tinte-cancelada {background-color: #5b5c5b2d ;}
-
-
+.tinte-proceso { background-color: #28a7fc36; }
+.tinte-finalizada { background-color: #43cc6c46; }
+.tinte-cancelada { background-color: #5b5c5b2d; }
 
 .dashboard-card {
     height: 100%;
     justify-content: center;
     display: flex;
     align-items: center;
+    transition: transform 0.15s ease;
 }
 
-.dashboard-card {
-    transition: transform 0.15s ease;   /* ANIMACION AL PASAR MOUSE ENCIMA */
-}
 .dashboard-card:hover {
     transform: translateY(-3px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
 
-
-@media (max-width: 768px) {
-    /* En pantallas pequeñas, la navegación pasa encima del contenido. */
-    div.main-container {
-        flex-direction: column;
-    }
-    .menu-lateral {
-        width: 100%;
-        height: auto;
-    }
-}
-
-@media (max-width: 576px) {
-    /* El título ocupa su propia fila y los controles permanecen juntos. */
-    .dashboard-header {
-        flex-wrap: wrap;
-        align-items: flex-start !important;
-        gap: 0.75rem;
-    }
-
-    .dashboard-title {
-        flex: 1 1 100%;
-    }
-
-    #controles-dashboard {
-        width: 100%;
-        justify-content: flex-start;
-        flex-wrap: nowrap;
-    }
-
-    .dashboard-filter-group {
-        flex: 1 1 0;
-        min-width: 0;
-    }
-}
-
+/* =========================================================
+   FILTROS / INPUTS / CONTROLES
+   ========================================================= */
 .filtros-incidencias {
     width: 100%;
 }
@@ -238,21 +198,17 @@ footer{
     width: 100%;
 }
 
-
-
-
-@media (min-width: 576px) {
-    .filtros-incidencias .filtro-incidencia-dropdown {
-        flex: 0 0 160px;
-    }
-}
-
 #controles-dashboard .dashboard-filter-group {
     flex: 0 1 170px;
 }
 
+.filtros .input-group-text {
+    background-color: #acecac;
+}
 
-/* Colores visuales para prioridades y estados en tablas. */
+/* =========================================================
+   TABLAS Y BADGES
+   ========================================================= */
 .tabla-prioritarias-wrapper {
     min-width: 0;
     overflow-x: auto;
@@ -282,12 +238,12 @@ footer{
     white-space: nowrap;
 }
 
-/* Colores visuales para prioridades y estados en tablas. */
 .fila-prioridad-alta td:first-child { border-left: 4px solid #e63946; }
 .fila-prioridad-media td:first-child { border-left: 4px solid #f0a500; }
 .fila-prioridad-baja td:first-child { border-left: 4px solid #2a9d8f; }
 
-.badge-prioridad, .badge-estado {
+.badge-prioridad,
+.badge-estado {
     padding: 0.35em 0.65em;
     border-radius: 0.5rem;
     font-size: 0.75rem;
@@ -309,32 +265,71 @@ footer{
     font-weight: 600;
 }
 
-
-/* btn exportar pdf */
+/* =========================================================
+   BOTONES
+   ========================================================= */
 #btn-exportar-pdf:hover {
     background-color: #198754;
     border-color: #198754;
     color: #fff;
 }
 
-@media (min-width: 768px){
-    .filtros .input-group{
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+    }
+
+    .menu-lateral {
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-width: 576px) {
+    .dashboard-header {
+        flex-wrap: wrap;
+        align-items: flex-start !important;
+        gap: 0.75rem;
+    }
+
+    .dashboard-title {
+        flex: 1 1 100%;
+    }
+
+    #controles-dashboard {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+    }
+
+    .dashboard-filter-group {
+        flex: 1 1 0;
+        min-width: 0;
+    }
+}
+
+@media (min-width: 576px) {
+    .filtros-incidencias .filtro-incidencia-dropdown {
+        flex: 0 0 160px;
+    }
+}
+
+@media (min-width: 768px) {
+    .filtros .input-group {
         width: auto;
     }
 
     .filtros .form-select {
         width: auto;
         flex: 0 1 auto;
-
     }
 }
 
-.filtros .input-group-text{
-    background-color: #acecac;
-}
-
 @media (max-width: 767.98px) {
-    .tabla-incidencias-wrapper{
+    .tabla-incidencias-wrapper {
         overflow: visible;
     }
 
@@ -349,7 +344,7 @@ footer{
 
     .tabla-incidencias-director tbody tr {
         position: relative;
-        display:  grid;
+        display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         padding: 0.75rem;
         border: 1px solid #d9dee3;
@@ -361,16 +356,16 @@ footer{
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        min-width : 0;
+        min-width: 0;
         padding: 0.4rem 0;
     }
 
     .tabla-incidencias-director tbody td::before {
-    content: attr(data-label);
-    color: #68727d;
-    font-size: 0.75rem;
-    font-weight: 600;
-    margin-bottom: 4px;
+        content: attr(data-label);
+        color: #68727d;
+        font-size: 0.75rem;
+        font-weight: 600;
+        margin-bottom: 4px;
     }
 
     .tabla-incidencias-director tbody td:nth-child(7) {
@@ -389,12 +384,4 @@ footer{
         height: 30px;
         padding: 0;
     }
-
-
-
-
 }
-
-
-
-
