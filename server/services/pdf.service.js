@@ -4,7 +4,7 @@ const PDFDocument = require('pdfkit');
 
 function panel(doc, x, y, w, h, titulo) {
   doc.roundedRect(x, y, w, h, 6).lineWidth(0.5).stroke('#d9d9d9');
-  doc.fillColor('#222').font('Helvetica-Bold').fontSize(10)
+  doc.fillColor('#222').font('Helvetica-Bold').fontSize(12)
     .text(titulo, x + 12, y + 10, { lineBreak: false });
   doc.font('Helvetica');
 }
@@ -38,12 +38,12 @@ function insertarGrafico(doc, captura, x, y, w, h) {
 function barrasCategorias(doc, categorias, x, y, w, base) {
   const denominador = base || 1;
   categorias.forEach((c, i) => {
-    const cy = y + i * 28;
-    doc.fillColor('#222').font('Helvetica').fontSize(9)
+    const cy = y + i * 30;
+    doc.fillColor('#222').font('Helvetica').fontSize(11)
       .text(c.nombre, x, cy, { lineBreak: false });
     doc.text(String(c.total), x, cy, { width: w, align: 'right', lineBreak: false });
-    doc.roundedRect(x, cy + 13, w, 6, 3).fill('#e9ecef');
-    doc.roundedRect(x, cy + 13, Math.max(w * (c.total / denominador), 6), 6, 3).fill('#0d6efd');
+    doc.roundedRect(x, cy + 15, w, 7, 3).fill('#e9ecef');
+    doc.roundedRect(x, cy + 15, Math.max(w * (c.total / denominador), 6), 7, 3).fill('#0d6efd');
   });
 }
 
@@ -69,20 +69,25 @@ function generarDashboard(res, datos) {
   // Tarjetas
   tarjetas(doc, totales, M, 75, ancho);
 
-  // Fila 2: por fecha + por estado
-  panel(doc, M, 145, 480, 190, 'Incidencias por fecha');
-  insertarGrafico(doc, datos.graficos.porFecha, M + 12, 172, 456, 150);
+  panel(doc, M, 145, ancho, 195, 'Incidencias por fecha');
+  insertarGrafico(doc, datos.graficos.porFecha, M + 12, 172, ancho - 24, 155);
 
-  const xEstado = M + 490;
-  panel(doc, xEstado, 145, ancho - 490, 190, 'Incidencias por estado');
-  insertarGrafico(doc, datos.graficos.porEstado, xEstado + 12, 172, ancho - 514, 150);
+  panel(doc, M, 350, ancho, 210, 'Incidencias por estado');
+  insertarGrafico(doc, datos.graficos.porEstado, M + 12, 378, ancho - 24, 165);
 
-  // Fila 3: por prioridad + por categoría
-  panel(doc, M, 345, 380, 205, 'Incidencias por prioridad');
-  insertarGrafico(doc, datos.graficos.porPrioridad, M + 12, 372, 356, 165);
+  doc.addPage();
+  doc.rect(0, 0, doc.page.width, 60).fill('#1f3a5f');
+  doc.fillColor('#ffffff').font('Helvetica-Bold').fontSize(20)
+    .text('Detalle de incidencias', M, 14, { lineBreak: false });
+  doc.font('Helvetica').fontSize(10)
+    .text(`Período: ${datos.periodo}  |  ${new Date().toLocaleDateString('es-AR')}`,
+      M, 38, { width: ancho, lineBreak: false });
 
-  panel(doc, M + 390, 345, ancho - 390, 205, 'Incidencias por categoría');
-  barrasCategorias(doc, datos.categorias, M + 402, 378, ancho - 390 - 24, totales.total);
+  panel(doc, M, 80, ancho, 220, 'Incidencias por prioridad');
+  insertarGrafico(doc, datos.graficos.porPrioridad, M + 12, 110, ancho - 24, 178);
+
+  panel(doc, M, 315, ancho, 245, 'Incidencias por categoría');
+  barrasCategorias(doc, datos.categorias, M + 15, 350, ancho - 30, totales.total);
 
   doc.end();
 }

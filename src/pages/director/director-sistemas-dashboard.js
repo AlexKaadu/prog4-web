@@ -138,7 +138,8 @@ function actualizarGraficoEstados(lista) {
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false
+                maintainAspectRatio: false,
+                devicePixelRatio: 2
             }
         });
     } else {
@@ -188,7 +189,9 @@ function actualizarGraficoFechas(lista){
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                devicePixelRatio: 2,
                 scales: {
+                    x: { ticks: { maxTicksLimit: 8, maxRotation: 0 } },
                     y: { beginAtZero: true, ticks: { stepSize: 1 } }
                 }
             }
@@ -233,6 +236,7 @@ function actualizarGraficoPrioridad(lista) {
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
+                devicePixelRatio: 2,
                 scales: {
                     y: {
                         beginAtZero: true,
