@@ -4,101 +4,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio</title>
-    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap-reboot.min.css">
+    <title>Incidencias</title>
     <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="/src/css/style.css">
-
-    
 </head>
 
 <body>
 
     <header id="plantilla"></header>
 
+    <!-- Menú + Contenido -->
     <div class="main-container">
+
+        <!-- Menú -->
         <nav class="menu-lateral">
             <ul>
                 <li>
                     <a href="./empleado-municipal-articulos.html">Artículos</a>
                 </li>
                 <li>
-                    <a href="./empleado-municipal-nueva-incidencia.html">Nueva incidencia</a>
+                    <a href="./empleado-municipal-nueva-incidencia.html">Nueva Incidencia</a>
                 </li>
                 <li>
-                    <a href="./empleado-municipal-incidencias.html">Incidencias</a>
+                    <a href="./empleado-municipal-incidencias.html" class="active" aria-current="page">Incidencias</a>
                 </li>
                 <li>
-                    <a href="../../../index.html" class="active" aria-current="page" href="#">Salir</a>
+                    <a href="../../../index.html">Salir</a>
                 </li>
-
             </ul>
         </nav>
+
+        <!-- Contenido principal -->
         <div class="right-container">
             <main>
-                <div class="container text-center">                    
-                    <div class="row">
-                        <div class="col-auto me-auto">
-                            <h3>Mis Incidencias</h3>
-                        </div>
-                        <div class="col-auto">
-                            <button type="button" class="btn btn-primary mt-auto w-auto">Nueva</button>
-                        </div>
+                
+                <!-- Tabla + Filtros -->
+                <div class="container text-start">
+                    
+                    <!-- Encabezado de la tabla -->
+                    <h1>Mis incidencias</h1>
+                    <p>Solo podés cancelar las que están pendientes.</p>
+                    
+                    <!-- Filtros -->
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+                        <button type="button" class="btn btn-primary">
+                            Todas <span>(2)</span>
+                        </button>
+                        <button type="button" class="btn btn-dark">
+                            Pendiente <span>(1)</span>
+                        </button>
+                        <button type="button" class="btn btn-dark">
+                            En proceso <span>(0)</span>
+                        </button>
+                        <button type="button" class="btn btn-dark">
+                            Resuelta <span>(1)</span>
+                        </button>
+                        <button type="button" class="btn btn-dark">
+                            Cancelada <span>(0)</span>
+                        </button>
                     </div>
-                
-                
-                    <table class="table">
-                        <thead>
-                            <tr>
-                            <th scope="col">Número</th>
-                            <th scope="col">Creada el </th>
-                            <th scope="col">Prioridad</th>
-                            <th scope="col">Estado</th>
-                            <th scope="col">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1000</th>
-                                <td>14/07/2026</td>
-                                <td>Alta</td>
-                                <td>Finalizada</td>
-                                <td>
-                                    <button class="btn btn-danger btn-sm" title="Eliminar" disabled>
-                                        Cancelar
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">1002</th>
-                                <td>25/08/2026</td>
-                                <td>Media</td>
-                                <td>Pendiente</td>
-                                <td>
-                                    <div class="d-flex justify-content-center gap-2">
-                                        <button class="btn btn-danger btn-sm" title="Cancelar">
-                                            Cancelar
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">1033</th>
-                                <td>26/08/2026</td>
-                                <td>Baja</td>
-                                <td>Pendiente</td>
-                                <td>
-                                    <div class="d-flex justify-content-center gap-2">
-                                        <button class="btn btn-danger btn-sm" title="Cancelar">
-                                            Cancelar
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>    
+
+                    <div class="table-responsive">
+
+                        <table class="table">
+
+                            <thead>
+                                <tr>
+                                    <th scope="col">Identificador</th>
+                                    <th scope="col">Artículo</th>
+                                    <th scope="col">Descripción</th>
+                                    <th scope="col">Prioridad</th>
+                                    <th scope="col">Creada</th>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td>INC-1001</td>
+                                    <td>Teclado</td>
+                                    <td>No responde correctamente</td>
+                                    <td>
+                                        <span class="badge-prioridad badge-media">Media</span>
+                                    </td>
+                                    <td>1/10/2026 10:30</td>
+                                    <td>
+                                        <span class="badge-estado badge-pendiente">Pendiente</span>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger">Cancelar</button>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>INC-1002</td>
+                                    <td>Mouse</td>
+                                    <td>Sensor no responde</td>
+                                    <td>
+                                        <span class="badge-prioridad badge-media">Media</span>
+                                    </td>
+                                    <td>1/10/2026 08:30</td>
+                                    <td>
+                                        <span class="badge-estado badge-resuelto">Resuelta</span>
+                                    </td>
+                                    <td>-</td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
             </main>
             <!-- <footer>
             </footer> -->
@@ -106,11 +126,12 @@
     </div>
 
     <script type="module" src="/src/main.js"></script>
+
     <script type="module">
     import { mostrarHeader } from '../../header.js';
     mostrarHeader('EMPLEADO MUNICIPAL');
     </script>
-    
+
 </body>
 
 </html>
