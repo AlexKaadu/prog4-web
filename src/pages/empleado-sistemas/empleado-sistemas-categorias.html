@@ -34,6 +34,8 @@
                 </li>
             </ul>
         </nav>
+
+
         <div class="right-container">
             <main>
                 <div class="container text-center">                    
@@ -42,9 +44,30 @@
                             <h3>Categorías</h3>
                         </div>
                         <div class="col-auto">
-                            <button type="button" class="btn btn-primary mt-auto w-auto">Nueva</button>
+                            <button type="button" class="btn btn-primary mt-auto w-auto" id="btn-nueva">Nueva</button>
                         </div>
                     </div>
+
+
+                    <form id="form-nueva-categoria" class="row g-2 align-items-end mb-3 d-none">
+                        <div class="col">
+                            <label for="descripcion-nueva" class="form-label">Descripción</label>
+                            <input
+                                type="text"
+                                id="descripcion-nueva"
+                                name="descripcion"
+                                class="form-control"
+                                required
+                            >
+                        </div>
+
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-success">Guardar</button>
+                            <button type="button" id="btn-cancelar-nueva" class="btn btn-outline-secondary">
+                                    Cancelar
+                            </button>
+                        </div>
+                    </form>
                 
                 
                     <table class="table">
@@ -55,38 +78,80 @@
                             <th scope="col">Acciones</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Periféricos</td>
-                                <td>
-                                    <div class="d-flex justify-content-center gap-2">
-                                        <button class="btn btn-warning btn-sm" title="Editar">
-                                            Editar
-                                        </button>
-                                        <button class="btn btn-danger btn-sm" title="Eliminar">
-                                            Eliminar
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                            <th scope="row">2</th>
-                            <td>Almacenamiento</td>
-                            <td>
-                                <div class="d-flex justify-content-center gap-2">
-                                    <button class="btn btn-warning btn-sm" title="Editar">
-                                        Editar
-                                    </button>
-                                    <button class="btn btn-danger btn-sm" title="Eliminar">
-                                        Eliminar
+                        <tbody id="categorias-body"></tbody>
+                    </table>
+
+                    <nav aria-label="Paginación de categorías">
+                        <ul id="paginacion-categorias"
+                            class="pagination pagination-sm justify-content-center">
+                        </ul>
+                            
+                    </nav>
+                </div>
+                <div class="modal fade" id="modal-editar-categoria" tabindex="-1"
+                    aria-labelledby="titulo-modal-editar" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form id="form-editar-categoria">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="titulo-modal-editar">
+                                        Editar categoría
+                                    </h5>
+                                    <button type="button" class="btn-close"
+                                        data-bs-dismiss="modal" aria-label="Cerrar">
                                     </button>
                                 </div>
-                            </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>    
+
+                                <div class="modal-body">
+                                    <input type="hidden" id="id-categoria-editar">
+
+                                    <label for="descripcion-editar" class="form-label">
+                                        Descripción
+                                    </label>
+                                    <input type="text" id="descripcion-editar"
+                                        class="form-control" required>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-secondary"
+                                        data-bs-dismiss="modal">
+                                        Cancelar
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">
+                                        Guardar cambios
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="modal fade" id="modal-confirmar-eliminar" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirmar eliminación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+
+            <div class="modal-body">
+                <p id="mensaje-confirmacion">¿Desactivar la categoría?</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Cancelar
+                </button>
+                <button type="button" class="btn btn-danger" id="btn-confirmar-eliminar">
+                    Desactivar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
             </main>
             <!-- <footer>
             </footer> -->
@@ -98,6 +163,7 @@
     import { mostrarHeader } from '../../header.js';
     mostrarHeader('EMPLEADO SISTEMAS');
     </script>
+    <script type="module" src="./empleado-sistemas-categorias.js"></script>
     
 </body>
 

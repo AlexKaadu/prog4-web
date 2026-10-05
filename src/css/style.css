@@ -285,6 +285,7 @@ footer {
     .menu-lateral {
         width: 100%;
         height: auto;
+        min-height: 0;
     }
 }
 
