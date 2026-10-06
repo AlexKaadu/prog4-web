@@ -41,12 +41,15 @@ async function cargarCategorias(pagina = 1) {
 
             const id = document.createElement('th');
             id.scope = 'row';
+            id.dataset.label = '#';
             id.textContent = categoria.id_categoria;
 
             const descripcion = document.createElement('td');
+            descripcion.dataset.label = 'Descripción';
             descripcion.textContent = categoria.descripcion;
 
             const acciones = document.createElement('td');
+            acciones.dataset.label = 'Acciones';
 
             const botonEditar = document.createElement('button');
             botonEditar.type = 'button';

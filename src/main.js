@@ -1,10 +1,8 @@
 import 'bootstrap';
 
-const tawkScriptUrl = import.meta.env.VITE_TAWK_SCRIPT_URL;
+const tawkScriptUrl = 'https://embed.tawk.to/6abfb532d50d3a34cae395ef/1k3um2gg9';
 
-if (!tawkScriptUrl) {
-  console.warn('Tawk no configurado: define VITE_TAWK_SCRIPT_URL en tu archivo .env');
-} else {
+if (tawkScriptUrl) {
   window.Tawk_API = window.Tawk_API || {};
   window.Tawk_LoadStart = new Date();
 

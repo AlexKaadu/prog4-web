@@ -386,3 +386,61 @@ footer {
         padding: 0;
     }
 }
+
+@media (max-width: 576px) {
+    .tabla-categorias,
+    .tabla-categorias tbody {
+        display: block;
+    }
+
+    .tabla-categorias thead {
+        display: none;
+    }
+
+    .tabla-categorias tbody tr {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-areas:
+            "descripcion acciones"
+            "id          acciones";
+        align-items: center;
+        column-gap: 0.75rem;
+        margin-bottom: 0.5rem;
+        padding: 0.75rem 1rem;
+        border: 1px solid #d9dee3;
+        border-radius: 10px;
+        background: #fff;
+        text-align: left;
+    }
+
+    .tabla-categorias tbody th,
+    .tabla-categorias tbody td {
+        display: block;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+    }
+
+    .tabla-categorias tbody th {
+        grid-area: id;
+        font-size: 0.75rem;
+        font-weight: 400;
+        color: #68727d;
+    }
+
+    .tabla-categorias tbody th::before {
+        content: "#";
+    }
+
+    .tabla-categorias tbody td:nth-child(2) {
+        grid-area: descripcion;
+        font-weight: 600;
+        overflow-wrap: anywhere;
+    }
+
+    .tabla-categorias tbody td:last-child {
+        grid-area: acciones;
+    }
+}
+
