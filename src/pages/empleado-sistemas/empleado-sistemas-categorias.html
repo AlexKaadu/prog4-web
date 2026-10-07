@@ -15,9 +15,11 @@
 
 <body>
 
+    <!-- El encabezado de la aplicación se inserta desde la plantilla compartida. -->
     <header id="plantilla"></header>
 
     <div class="main-container">
+        <!-- Navegación del área de sistemas. -->
         <nav class="menu-lateral">
             <ul>                
                 <li>
@@ -39,6 +41,7 @@
         <div class="right-container">
             <main>
                 <div class="container-fluid">                    
+                    <!-- Título de la vista y acceso para mostrar el formulario de alta. -->
                     <div class="row">
                         <div class="col-auto me-auto">
                             <h3>Categorías</h3>
@@ -48,7 +51,7 @@
                         </div>
                     </div>
 
-
+                    <!-- Formulario de alta; comienza oculto y se muestra con el botón "Nueva". -->
                     <form id="form-nueva-categoria" class="row g-2 align-items-end mb-3 d-none">
                         <div class="col">
                             <label for="descripcion-nueva" class="form-label">Descripción</label>
@@ -69,6 +72,7 @@
                         </div>
                     </form>
 
+                    <!-- El JavaScript carga las categorías en este cuerpo de tabla. -->
                     <div class="table-responsive tabla-categorias-wrapper">
                         <table class="table table-hover align-middle tabla-categorias">
                             <thead>
@@ -82,6 +86,7 @@
                         </table>
                     </div>
 
+                    <!-- Los controles de página se generan dinámicamente según la respuesta de la API. -->
                     <nav aria-label="Paginación de categorías">
                         <ul id="paginacion-categorias"
                             class="pagination pagination-sm justify-content-center">
@@ -89,6 +94,8 @@
                             
                     </nav>
                 </div>
+
+                <!-- Diálogo para editar la descripción de la categoría seleccionada. -->
                 <div class="modal fade" id="modal-editar-categoria" tabindex="-1"
                     aria-labelledby="titulo-modal-editar" aria-hidden="true">
                     <div class="modal-dialog">
@@ -130,6 +137,7 @@
 
 
 
+                <!-- Confirmación previa a desactivar la categoría seleccionada. -->
                 <div class="modal fade" id="modal-confirmar-eliminar" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -159,6 +167,7 @@
         </div>
     </div>
 
+    <!-- Inicialización común de la aplicación, encabezado del área y comportamiento de categorías. -->
     <script type="module" src="/src/main.js"></script>
     <script type="module">
     import { mostrarHeader } from '../../header.js';

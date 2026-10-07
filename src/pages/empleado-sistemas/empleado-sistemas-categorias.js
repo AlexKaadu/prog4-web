@@ -1,25 +1,33 @@
 import { Modal } from 'bootstrap';
 
+// Elementos que reciben el listado y los controles de paginación.
 const tbody = document.getElementById('categorias-body');
 const paginacion = document.getElementById('paginacion-categorias');
 const limite = 10;
 let paginaActual = 1;
 
+// Referencias y componentes Bootstrap del formulario de edición.
 const modalEditar = new Modal(document.getElementById('modal-editar-categoria'));
 const idCategoriaEditar = document.getElementById('id-categoria-editar');
 const descripcionEditar = document.getElementById('descripcion-editar');
 const formEditar = document.getElementById('form-editar-categoria');
 
 
+// Referencias del diálogo de confirmación para desactivar categorías.
 const modalConfirmarEliminar = new Modal(
     document.getElementById('modal-confirmar-eliminar')
 );
 const btnConfirmarEliminar = document.getElementById('btn-confirmar-eliminar');
 const mensajeConfirmacion = document.getElementById('mensaje-confirmacion');
 
+// Categoría seleccionada para desactivación, pendiente de confirmación.
 let categoriaAEliminar = null;
 
 
+/**
+ * Solicita una página de categorías a la API y actualiza la tabla y la paginación.
+ * Ante un error, muestra un mensaje en el cuerpo de la tabla.
+ */
 async function cargarCategorias(pagina = 1) {
 
     try {
@@ -36,6 +44,7 @@ async function cargarCategorias(pagina = 1) {
         paginaActual = resultado.pagina;
         tbody.replaceChildren();
 
+        // Crea una fila por categoría y conecta sus acciones con los diálogos.
         categorias.forEach(categoria => {
             const fila = document.createElement('tr');
 
@@ -76,12 +85,14 @@ async function cargarCategorias(pagina = 1) {
 
            
 
+            // Rellena el formulario con los datos actuales y abre el modal.
             botonEditar.addEventListener('click', () => {
                 idCategoriaEditar.value = categoria.id_categoria;
                 descripcionEditar.value = categoria.descripcion;
                 modalEditar.show();
             });
 
+            // Guarda la selección y pide confirmación antes de desactivar.
             botonEliminar.addEventListener('click', () => {
             categoriaAEliminar = categoria;
             mensajeConfirmacion.textContent = `¿Desactivar la categoría "${categoria.descripcion}"?`;
@@ -115,6 +126,7 @@ async function cargarCategorias(pagina = 1) {
 cargarCategorias();
 
 
+// Genera un botón por página y resalta la página actual.
 function renderizarPaginacion(totalPaginas){
     paginacion.replaceChildren();
 
@@ -139,6 +151,7 @@ function renderizarPaginacion(totalPaginas){
 
 
 
+// Controles para mostrar y cancelar el formulario de alta.
 const btnNueva = document.getElementById('btn-nueva');
 const formNueva = document.getElementById('form-nueva-categoria');
 const btnCancelarNueva = document.getElementById('btn-cancelar-nueva');
@@ -154,6 +167,7 @@ btnCancelarNueva.addEventListener('click', () => {
 });
 
 
+// Envía la categoría nueva; si se crea correctamente, recarga el listado y oculta el formulario.
 formNueva.addEventListener('submit', async (event) => {
     event.preventDefault();
 
@@ -187,6 +201,7 @@ formNueva.addEventListener('submit', async (event) => {
 });
 
 
+// Envía los cambios de la categoría seleccionada y vuelve a cargar la página actual.
 formEditar.addEventListener('submit', async (event) => {
     event.preventDefault();
 
@@ -226,6 +241,7 @@ formEditar.addEventListener('submit', async (event) => {
 });
 
 
+// Desactiva la categoría confirmada y refresca el listado de la página actual.
 btnConfirmarEliminar.addEventListener('click', async () => {
     if (!categoriaAEliminar) return;
 
