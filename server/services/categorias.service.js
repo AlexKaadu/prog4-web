@@ -1,4 +1,4 @@
-const { pipe } = require('pdfkit');
+
 const pool = require('../db');
 
 async function listar(limite, offset) {
