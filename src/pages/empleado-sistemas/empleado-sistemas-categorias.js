@@ -196,7 +196,7 @@ formNueva.addEventListener('submit', async (event) => {
         formNueva.classList.add('d-none');
     } catch (error) {
         console.error('Error al crear la categoría:', error);
-        alert(error.mensaje);
+        alert(error.message);
     }
 });
 
@@ -269,7 +269,6 @@ btnConfirmarEliminar.addEventListener('click', async () => {
         alert(error.message);
     }
 });
-
 
 
 
