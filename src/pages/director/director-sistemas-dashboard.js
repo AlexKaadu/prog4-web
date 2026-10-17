@@ -3,17 +3,25 @@ import Chart from 'chart.js/auto';
 
 // Plantillas HTML para mostrar los estados y prioridades como etiquetas visuales.
 const badgesEstado = {
-    1: '<span class="badge-estado badge-pendiente">PENDIENTE</span>',
-    2: '<span class="badge-estado badge-en-proceso">EN PROCESO</span>',
-    3: '<span class="badge-estado badge-resuelto">RESUELTA</span>',
-    4: '<span class="badge-estado badge-cancelado">CANCELADA</span>'
+    1: { clase: 'badge-estado badge-pendiente', texto: 'PENDIENTE' },
+    2: { clase: 'badge-estado badge-en-proceso', texto: 'EN PROCESO' },
+    3: { clase: 'badge-estado badge-resuelto', texto: 'RESUELTA' },
+    4: { clase: 'badge-estado badge-cancelado', texto: 'CANCELADA' }
+   
 };
 
 const badgesPrioridad = {
-    1: '<span class="badge-prioridad badge-baja">BAJA</span>',
-    2: '<span class="badge-prioridad badge-media">MEDIA</span>',
-    3: '<span class="badge-prioridad badge-alta">ALTA</span>'
+    1: { clase: 'badge-prioridad badge-baja', texto: 'BAJA' },
+    2: { clase: 'badge-prioridad badge-media', texto: 'MEDIA' },
+    3: { clase: 'badge-prioridad badge-alta', texto: 'ALTA' }
 };
+
+function crearBadge(configuracion){
+    const badge = document.createElement('span');
+    badge.className = configuracion.clase;
+    badge.textContent = configuracion.texto;
+    return badge;
+}
 
 // La tabla muestra cinco incidencias prioritarias por página.
 const registrosPorPagina = 5;
@@ -41,11 +49,11 @@ function renderizarTablaPrioritarias(lista) {
         row.appendChild(tdArticulo);
 
         const tdPrioridad = document.createElement('td');
-        tdPrioridad.innerHTML = badgesPrioridad[inc.prioridad];
+        tdPrioridad.replaceChildren(crearBadge(badgesPrioridad[inc.prioridad]));
         row.appendChild(tdPrioridad);
 
         const tdEstado = document.createElement('td');
-        tdEstado.innerHTML = badgesEstado[inc.id_estado];
+        tdEstado.replaceChildren(crearBadge(badgesEstado[inc.id_estado]));
         row.appendChild(tdEstado);
 
         const tdFecha = document.createElement('td');
@@ -423,9 +431,13 @@ menuFiltroFecha.addEventListener('click', event => {
 // Solicita al servidor el PDF del dashboard junto con imágenes de los gráficos.
 document.getElementById('btn-exportar-pdf').addEventListener('click', async event => {
     const boton = event.currentTarget;
-    const textoOriginal = boton.innerHTML;
+    const icono = document.getElementById('icono-exportar-pdf'); 
+    const texto = document.getElementById('texto-exportar-pdf');
+
     boton.disabled = true;
-    boton.innerHTML = '<i class="bi bi-hourglass-split"></i> Generando PDF...';
+    icono.className = 'bi bi-hourglass-split';
+    texto.textContent = 'Generando PDF...';
+
 
     try {
         [chartFechas, chartEstados, chartPrioridad].forEach(chart => {
@@ -460,7 +472,8 @@ document.getElementById('btn-exportar-pdf').addEventListener('click', async even
         alert('No se pudo generar el PDF. Comprueba que el servidor esté activo.');
     } finally {
         boton.disabled = false;
-        boton.innerHTML = textoOriginal;
+        icono.className = 'bi bi-file-earmark-pdf';
+        texto.textContent = 'Exportar PDF';
     }
 });
 

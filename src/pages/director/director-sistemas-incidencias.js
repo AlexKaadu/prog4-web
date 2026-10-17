@@ -4,18 +4,26 @@ import * as bootstrap from 'bootstrap';
 
 // Textos visuales usados para mostrar el estado de cada incidencia.
 const badgesEstado = {
-    1: '<span class="badge-estado badge-pendiente">PENDIENTE</span>',
-    2: '<span class="badge-estado badge-en-proceso">EN PROCESO</span>',
-    3: '<span class="badge-estado badge-resuelto">RESUELTA</span>',
-    4: '<span class="badge-estado badge-cancelado">CANCELADA</span>'
+    1: { clase: 'badge-estado badge-pendiente', texto: 'PENDIENTE' },
+    2: { clase: 'badge-estado badge-en-proceso', texto: 'EN PROCESO' },
+    3: { clase: 'badge-estado badge-resuelto', texto: 'RESUELTA' },
+    4: { clase: 'badge-estado badge-cancelado', texto: 'CANCELADA' }
 };
 
 // Textos visuales usados para mostrar la prioridad de cada incidencia.
 const badgesPrioridad = {
-    1: '<span class="badge-prioridad badge-baja">BAJA</span>',
-    2: '<span class="badge-prioridad badge-media">MEDIA</span>',
-    3: '<span class="badge-prioridad badge-alta">ALTA</span>'
+    1: { clase: 'badge-prioridad badge-baja', texto: 'BAJA' },
+    2: { clase: 'badge-prioridad badge-media', texto: 'MEDIA' },
+    3: { clase: 'badge-prioridad badge-alta', texto: 'ALTA' }
 };
+
+function crearBadge(configuracion){
+    const badge = document.createElement('span');
+    badge.className = configuracion.clase;
+    badge.textContent = configuracion.texto;
+    return badge;
+
+}
 
 const registrosPorPagina = 10;
 let paginaActual = 1;
@@ -43,12 +51,12 @@ function renderTablaDirector(incidencias){
 
         const tdPrioridad = document.createElement('td');
         tdPrioridad.dataset.label = 'Prioridad';
-        tdPrioridad.innerHTML = badgesPrioridad[inc.prioridad];
+        tdPrioridad.replaceChildren(crearBadge(badgesPrioridad[inc.prioridad]));
         row.appendChild(tdPrioridad);
 
         const tdEstado = document.createElement('td');
         tdEstado.dataset.label = 'Estado';
-        tdEstado.innerHTML = badgesEstado[inc.id_estado];
+        tdEstado.replaceChildren(crearBadge(badgesEstado[inc.id_estado]));
         row.appendChild(tdEstado);
 
         const tdTecnicoAsignado = document.createElement('td');
@@ -68,7 +76,10 @@ function renderTablaDirector(incidencias){
         boton.type = 'button';
         boton.className = 'btn btn-sm btn-outline-secondary';
         boton.setAttribute('aria-label', 'Ver detalle');
-        boton.innerHTML = '<i class="bi bi-eye-fill"></i>';
+        const icono = document.createElement('i');
+        icono.className= 'bi bi-eye-fill';
+        icono.setAttribute('aria-hidden', 'true');
+        boton.appendChild(icono);
 
         // Abre el detalle de la incidencia y prepara sus acciones.
         boton.addEventListener('click', () => {

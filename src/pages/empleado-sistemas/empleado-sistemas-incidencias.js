@@ -1,17 +1,26 @@
 import { incidencias } from '../../../datos/incidencias-empleado-sistemas.js';
 
 const badgesEstado = {
-    1: '<span class="badge-estado badge-pendiente">PENDIENTE</span>',
-    2: '<span class="badge-estado badge-en-proceso">EN PROCESO</span>',
-    3: '<span class="badge-estado badge-resuelto">RESUELTA</span>',
-    4: '<span class="badge-estado badge-cancelado">CANCELADA</span>'
+
+    1: { clase: 'badge-estado badge-pendiente', texto: 'PENDIENTE' },
+    2: { clase: 'badge-estado badge-en-proceso', texto: 'EN PROCESO' },
+    3: { clase: 'badge-estado badge-resuelto', texto: 'RESUELTA' },
+    4: { clase: 'badge-estado badge-cancelado', texto: 'CANCELADA' }
+    
 };
 
 const badgesPrioridad = {
-    1: '<span class="badge-prioridad badge-baja">BAJA</span>',
-    2: '<span class="badge-prioridad badge-media">MEDIA</span>',
-    3: '<span class="badge-prioridad badge-alta">ALTA</span>'
+    1: { clase: 'badge-prioridad badge-baja', texto: 'BAJA' },
+    2: { clase: 'badge-prioridad badge-media', texto: 'MEDIA' },
+    3: { clase: 'badge-prioridad badge-alta', texto: 'ALTA' }
 };
+
+function crearBadge(configuracion){
+    const badge = document.createElement('span');
+    badge.className = configuracion.clase;
+    badge.textContent = configuracion.texto;
+    return badge;
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     renderizarTabla(incidencias);
@@ -45,11 +54,11 @@ function renderizarTabla(incidencias){
         row.appendChild(tdDescripcion);
 
         const tdPrioridad = document.createElement('td');
-        tdPrioridad.innerHTML = badgesPrioridad[inc.prioridad];
+        tdPrioridad.replaceChildren(crearBadge(badgesPrioridad[inc.prioridad]));
         row.appendChild(tdPrioridad);
 
         const tdEstado = document.createElement('td');
-        tdEstado.innerHTML = badgesEstado[inc.id_estado];
+        tdEstado.replaceChildren(crearBadge(badgesEstado[inc.id_estado]));
         row.appendChild(tdEstado);
 
         const tdAcciones = document.createElement('td');
