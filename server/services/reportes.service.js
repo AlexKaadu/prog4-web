@@ -76,4 +76,4 @@ async function obtenerDatosDashboard(periodo) {
   return { totales, porFecha, porPrioridad, categorias };
 }
 
-module.exports = { obtenerDatosDashboard };
+export { obtenerDatosDashboard };

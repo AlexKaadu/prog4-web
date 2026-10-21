@@ -1,5 +1,7 @@
-const { query } = require('express-validator');
-const responderValidacion = require('./responder-validacion');
+import expressValidator from 'express-validator';
+import responderValidacion from './responder-validacion.js';
+
+const { query } = expressValidator;
 
 const validarPaginacion = [
     query('pagina')
@@ -13,4 +15,4 @@ const validarPaginacion = [
     responderValidacion
 ];
 
-module.exports = { validarPaginacion };
+export { validarPaginacion };

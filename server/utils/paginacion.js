@@ -1,4 +1,4 @@
-function obtenerPaginacion(req){
+function obtenerPaginacion(req) {
     const pagina = Number(req.query.pagina) || 1;
     const limite = Number(req.query.limite) || 10;
 
@@ -10,7 +10,7 @@ function obtenerPaginacion(req){
     };
 }
 
-function armarRespuesta(datos, total, pagina, limite){
+function armarRespuesta(datos, total, pagina, limite) {
     return {
         datos,
         pagina,
@@ -21,6 +21,4 @@ function armarRespuesta(datos, total, pagina, limite){
 
 }
 
-module.exports = {obtenerPaginacion, armarRespuesta};
-
-
+export { obtenerPaginacion, armarRespuesta };

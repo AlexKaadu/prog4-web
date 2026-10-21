@@ -1,4 +1,4 @@
-const PDFDocument = require('pdfkit');
+import PDFDocument from 'pdfkit';
 
 // ---------- Piezas reutilizables ----------
 
@@ -92,4 +92,4 @@ function generarDashboard(res, datos) {
   doc.end();
 }
 
-module.exports = { generarDashboard };
+export { generarDashboard };

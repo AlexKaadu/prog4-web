@@ -1,5 +1,5 @@
-const categoriasService = require('../services/categorias.service');
-const { obtenerPaginacion, armarRespuesta } = require('../utils/paginacion');
+import categoriasService from '../services/categorias.service.js';
+import { obtenerPaginacion, armarRespuesta } from '../utils/paginacion.js';
 
 class CategoriasController {
     constructor(servicio = categoriasService) {
@@ -93,4 +93,4 @@ class CategoriasController {
     };
 }
 
-module.exports = new CategoriasController();
+export default new CategoriasController();

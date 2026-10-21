@@ -1,5 +1,7 @@
-const { param, body } = require('express-validator');
-const responderValidacion = require('./responder-validacion');
+import expressValidator from 'express-validator';
+import responderValidacion from './responder-validacion.js';
+
+const { param, body } = expressValidator;
 
 const validarIdArea = [
     param('id')
@@ -19,4 +21,4 @@ const validarDescripcionArea = [
     responderValidacion
 ];
 
-module.exports = { validarIdArea, validarDescripcionArea };
+export { validarIdArea, validarDescripcionArea };

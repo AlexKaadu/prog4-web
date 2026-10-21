@@ -1,4 +1,4 @@
-const ArticulosRepository = require('../data-access/articulos.repository');
+import ArticulosRepository from '../data-access/articulos.repository.js';
 
 class ArticulosService {
     constructor(repository = new ArticulosRepository()) {
@@ -44,8 +44,7 @@ class ArticulosService {
     }
 }
 
-module.exports = new ArticulosService();
-
+export default new ArticulosService();
 
 
 

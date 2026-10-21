@@ -1,4 +1,4 @@
-const pool = require('../db');
+import pool from '../db.js';
 
 class AreasRepository {
     listarActivas = async () => {
@@ -93,4 +93,4 @@ class AreasRepository {
     };
 }
 
-module.exports = AreasRepository;
+export default AreasRepository;

@@ -1,6 +1,8 @@
-const router = require('express').Router();
-const ctrl = require('../controllers/reportes.controller');
+import express from 'express';
+import { dashboardPdf } from '../controllers/reportes.controller.js';
 
-router.post('/dashboard', ctrl.dashboardPdf);
+const router = express.Router();
 
-module.exports = router;
+router.post('/dashboard', dashboardPdf);
+
+export default router;

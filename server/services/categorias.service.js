@@ -1,4 +1,4 @@
-const CategoriasRepository = require('../data-access/categorias.repository');
+import CategoriasRepository from '../data-access/categorias.repository.js';
 
 class CategoriasService {
     constructor(repository = new CategoriasRepository()) {
@@ -26,4 +26,4 @@ class CategoriasService {
     }
 }
 
-module.exports = new CategoriasService();
+export default new CategoriasService();

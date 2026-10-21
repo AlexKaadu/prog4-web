@@ -1,4 +1,4 @@
-const areasService = require('../services/areas.service');
+import areasService from '../services/areas.service.js';
 
 class AreasController {
     constructor(servicio = areasService) {
@@ -86,4 +86,4 @@ class AreasController {
     };
 }
 
-module.exports = new AreasController();
+export default new AreasController();

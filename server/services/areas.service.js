@@ -1,4 +1,4 @@
-const AreasRepository = require('../data-access/areas.repository');
+import AreasRepository from '../data-access/areas.repository.js';
 
 class AreasService {
     constructor(repository = new AreasRepository()) {
@@ -34,4 +34,4 @@ class AreasService {
     }
 }
 
-module.exports = new AreasService();
+export default new AreasService();

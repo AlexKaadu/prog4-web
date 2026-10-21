@@ -1,4 +1,6 @@
-const { validationResult } = require( 'express-validator');
+import expressValidator from 'express-validator';
+
+const { validationResult } = expressValidator;
 
 function responderValidacion(req, res, next) {
     const errores = validationResult(req);
@@ -12,4 +14,4 @@ function responderValidacion(req, res, next) {
 
 }
 
-module.exports = responderValidacion;
+export default responderValidacion;

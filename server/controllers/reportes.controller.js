@@ -1,5 +1,5 @@
-const reportesService = require('../services/reportes.service');
-const pdfService = require('../services/pdf.service');
+import { obtenerDatosDashboard } from '../services/reportes.service.js';
+import { generarDashboard } from '../services/pdf.service.js';
 
 const etiquetasPeriodo = {
   '7dias': 'Últimos 7 días',
@@ -8,7 +8,7 @@ const etiquetasPeriodo = {
   año: 'Este año',
 };
 
-exports.dashboardPdf = async (req, res, next) => {
+const dashboardPdf = async (req, res, next) => {
   try {
     const { periodo = 'año', graficos } = req.body || {};
     const nombresGraficos = ['porFecha', 'porEstado', 'porPrioridad'];
@@ -18,12 +18,12 @@ exports.dashboardPdf = async (req, res, next) => {
       return res.status(400).json({ error: 'Faltan las capturas PNG de los gráficos.' });
     }
 
-    const datos = await reportesService.obtenerDatosDashboard(periodo);
+    const datos = await obtenerDatosDashboard(periodo);
 
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', 'attachment; filename=dashboard.pdf');
 
-    pdfService.generarDashboard(res, {
+    generarDashboard(res, {
       ...datos,
       periodo: etiquetasPeriodo[periodo] || periodo,
       graficos,
@@ -32,3 +32,5 @@ exports.dashboardPdf = async (req, res, next) => {
     next(err);
   }
 };
+
+export { dashboardPdf };

@@ -1,4 +1,4 @@
-const pool = require('../db');
+import pool from '../db.js';
 
 class CategoriasRepository {
     listar = async (limite, offset) => {
@@ -87,4 +87,4 @@ class CategoriasRepository {
     };
 }
 
-module.exports = CategoriasRepository;
+export default CategoriasRepository;
