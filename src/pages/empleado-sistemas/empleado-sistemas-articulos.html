@@ -4,22 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio</title>
-    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap-reboot.min.css">
+    <title>Artículos</title>
     <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="/src/css/style.css">   
-
-    
+    <link rel="stylesheet" href="/src/css/style.css">
 </head>
 
 <body>
 
-   <header id="plantilla"></header>
+    <header id="plantilla"></header>
 
     <div class="main-container">
         <nav class="menu-lateral">
-            <ul>                
+            <ul>
                 <li>
                     <a href="empleado-sistemas-incidencias.html">Incidencias</a>
                 </li>
@@ -27,84 +24,221 @@
                     <a href="empleado-sistemas-categorias.html">Categorías</a>
                 </li>
                 <li>
-                    <a href="empleado-sistemas-articulos.html">Artículos</a>
+                    <a href="empleado-sistemas-articulos.html" class="active" aria-current="page">Artículos</a>
                 </li>
                 <li>
-                    <a href="../../../index.html" class="active" aria-current="page" href="#">Salir</a>
+                    <a href="../../../index.html">Salir</a>
                 </li>
             </ul>
         </nav>
         <div class="right-container">
             <main>
-                <div class="container text-center">                    
+                <div class="container text-start">
+
                     <div class="row">
                         <div class="col-auto me-auto">
-                            <h3>Artículos</h3>
+                            <h1>Artículos</h1>
                         </div>
                         <div class="col-auto">
-                            <button type="button" class="btn btn-primary mt-auto w-auto">Nuevo</button>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#nuevoArticulo">
+                                Nuevo
+                            </button>
                         </div>
                     </div>
-                
-                
-                    <table class="table">
-                        <thead>
-                            <tr>
-                            <th scope="col">Código</th>
-                            <th scope="col">Categoria</th>
-                            <th scope="col">Descripción</th>
-                            <th scope="col">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1000</th>
-                                <td>Periféricos</td>
-                                <td>Teclado</td>
-                                <td>
-                                    <div class="d-flex justify-content-center gap-2">
-                                        <button class="btn btn-warning btn-sm" title="Editar">
-                                            Editar
-                                        </button>
-                                        <button class="btn btn-danger btn-sm" title="Eliminar">
-                                            Eliminar
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">1002</th>
-                                <td>Periféricos</td>
-                                <td>Mouse</td>
-                                <td>
-                                    <div class="d-flex justify-content-center gap-2">
-                                        <button class="btn btn-warning btn-sm" title="Editar">
-                                            Editar
-                                        </button>
-                                        <button class="btn btn-danger btn-sm" title="Eliminar">
-                                            Eliminar
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">1033</th>
-                                <td>Almacenamiento</td>
-                                <td>Disco Rígido</td>
-                                <td>
-                                    <div class="d-flex justify-content-center gap-2">
-                                        <button class="btn btn-warning btn-sm" title="Editar">
-                                            Editar
-                                        </button>
-                                        <button class="btn btn-danger btn-sm" title="Eliminar">
-                                            Eliminar
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>    
+
+                    <!-- Modal nuevo artículo -->
+                    <div class="modal" tabindex="-1" id="nuevoArticulo">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <h2 class="modal-title">Nuevo artículo</h2>
+
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <div class="modal-body">
+
+                                    <form>
+                                        <div class="mb-3">
+                                            <label class="form-label">Descripción</label>
+                                            <input type="text" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Área</label>
+                                            <select class="form-select">
+                                                <option>Personal</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Categoría</label>
+                                            <select class="form-select">
+                                                <option>Almacenamiento</option>
+                                                <option>Periféricos</option>
+                                            </select>
+                                        </div>
+                                    </form>
+
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-primary">Guardar</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Código</th>
+                                    <th scope="col">Descripción</th>
+                                    <th scope="col">Área</th>
+                                    <th scope="col">Categoría</th>
+                                    <th scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1000</th>
+                                    <td>Teclado</td>
+                                    <td>Personal</td>
+                                    <td>Periféricos</td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <button class="btn btn-warning btn-sm" title="Editar" data-bs-toggle="modal"
+                                                data-bs-target="#editarArticulo">
+                                                Editar
+                                            </button>
+                                            <button class="btn btn-danger btn-sm" title="Eliminar"
+                                                data-bs-toggle="modal" data-bs-target="#eliminarArticulo">
+                                                Eliminar
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">1002</th>
+                                    <td>Mouse</td>
+                                    <td>Personal</td>
+                                    <td>Periféricos</td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <button class="btn btn-warning btn-sm" title="Editar" data-bs-toggle="modal"
+                                                data-bs-target="#editarArticulo">
+                                                Editar
+                                            </button>
+                                            <button class="btn btn-danger btn-sm" title="Eliminar"
+                                                data-bs-toggle="modal" data-bs-target="#eliminarArticulo">
+                                                Eliminar
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">1033</th>
+                                    <td>Disco Rígido</td>
+                                    <td>Personal</td>
+                                    <td>Almacenamiento</td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <button class="btn btn-warning btn-sm" title="Editar" data-bs-toggle="modal"
+                                                data-bs-target="#editarArticulo">
+                                                Editar
+                                            </button>
+                                            <button class="btn btn-danger btn-sm" title="Eliminar"
+                                                data-bs-toggle="modal" data-bs-target="#eliminarArticulo">
+                                                Eliminar
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Modal editar artículo -->
+                    <div class="modal" tabindex="-1" id="editarArticulo">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <h2 class="modal-title">Editar artículo</h2>
+
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <div class="modal-body">
+
+                                    <form>
+                                        <div class="mb-3">
+                                            <label class="form-label">Descripción</label>
+                                            <input type="text" class="form-control">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Área</label>
+                                            <select class="form-select">
+                                                <option>Personal</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label class="form-label">Categoría</label>
+                                            <select class="form-select">
+                                                <option>Almacenamiento</option>
+                                                <option>Periféricos</option>
+                                            </select>
+                                        </div>
+                                    </form>
+
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-primary">Guardar</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal eliminar artículo -->
+                    <div class="modal" tabindex="-1" id="eliminarArticulo">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <h2 class="modal-title">Eliminar</h2>
+
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <div class="modal-body">
+
+                                    <p>¿Estás seguro de eliminar el artículo?</p>
+
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-danger">Eliminar</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
             </main>
             <!-- <footer>
             </footer> -->
@@ -113,10 +247,10 @@
 
     <script type="module" src="/src/main.js"></script>
     <script type="module">
-    import { mostrarHeader } from '../../header.js';
-    mostrarHeader('EMPLEADO SISTEMAS');
+        import { mostrarHeader } from '../../header.js';
+        mostrarHeader('EMPLEADO SISTEMAS');
     </script>
-    
+
 </body>
 
 </html>
