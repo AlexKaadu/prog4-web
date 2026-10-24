@@ -60,24 +60,23 @@
 
                                 <div class="modal-body">
 
-                                    <form>
+                                    <form id="form-nuevo-articulo">
                                         <div class="mb-3">
                                             <label class="form-label">Descripción</label>
-                                            <input type="text" class="form-control">
+                                            <input type="text" class="form-control" id="descripcion-nuevo">
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label">Área</label>
-                                            <select class="form-select">
-                                                <option>Personal</option>
+                                            <select class="form-select" id="area-nueva-selector">
+                                                <option value="">Seleccionar área</option>
                                             </select>
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label">Categoría</label>
-                                            <select class="form-select">
-                                                <option>Almacenamiento</option>
-                                                <option>Periféricos</option>
+                                            <select class="form-select" id="categoria-nueva-selector">
+                                                <option value="">Seleccionar categoría</option>
                                             </select>
                                         </div>
                                     </form>
@@ -87,7 +86,7 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="button" class="btn btn-primary">Guardar</button>
+                                    <button type="submit" class="btn btn-primary" form="form-nuevo-articulo">Guardar</button>
                                 </div>
 
                             </div>
@@ -95,7 +94,7 @@
                     </div>
 
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table" id="tabla-articulos">
                             <thead>
                                 <tr>
                                     <th scope="col">Código</th>
@@ -105,7 +104,7 @@
                                     <th scope="col">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="cuerpo-articulos">
                                 <tr>
                                     <th scope="row">1000</th>
                                     <td>Teclado</td>
@@ -177,24 +176,23 @@
 
                                 <div class="modal-body">
 
-                                    <form>
+                                    <form id="form-editar-articulo">
                                         <div class="mb-3">
                                             <label class="form-label">Descripción</label>
-                                            <input type="text" class="form-control">
+                                            <input type="text" class="form-control" id="descripcion-editar">
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label">Área</label>
-                                            <select class="form-select">
-                                                <option>Personal</option>
+                                            <select class="form-select" id="area-editar-selector">
+                                                <option value="">Seleccionar área</option>
                                             </select>
                                         </div>
 
                                         <div class="mb-3">
                                             <label class="form-label">Categoría</label>
-                                            <select class="form-select">
-                                                <option>Almacenamiento</option>
-                                                <option>Periféricos</option>
+                                            <select class="form-select" id="categoria-editar-selector">
+                                                <option value="">Seleccionar categoría</option>
                                             </select>
                                         </div>
                                     </form>
@@ -204,7 +202,7 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="button" class="btn btn-primary">Guardar</button>
+                                    <button type="submit" class="btn btn-primary" form="form-editar-articulo">Guardar</button>
                                 </div>
 
                             </div>
@@ -224,14 +222,14 @@
 
                                 <div class="modal-body">
 
-                                    <p>¿Estás seguro de eliminar el artículo?</p>
+                                    <p id="mensaje-confirmacion">¿Estás seguro de eliminar el artículo?</p>
 
                                 </div>
 
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Cancelar</button>
-                                    <button type="button" class="btn btn-danger">Eliminar</button>
+                                    <button type="button" class="btn btn-danger" id="btn-confirmar-eliminar">Eliminar</button>
                                 </div>
 
                             </div>
@@ -250,6 +248,7 @@
         import { mostrarHeader } from '../../header.js';
         mostrarHeader('EMPLEADO SISTEMAS');
     </script>
+    <script type="module" src="./empleado-sistemas-articulos.js"></script>
 
 </body>
 
