@@ -6,7 +6,9 @@
 
     "build": "vite build",
 
-    "start:api": "node server/server.js"
+    "start:api": "node server/server.js",
+
+    "dev:api": "node --watch server/server.js"
 
   },
 
@@ -31,6 +33,8 @@
     "express": "^5.2.1",
 
     "express-validator": "^7.3.2",
+
+    "jsonwebtoken": "^9.0.3",
 
     "pdfkit": "^0.20.2",
 
