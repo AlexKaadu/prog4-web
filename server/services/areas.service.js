@@ -1,24 +1,29 @@
 import AreasRepository from '../data-access/areas.repository.js';
+import AreaResponseDTO from '../dtos/area.response.dto.js';
 
 class AreasService {
     constructor(repository = new AreasRepository()) {
         this.repository = repository;
     }
 
-    listarActivas() {
-        return this.repository.listarActivas();
+    async listarActivas() {
+        const areas = await this.repository.listarActivas();
+        return areas.map(area => this.mapearArea(area));
     }
 
-    obtenerPorId(id) {
-        return this.repository.obtenerPorId(id);
+    async obtenerPorId(id) {
+        const area = await this.repository.obtenerPorId(id);
+        return this.mapearArea(area);
     }
 
-    crear(descripcion) {
-        return this.repository.crear(descripcion);
+    async crear(descripcion) {
+        const area = await this.repository.crear(descripcion);
+        return this.mapearArea(area);
     }
 
-    actualizar(id, descripcion) {
-        return this.repository.actualizar(id, descripcion);
+    async actualizar(id, descripcion) {
+        const area = await this.repository.actualizar(id, descripcion);
+        return this.mapearArea(area);
     }
 
     async eliminar(id) {
@@ -30,8 +35,19 @@ class AreasService {
             throw error;
         }
 
-        return this.repository.eliminar(id);
+        const area = await this.repository.eliminar(id);
+        return this.mapearArea(area);
+
+        
     }
+
+    mapearArea(area) {
+    if (!area) {
+        return null;
+    }
+
+    return new AreaResponseDTO(area);
+}
 }
 
 export default new AreasService();

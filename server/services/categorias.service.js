@@ -1,28 +1,47 @@
+
 import CategoriasRepository from '../data-access/categorias.repository.js';
+import CategoriaResponseDTO from '../dtos/categoria.response.dto.js';
 
 class CategoriasService {
     constructor(repository = new CategoriasRepository()) {
         this.repository = repository;
     }
 
-    listar(limite, offset) {
-        return this.repository.listar(limite, offset);
+    async listar(limite, offset) {
+        const resultado = await this.repository.listar(limite, offset);
+
+        return {
+            ...resultado,
+            datos: resultado.datos.map(categoria => this.mapearCategoria(categoria))
+        };
     }
 
-    obtenerPorId(id) {
-        return this.repository.obtenerPorId(id);
+    async obtenerPorId(id) {
+        const categoria = await this.repository.obtenerPorId(id);
+        return this.mapearCategoria(categoria);
     }
 
-    actualizar(id, descripcion) {
-        return this.repository.actualizar(id, descripcion);
+    async actualizar(id, descripcion) {
+        const categoria = await this.repository.actualizar(id, descripcion);
+        return this.mapearCategoria(categoria);
     }
 
-    crear(descripcion) {
-        return this.repository.crear(descripcion);
+    async crear(descripcion) {
+       const categoria = await this.repository.crear(descripcion);
+        return this.mapearCategoria(categoria);
     }
 
-    eliminar(id) {
-        return this.repository.eliminar(id);
+    async eliminar(id) {
+        const categoria = await this.repository.eliminar(id);
+        return this.mapearCategoria(categoria);
+    }
+
+    mapearCategoria(categoria) {
+        if (!categoria) {
+            return null
+        }
+
+        return new CategoriaResponseDTO(categoria);
     }
 }
 
