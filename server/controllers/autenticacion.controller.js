@@ -22,7 +22,13 @@ class AutenticacionController {
             // CREAR EL TOKEN
             const token = jwt.sign(usuarioBD, process.env.JWT_SECRET, {expiresIn: '1h'});
 
-            res.status(200).json({token: token});
+            res.status(200).json({
+                token,
+                usuario: {
+                    id_usuario: usuarioBD.id_usuario,
+                    rol: usuarioBD.rol
+                }
+            });
 
         } catch (error) {
             console.error('Error al obtener usuario/login', error.message);
