@@ -22,11 +22,49 @@ const validarFinalizarIncidencia = [
     responderValidacion
 ];
 
-const validarComenzarIncidencia = [
+const validarAsignarIncidencia = [
     param('id')
         .isInt({ min: 1 })
         .withMessage('El ID de la incidencia debe ser un entero positivo'),
+
+    body('asignado_a')
+        .isInt({ min: 1 })
+        .withMessage('El ID del técnico debe ser un entero positivo'),
+
     responderValidacion
 ];
 
-export { validarFinalizarIncidencia, validarComenzarIncidencia };
+const validarCancelarIncidencia = [
+    param('id')
+        .isInt({ min: 1 })
+        .withMessage('El ID de la incidencia debe ser un entero positivo'),
+
+    responderValidacion
+];
+
+const validarCrearIncidencia = [
+    body('id_articulo')
+        .isInt({ min: 1 })
+        .withMessage('El ID del artículo debe ser un entero positivo'),
+
+    body('prioridad')
+        .isInt({ min: 1, max: 3 })
+        .withMessage('La prioridad debe ser 1 (Baja), 2 (Media) o 3 (Alta)'),
+
+    body('descripcion_pedido')
+        .isString()
+        .withMessage('La descripción debe ser texto')
+        .bail()
+        .trim()
+        .notEmpty()
+        .withMessage('La descripción del pedido es obligatoria'),
+
+    responderValidacion
+];
+
+export { 
+    validarFinalizarIncidencia,
+    validarAsignarIncidencia,
+    validarCancelarIncidencia,
+    validarCrearIncidencia 
+};
