@@ -1,4 +1,4 @@
-import { Modal } from 'bootstrap';
+import { Modal } from "bootstrap";
 
 const cuerpoArticulos = document.getElementById("cuerpo-articulos");
 
@@ -16,14 +16,25 @@ const btnConfirmarEliminar = document.getElementById("btn-confirmar-eliminar");
 const mensajeConfirmacion = document.getElementById("mensaje-confirmacion");
 let articuloAEliminar = null;
 
+// Referencias a la paginación
+const paginacion = document.getElementById("paginacion-articulos");
+const limite = 10; // Cantidad de registros por pág.
+let paginaActual = 1;
 
-async function cargarArticulos() {
+const token = sessionStorage.getItem("token");
+
+async function cargarArticulos(pagina = 1) {
 
     try {
 
         // 1. Pedimos los datos API
         const respuesta = await fetch(
-            "http://localhost:3000/api/v1/articulos"
+            `http://localhost:3000/api/v1/articulos?pagina=${pagina}&limite=${limite}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
         );
         if (!respuesta.ok) {
             throw new Error(`Error HTTP ${respuesta.status}`);
@@ -31,6 +42,8 @@ async function cargarArticulos() {
 
         // 2. Convertimos la respuesta JSON en un arreglo JavaScript
         const articulos = await respuesta.json();
+
+        paginaActual = articulos.pagina;
 
         cuerpoArticulos.replaceChildren();
 
@@ -56,19 +69,25 @@ async function cargarArticulos() {
 
             const botonEditar = document.createElement("button");
             botonEditar.type = "button";
-            botonEditar.className = "btn btn-warning btn-sm";
+            botonEditar.className = "btn btn-outline-primary btn-sm";
             botonEditar.title = "Editar";
             botonEditar.dataset.bsToggle = "modal";
             botonEditar.dataset.bsTarget = "#editarArticulo";
-            botonEditar.textContent = "Editar";
+
+            const iconoEditar = document.createElement("i");
+            iconoEditar.className = "bi bi-pencil";
+            botonEditar.appendChild(iconoEditar);
 
             const botonEliminar = document.createElement("button");
             botonEliminar.type = "button";
-            botonEliminar.className = "btn btn-danger btn-sm";
+            botonEliminar.className = "btn btn-outline-danger btn-sm";
             botonEliminar.title = "Eliminar";
             botonEliminar.dataset.bsToggle = "modal";
             botonEliminar.dataset.bsTarget = "#eliminarArticulo";
-            botonEliminar.textContent = "Eliminar";
+
+            const iconoEliminar = document.createElement("i");
+            iconoEliminar.className = "bi bi-trash";
+            botonEliminar.appendChild(iconoEliminar);
 
             const contenedorAcciones = document.createElement("div");
             contenedorAcciones.className = "d-flex gap-2";
@@ -87,10 +106,13 @@ async function cargarArticulos() {
             cuerpoArticulos.appendChild(fila);
 
             // Solo recordar
-            botonEditar.addEventListener("click", () => {
+            botonEditar.addEventListener("click", async () => {
                 articuloAEditar = dato;
                 descripcionEditar.value = dato.descripcion;
                 areaEditar.value = dato.id_area;
+
+                await cargarCategorias("categoria-editar-selector", dato);
+
                 categoriaEditar.value = dato.id_categoria;
             });
 
@@ -102,6 +124,8 @@ async function cargarArticulos() {
 
         });
 
+        renderizarPaginacion(articulos.totalPaginas);
+
     } catch (error) {
         console.error("Error al cargar los artículos ", error);
     }
@@ -110,7 +134,12 @@ async function cargarArticulos() {
 
 async function cargarAreas(idSelector) {
     const respuesta = await fetch(
-        "http://localhost:3000/api/v1/areas"
+        "http://localhost:3000/api/v1/areas",
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
     );
 
     const areas = await respuesta.json();
@@ -126,9 +155,14 @@ async function cargarAreas(idSelector) {
     });
 }
 
-async function cargarCategorias(idSelector) {
+async function cargarCategorias(idSelector, articulo = null) {
     const respuesta = await fetch(
-        "http://localhost:3000/api/v1/categorias"
+        "http://localhost:3000/api/v1/categorias?pagina=1&limite=100",
+        {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }
     );
 
     const categorias = await respuesta.json();
@@ -142,6 +176,22 @@ async function cargarCategorias(idSelector) {
         opcion.textContent = dato.descripcion;
         selector.appendChild(opcion);
     });
+
+    if (articulo !== null) {
+        const categoriaExiste = categorias.datos.some(
+            dato => dato.id_categoria === articulo.id_categoria
+        );
+
+        if (!categoriaExiste) {
+            const opcion = document.createElement("option");
+            opcion.value = articulo.id_categoria;
+            opcion.textContent = articulo.categoria + " (desactivada)";
+            opcion.disabled = true;
+            opcion.selected = true;
+            selector.appendChild(opcion);
+        }
+
+    }
 }
 
 cargarArticulos();
@@ -150,21 +200,44 @@ cargarAreas("area-nueva-selector");
 cargarAreas("area-editar-selector");
 
 cargarCategorias("categoria-nueva-selector");
-cargarCategorias("categoria-editar-selector");
+
+// Dibujamos los botones para navegar entre pág.
+function renderizarPaginacion(totalPaginas) {
+    paginacion.replaceChildren();
+
+    for (let numero = 1; numero <= totalPaginas; numero++) {
+        const item = document.createElement("li");
+        item.className = `page-item ${numero === paginaActual ? "active" : ""}`;
+
+        const boton = document.createElement("button");
+        boton.type = "button";
+        boton.className = "page-link";
+        boton.textContent = numero;
+
+        // Cada bóton vuelve a pedir su pág.
+        boton.addEventListener("click", () => cargarArticulos(numero));
+
+        item.appendChild(boton);
+        paginacion.appendChild(item);
+    }
+}
 
 // Alta de articulos
-const formNueva = document.getElementById('form-nuevo-articulo');
+const formNueva = document.getElementById("form-nuevo-articulo");
 
-formNueva.addEventListener('submit', async (e) => {
+formNueva.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const respuesta = await fetch('http://localhost:3000/api/v1/articulos', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+    const respuesta = await fetch("http://localhost:3000/api/v1/articulos", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+        },
         body: JSON.stringify({
-            id_area: Number(document.getElementById('area-nueva-selector').value),
-            id_categoria: Number(document.getElementById('categoria-nueva-selector').value),
-            descripcion: document.getElementById('descripcion-nuevo').value.trim()
+            id_area: Number(document.getElementById("area-nueva-selector").value),
+            id_categoria: Number(document.getElementById("categoria-nueva-selector").value),
+            descripcion: document.getElementById("descripcion-nuevo").value.trim()
         })
     });
 
@@ -181,15 +254,18 @@ formNueva.addEventListener('submit', async (e) => {
 });
 
 // Editar
-formEditar.addEventListener('submit', async (e) => {
+formEditar.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     try {
         const respuesta = await fetch(
             `http://localhost:3000/api/v1/articulos/${articuloAEditar.id_articulo}`,
             {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
                 body: JSON.stringify({
                     descripcion: descripcionEditar.value,
                     id_area: Number(areaEditar.value),
@@ -201,14 +277,12 @@ formEditar.addEventListener('submit', async (e) => {
         if (respuesta.ok) {
             modalEditar.hide();
             articuloAEditar = null;
-            await cargarArticulos();
-
+            await cargarArticulos(paginaActual);
         }
     } catch (error) {
         console.error("Error al editar el artículo", error);
     }
-})
-
+});
 
 // Borrar
 btnConfirmarEliminar.addEventListener("click", async () => {
@@ -217,7 +291,8 @@ btnConfirmarEliminar.addEventListener("click", async () => {
         const respuesta = await fetch(
             `http://localhost:3000/api/v1/articulos/${articuloAEliminar.id_articulo}`,
             {
-                method: "DELETE"
+                method: "DELETE",
+                headers: { Authorization: `Bearer ${token}` }
             }
         );
 
@@ -227,7 +302,7 @@ btnConfirmarEliminar.addEventListener("click", async () => {
 
         modalEliminar.hide();
         articuloAEliminar = null;
-        await cargarArticulos();
+        await cargarArticulos(paginaActual);
     } catch (error) {
         console.error("Error al eliminar el artículo", error);
     }
