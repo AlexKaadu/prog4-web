@@ -5,12 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio</title>
-    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap-reboot.min.css">
     <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="/src/css/style.css">
-
-    
 </head>
 
 <body>
@@ -21,18 +18,18 @@
     <div class="main-container">
         <!-- Navegación del área de sistemas. -->
         <nav class="menu-lateral">
-            <ul>                
+            <ul>
                 <li>
                     <a href="empleado-sistemas-incidencias.html">Incidencias</a>
                 </li>
                 <li>
-                    <a href="empleado-sistemas-categorias.html">Categorías</a>
+                    <a href="empleado-sistemas-categorias.html" class="active" aria-current="page">Categorías</a>
                 </li>
                 <li>
                     <a href="empleado-sistemas-articulos.html">Artículos</a>
                 </li>
                 <li>
-                    <a href="../../../index.html" class="active" aria-current="page" href="#">Salir</a>
+                    <a href="../../../index.html">Salir</a>
                 </li>
             </ul>
         </nav>
@@ -40,127 +37,135 @@
 
         <div class="right-container">
             <main>
-                <div class="container-fluid">                    
+
+                <div class="container text-start">
                     <!-- Título de la vista y acceso para mostrar el formulario de alta. -->
                     <div class="row">
                         <div class="col-auto me-auto">
-                            <h3>Categorías</h3>
+                            <h1>Categorías</h1>
                         </div>
                         <div class="col-auto">
-                            <button type="button" class="btn btn-primary mt-auto w-auto" id="btn-nueva">Nueva</button>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#nuevaCategoria">Nueva</button>
                         </div>
                     </div>
 
-                    <!-- Formulario de alta; comienza oculto y se muestra con el botón "Nueva". -->
-                    <form id="form-nueva-categoria" class="row g-2 align-items-end mb-3 d-none">
-                        <div class="col">
-                            <label for="descripcion-nueva" class="form-label">Descripción</label>
-                            <input
-                                type="text"
-                                id="descripcion-nueva"
-                                name="descripcion"
-                                class="form-control"
-                                required
-                            >
-                        </div>
+                    <!-- Modal nueva categoría -->
+                    <div class="modal" tabindex="-1" id="nuevaCategoria">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
 
-                        <div class="col-auto">
-                            <button type="submit" class="btn btn-success">Guardar</button>
-                            <button type="button" id="btn-cancelar-nueva" class="btn btn-outline-secondary">
-                                    Cancelar
-                            </button>
+                                <div class="modal-header">
+                                    <h2 class="modal-title">Nueva categoría</h2>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <div class="modal-body">
+
+                                    <form id="form-nueva-categoria">
+                                        <div>
+                                            <label class="form-label">Descripción</label>
+                                            <input type="text" class="form-control" id="descripcion-nueva" required>
+                                        </div>
+                                    </form>
+
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary"
+                                        form="form-nueva-categoria">Guardar</button>
+                                </div>
+
+                            </div>
                         </div>
-                    </form>
+                    </div>
 
                     <!-- El JavaScript carga las categorías en este cuerpo de tabla. -->
                     <div class="table-responsive tabla-categorias-wrapper">
                         <table class="table table-hover align-middle tabla-categorias">
                             <thead>
                                 <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Descrición</th>
-                                <th scope="col">Acciones</th>
+                                    <th scope="col">Código</th>
+                                    <th scope="col">Descripción</th>
+                                    <th scope="col">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody id="categorias-body"></tbody>
+                            <tbody id="categorias-cuerpo"></tbody>
                         </table>
                     </div>
 
-                    <!-- Los controles de página se generan dinámicamente según la respuesta de la API. -->
-                    <nav aria-label="Paginación de categorías">
-                        <ul id="paginacion-categorias"
-                            class="pagination pagination-sm justify-content-center">
-                        </ul>
-                            
-                    </nav>
-                </div>
 
-                <!-- Diálogo para editar la descripción de la categoría seleccionada. -->
-                <div class="modal fade" id="modal-editar-categoria" tabindex="-1"
-                    aria-labelledby="titulo-modal-editar" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <form id="form-editar-categoria">
+                    <!-- Editar categoría -->
+                    <div class="modal" tabindex="-1" id="editarCategoria">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="titulo-modal-editar">
-                                        Editar categoría
-                                    </h5>
-                                    <button type="button" class="btn-close"
-                                        data-bs-dismiss="modal" aria-label="Cerrar">
-                                    </button>
+                                    <h2 class="modal-title">Editar categoría</h2>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
 
                                 <div class="modal-body">
-                                    <input type="hidden" id="id-categoria-editar">
 
-                                    <label for="descripcion-editar" class="form-label">
-                                        Descripción
-                                    </label>
-                                    <input type="text" id="descripcion-editar"
-                                        class="form-control" required>
+                                    <form id="form-editar-categoria">
+                                        <div>
+                                            <label class="form-label">Descripción</label>
+                                            <input type="text" class="form-control" required id="descripcion-editar">
+                                        </div>
+                                    </form>
+
                                 </div>
 
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-outline-secondary"
-                                        data-bs-dismiss="modal">
-                                        Cancelar
-                                    </button>
-                                    <button type="submit" class="btn btn-primary">
-                                        Guardar cambios
-                                    </button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary"
+                                        form="form-editar-categoria">Guardar</button>
                                 </div>
-                            </form>
+
+                            </div>
                         </div>
                     </div>
+
+                    <!-- Confirmación previa a desactivar la categoría seleccionada. -->
+                    <div class="modal fade" id="modal-confirmar-eliminar" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <h2 class="modal-title">Eliminar</h2>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Cerrar"></button>
+                                </div>
+
+                                <div class="modal-body">
+                                    <p id="mensaje-confirmacion">¿Estás seguro de eliminar la categoría?</p>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                        Cancelar
+                                    </button>
+                                    <button type="button" class="btn btn-danger" id="btn-confirmar-eliminar">
+                                        Eliminar
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <!-- Los controles de página se generan dinámicamente según la respuesta de la API. -->
+                        <nav aria-label="Paginación de categorías">
+                            <ul id="paginacion-categorias" class="pagination pagination-sm justify-content-center">
+                            </ul>
+                        </nav>
+                    </div>
+
                 </div>
-
-
-
-
-                <!-- Confirmación previa a desactivar la categoría seleccionada. -->
-                <div class="modal fade" id="modal-confirmar-eliminar" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Confirmar eliminación</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-            </div>
-
-            <div class="modal-body">
-                <p id="mensaje-confirmacion">¿Desactivar la categoría?</p>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Cancelar
-                </button>
-                <button type="button" class="btn btn-danger" id="btn-confirmar-eliminar">
-                    Desactivar
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
             </main>
             <!-- <footer>
             </footer> -->
@@ -170,11 +175,11 @@
     <!-- Inicialización común de la aplicación, encabezado del área y comportamiento de categorías. -->
     <script type="module" src="/src/main.js"></script>
     <script type="module">
-    import { mostrarHeader } from '../../header.js';
-    mostrarHeader('EMPLEADO SISTEMAS');
+        import { mostrarHeader } from '../../header.js';
+        mostrarHeader('EMPLEADO SISTEMAS');
     </script>
     <script type="module" src="./empleado-sistemas-categorias.js"></script>
-    
+
 </body>
 
 </html>
