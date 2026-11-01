@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio</title>
+    <title>Mis incidencias</title>
     <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap-reboot.min.css">
     <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/node_modules/bootstrap-icons/font/bootstrap-icons.css">
@@ -17,54 +17,104 @@
 
     <div class="main-container">
         <nav class="menu-lateral">
-            <ul>                
-                <li><a href="empleado-sistemas-incidencias.html">Incidencias</a></li>
-                <li><a href="empleado-sistemas-categorias.html">Categorías</a></li>
-                <li><a href="empleado-sistemas-articulos.html">Artículos</a></li>
-                <li><a href="../../../index.html" class="active" aria-current="page" href="#">Salir</a></li>
+            <ul>
+                <li>
+                    <a href="empleado-sistemas-incidencias.html" class="active" aria-current="page">Mis incidencias</a>
+                </li>
+                <li>
+                    <a href="empleado-sistemas-categorias.html">Categorías</a>
+                </li>
+                <li>
+                    <a href="empleado-sistemas-articulos.html">Artículos</a>
+                </li>
+                <li>
+                    <a href="../../../index.html">Salir</a>
+                </li>
             </ul>
         </nav>
+
         <div class="right-container">
             <main>
-                <div class="container">                    
-                    <div class="row">
-                        <div class="col-auto me-auto">
-                            <h3>Incidencias</h3>
+
+                <div class="container text-start">
+
+                    <div class="row g-3 mb-3">
+                        <!-- Encabezado -->
+                        <div class="col-12">
+                            <h1>Mis incidencias</h1>
                         </div>
                     </div>
 
-                    <!-- 👇 EL FORMULARIO DE FILTRO DE TU PROFESOR -->
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <form id="form-filtro">
-                                <fieldset>
-                                    <div class="col-mb-3">
-                                        <label for="articuloFiltro" class="form-label">Descripción Artículo</label>
-                                        <input type="text" id="articuloFiltro" class="form-control">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Código</th>
+                                    <th scope="col">Artículo</th>
+                                    <th scope="col">Descripción</th>
+                                    <th scope="col">Creado el</th>
+                                    <th scope="col">Prioridad</th>
+                                    <th scope="col">Estado</th>
+                                    <th scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cuerpo-incidencias">
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Modal finalizar incidencia -->
+                    <div class="modal" tabindex="-1" id="finalizarIncidencia">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <div class="modal-header">
+                                    <h2 class="modal-title">Finalizar</h2>
+
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+
+                                <div class="modal-body">
+
+                                    <div class="mb-4">
+                                        <label class="form-label">Artículo</label>
+                                        <p id="articuloAFinalizar">Artículo:</p>
                                     </div>
-                                    <button type="submit" class="btn btn-primary mt-2">Filtrar</button>
-                                </fieldset>
-                            </form>
+
+                                    <div class="mb-4">
+                                        <label class="form-label">Pedido</label>
+                                        <p id="descripcionPedido">Pedido:</p>
+                                    </div>
+
+                                    <form id="form-finalizar-incidencia">
+                                        <div class="mb-2 ">
+                                            <label class="form-label d-block">Descripción de la resolución</label>
+                                            <textarea rows="4" minlength="10" maxlength="250" class="form-control"
+                                                id="descripcion-resolucion" required></textarea>
+                                        </div>
+                                    </form>
+
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-danger"
+                                        form="form-finalizar-incidencia">Finalizar</button>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
 
-                    <!-- 👇 LA TABLA, CON TUS CLASES DE ESTILO -->
-                    <table class="table table-hover align-middle">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Creado el</th>
-                                <th scope="col">Artículo</th>
-                                <th scope="col">Descripción</th>
-                                <th scope="col">Prioridad</th>
-                                <th scope="col">Estado</th>
-                                <th scope="col">Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabla-incidencias">
-                        </tbody>
-                    </table>
-                </div>    
+                    <div>
+                        <nav>
+                            <ul id="paginacion-incidencias" class="pagination pagination-sm justify-content-center">
+                            </ul>
+                        </nav>
+                    </div>
+
+                </div>
             </main>
         </div>
     </div>
