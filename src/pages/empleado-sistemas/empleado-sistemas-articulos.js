@@ -1,3 +1,4 @@
+// Gestiona el listado paginado y las operaciones BREAD de artículos del área de Sistemas.
 import { Modal } from "bootstrap";
 
 const cuerpoArticulos = document.getElementById("cuerpo-articulos");
@@ -23,6 +24,7 @@ let paginaActual = 1;
 
 const token = sessionStorage.getItem("token");
 
+// Solicita una página de artículos y crea sus filas y acciones en la tabla.
 async function cargarArticulos(pagina = 1) {
 
     try {
@@ -31,6 +33,7 @@ async function cargarArticulos(pagina = 1) {
         const respuesta = await fetch(
             `http://localhost:3000/api/v1/articulos?pagina=${pagina}&limite=${limite}`,
             {
+                cache: "no-store",
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -105,7 +108,7 @@ async function cargarArticulos(pagina = 1) {
 
             cuerpoArticulos.appendChild(fila);
 
-            // Solo recordar
+            // Prepara el formulario de edición con los datos del artículo elegido.
             botonEditar.addEventListener("click", async () => {
                 articuloAEditar = dato;
                 descripcionEditar.value = dato.descripcion;
@@ -116,6 +119,7 @@ async function cargarArticulos(pagina = 1) {
                 categoriaEditar.value = dato.id_categoria;
             });
 
+            // Guarda el artículo que se mostrará en el modal de confirmación.
             botonEliminar.addEventListener("click", () => {
                 articuloAEliminar = dato;
                 mensajeConfirmacion.textContent = `¿Estás seguro de eliminar el artículo "${dato.descripcion}"?`;
@@ -132,6 +136,7 @@ async function cargarArticulos(pagina = 1) {
 
 }
 
+// Carga las áreas de la API en el selector indicado.
 async function cargarAreas(idSelector) {
     const respuesta = await fetch(
         "http://localhost:3000/api/v1/areas",
@@ -155,10 +160,12 @@ async function cargarAreas(idSelector) {
     });
 }
 
+// Carga categorías y conserva la del artículo aunque haya sido desactivada.
 async function cargarCategorias(idSelector, articulo = null) {
     const respuesta = await fetch(
         "http://localhost:3000/api/v1/categorias?pagina=1&limite=100",
         {
+            cache: "no-store",
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -201,7 +208,7 @@ cargarAreas("area-editar-selector");
 
 cargarCategorias("categoria-nueva-selector");
 
-// Dibujamos los botones para navegar entre pág.
+// Crea los controles para navegar por las páginas de artículos.
 function renderizarPaginacion(totalPaginas) {
     paginacion.replaceChildren();
 
@@ -214,7 +221,7 @@ function renderizarPaginacion(totalPaginas) {
         boton.className = "page-link";
         boton.textContent = numero;
 
-        // Cada bóton vuelve a pedir su pág.
+        // Solicita los artículos de la página elegida.
         boton.addEventListener("click", () => cargarArticulos(numero));
 
         item.appendChild(boton);
@@ -222,9 +229,10 @@ function renderizarPaginacion(totalPaginas) {
     }
 }
 
-// Alta de articulos
+// Referencia al formulario de alta de artículos.
 const formNueva = document.getElementById("form-nuevo-articulo");
 
+// Envía el nuevo artículo y actualiza la tabla si se crea correctamente.
 formNueva.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -253,7 +261,7 @@ formNueva.addEventListener("submit", async (e) => {
     }
 });
 
-// Editar
+// Guarda los cambios del artículo seleccionado y recarga la página actual.
 formEditar.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -284,7 +292,7 @@ formEditar.addEventListener("submit", async (e) => {
     }
 });
 
-// Borrar
+// Confirma la baja lógica del artículo seleccionado y actualiza la tabla.
 btnConfirmarEliminar.addEventListener("click", async () => {
     try {
 

@@ -34,7 +34,7 @@
 
         <div class="right-container">
             <main>
-                <div class="container text-start">
+                <div class="container-fluid text-start">
 
                     <div class="row">
                         <div class="col-auto me-auto">
@@ -95,8 +95,8 @@
                         </div>
                     </div>
 
-                    <div class="table-responsive">
-                        <table class="table" id="tabla-articulos">
+                    <div class="table-responsive tabla-articulos-wrapper">
+                        <table class="table tabla-articulos-sistemas" id="tabla-articulos">
                             <thead>
                                 <tr>
                                     <th scope="col">Código</th>
@@ -106,62 +106,7 @@
                                     <th scope="col">Acciones</th>
                                 </tr>
                             </thead>
-                            <tbody id="cuerpo-articulos">
-                                <tr>
-                                    <th scope="row">1000</th>
-                                    <td>Teclado</td>
-                                    <td>Personal</td>
-                                    <td>Periféricos</td>
-                                    <td>
-                                        <div class="d-flex gap-2">
-                                            <button class="btn btn-warning btn-sm" title="Editar" data-bs-toggle="modal"
-                                                data-bs-target="#editarArticulo">
-                                                Editar
-                                            </button>
-                                            <button class="btn btn-danger btn-sm" title="Eliminar"
-                                                data-bs-toggle="modal" data-bs-target="#eliminarArticulo">
-                                                Eliminar
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1002</th>
-                                    <td>Mouse</td>
-                                    <td>Personal</td>
-                                    <td>Periféricos</td>
-                                    <td>
-                                        <div class="d-flex gap-2">
-                                            <button class="btn btn-warning btn-sm" title="Editar" data-bs-toggle="modal"
-                                                data-bs-target="#editarArticulo">
-                                                Editar
-                                            </button>
-                                            <button class="btn btn-danger btn-sm" title="Eliminar"
-                                                data-bs-toggle="modal" data-bs-target="#eliminarArticulo">
-                                                Eliminar
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">1033</th>
-                                    <td>Disco Rígido</td>
-                                    <td>Personal</td>
-                                    <td>Almacenamiento</td>
-                                    <td>
-                                        <div class="d-flex gap-2">
-                                            <button class="btn btn-warning btn-sm" title="Editar" data-bs-toggle="modal"
-                                                data-bs-target="#editarArticulo">
-                                                Editar
-                                            </button>
-                                            <button class="btn btn-danger btn-sm" title="Eliminar"
-                                                data-bs-toggle="modal" data-bs-target="#eliminarArticulo">
-                                                Eliminar
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
+                            <tbody id="cuerpo-articulos"></tbody>
                         </table>
                     </div>
 

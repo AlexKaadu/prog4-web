@@ -1,3 +1,4 @@
+// Muestra las incidencias asignadas al técnico y permite finalizar las que están en proceso.
 import { Modal } from "bootstrap";
 
 const badgesPrioridad = {
@@ -16,6 +17,7 @@ const badgesEstado = {
 };
 
 
+// Crea una etiqueta visual para el estado o la prioridad de la incidencia.
 function crearBadge(datosBadge) {
     const badge = document.createElement('span');
     badge.className = datosBadge.clase;
@@ -28,7 +30,7 @@ const token = sessionStorage.getItem("token");
 // Referencias a la tabla de incidencias
 const cuerpoIncidencias = document.getElementById("cuerpo-incidencias");
 
-// Referencias al modal de finalización
+// Referencias al modal de finalizaciÃ³n
 const modalFinalizar = new Modal(document.getElementById("finalizarIncidencia"));
 const formFinalizar = document.getElementById("form-finalizar-incidencia");
 const articuloAFinalizar = document.getElementById("articuloAFinalizar");
@@ -36,11 +38,12 @@ const descripcionPedido = document.getElementById("descripcionPedido");
 const descripcionResolucion = document.getElementById("descripcion-resolucion");
 let incidenciaAFinalizar = null;
 
-// Referencias a la paginación
+// Referencias a la paginaciÃ³n
 const paginacion = document.getElementById("paginacion-incidencias");
 const limite = 10;
 let paginaActual = 1;
 
+// Obtiene las incidencias asignadas al técnico y dibuja la página solicitada.
 async function cargarIncidencias(pagina = 1) {
 
     try {
@@ -48,7 +51,7 @@ async function cargarIncidencias(pagina = 1) {
         // 1. Pedimos los datos a la API.
         const respuesta = await fetch(
             `http://localhost:3000/api/v1/incidencias/asignadas?pagina=${pagina}&limite=${limite}`,
-            { headers: { Authorization: `Bearer ${token}` } }
+            { cache: 'no-store', headers: { Authorization: `Bearer ${token}` } }
         );
 
         if (!respuesta.ok) {
@@ -68,40 +71,49 @@ async function cargarIncidencias(pagina = 1) {
 
             const celdaId = document.createElement("th");
             celdaId.scope = "row";
+            celdaId.dataset.label = "Código";
             celdaId.textContent = incidencia.id_incidencia;
 
             const celdaArticulo = document.createElement("td");
+            celdaArticulo.dataset.label = "Artículo";
             celdaArticulo.textContent = incidencia.articulo_descripcion;
 
             const celdaDescripcion = document.createElement("td");
+            celdaDescripcion.dataset.label = "Descripción";
             celdaDescripcion.textContent = incidencia.descripcion_pedido;
 
             const celdaCreadoEl = document.createElement("td");
+            celdaCreadoEl.dataset.label = "Creado el"
             celdaCreadoEl.textContent = incidencia.creado;
 
             const celdaPrioridad = document.createElement("td");
+            celdaPrioridad.dataset.label = "Prioridad";
             celdaPrioridad.appendChild(
                 crearBadge(badgesPrioridad[incidencia.prioridad])
             );
 
             const celdaEstado = document.createElement("td");
+            celdaEstado.dataset.label = "Estado";
             celdaEstado.appendChild(
                 crearBadge(badgesEstado[incidencia.id_estado])
             );
 
-            // Acciones: solo las incidencias en proceso se pueden finalizar.
             const celdaAcciones = document.createElement("td");
+            celdaAcciones.dataset.label = "Acciones";
+            const botonFinalizar = document.createElement("button");
+            const sePuedeFinalizar = incidencia.id_estado === 2;
 
-            if (incidencia.id_estado === 2) {
+            botonFinalizar.type = "button";
+            botonFinalizar.className = `btn ${sePuedeFinalizar ? "btn-danger" : "btn-secondary"}`;
+            botonFinalizar.textContent = "Finalizar";
+            botonFinalizar.disabled = !sePuedeFinalizar;
+            botonFinalizar.title = sePuedeFinalizar
+                ? "Finalizar incidencia"
+                : "Solo se pueden finalizar incidencias en proceso";
+            celdaAcciones.appendChild(botonFinalizar);
 
-                const botonFinalizar = document.createElement("button");
-                botonFinalizar.type = "button";
-                botonFinalizar.className = "btn btn-danger";
-                botonFinalizar.textContent = "Finalizar";
-
-                celdaAcciones.appendChild(botonFinalizar);
-
-                // Abre el modal con los datos de la incidencia.
+            if (sePuedeFinalizar) {
+                // Abre el formulario de finalización con los datos seleccionados.
                 botonFinalizar.addEventListener("click", () => {
                     formFinalizar.reset();
                     incidenciaAFinalizar = incidencia;
@@ -109,7 +121,6 @@ async function cargarIncidencias(pagina = 1) {
                     descripcionPedido.textContent = incidencia.descripcion_pedido;
                     modalFinalizar.show();
                 });
-
             }
 
             fila.appendChild(celdaId);
@@ -142,7 +153,7 @@ async function cargarIncidencias(pagina = 1) {
 
 cargarIncidencias();
 
-// Dibujamos los botones para navegar entre pág.
+// Crea los controles para navegar entre páginas de incidencias.
 function renderizarPaginacion(totalPaginas) {
     paginacion.replaceChildren();
 
@@ -155,7 +166,7 @@ function renderizarPaginacion(totalPaginas) {
         boton.className = "page-link";
         boton.textContent = numero;
 
-        // Cada bóton vuelve a pedir su pág.
+        // Solicita las incidencias de la página elegida.
         boton.addEventListener("click", () => cargarIncidencias(numero));
 
         item.appendChild(boton);
@@ -164,6 +175,7 @@ function renderizarPaginacion(totalPaginas) {
 }
 
 // Finalizar incidencia.
+// Envía la descripción de resolución y actualiza el listado tras finalizar.
 formFinalizar.addEventListener("submit", async (e) => {
     e.preventDefault();
 

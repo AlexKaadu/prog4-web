@@ -36,7 +36,7 @@
         <div class="right-container">
             <main>
 
-                <div class="container text-start">
+                <div class="container-fluid text-start">
 
                     <div class="row g-3 mb-3">
                         <!-- Encabezado -->
@@ -46,7 +46,7 @@
                     </div>
 
                     <div class="table-responsive">
-                        <table class="table">
+                        <table class="table tabla-incidencias-sistemas">
                             <thead>
                                 <tr>
                                     <th scope="col">Código</th>
@@ -77,18 +77,18 @@
                                 <div class="modal-body">
 
                                     <div class="mb-4">
-                                        <label class="form-label">Artículo</label>
-                                        <p id="articuloAFinalizar">Artículo:</p>
+                                        <label class="form-label fw-bold text-dark">Artículo</label>
+                                        <p id="articuloAFinalizar" class="mb-0">Artículo:</p>
                                     </div>
 
                                     <div class="mb-4">
-                                        <label class="form-label">Pedido</label>
-                                        <p id="descripcionPedido">Pedido:</p>
+                                        <label class="form-label fw-bold text-dark">Pedido</label>
+                                        <p id="descripcionPedido" class="mb-0">Pedido:</p>
                                     </div>
 
                                     <form id="form-finalizar-incidencia">
                                         <div class="mb-2 ">
-                                            <label class="form-label d-block">Descripción de la resolución</label>
+                                            <label class="form-label d-block fw-bold text-dark">Descripción de la resolución</label>
                                             <textarea rows="4" minlength="10" maxlength="250" class="form-control"
                                                 id="descripcion-resolucion" required></textarea>
                                         </div>
