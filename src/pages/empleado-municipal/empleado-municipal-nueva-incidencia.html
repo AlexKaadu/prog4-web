@@ -43,7 +43,7 @@
                 <!-- Formulario -->
                 <div class="container text-start">
 
-                    <div class="row">
+                    <div class="row justify-content-center">
                         <div class="col-12 col-lg-6">
 
                             <!-- Encabezado-->
@@ -51,7 +51,8 @@
                             <p>Cuéntanos qué pasa.</p>
                             
                             <!-- Campos -->
-                            <form class="card p-3">
+                            <div id="mensaje-incidencia" class="alert d-none" role="status"></div>
+                            <form  id="form-nueva-incidencia" class="card p-3">
 
                                 <div class="mb-3">
                                     <label for="articulo" class="form-label">Artículo</label>
@@ -64,9 +65,9 @@
                                     <label for="prioridad" class="form-label">Prioridad</label>
                                     <select id="prioridad" name="prioridad" class="form-select" required>
                                         <option value="" selected disabled>Seleccione una prioridad</option>
-                                        <option value="baja">Baja</option>
-                                        <option value="media">Media</option>
-                                        <option value="alta">Alta</option>
+                                        <option value="1">Baja</option>
+                                        <option value="2">Media</option>
+                                        <option value="3">Alta</option>
                                     </select>
                                 </div>
 
@@ -75,7 +76,7 @@
                                     <textarea id="descripcion" name="descripcion" class="form-control" rows="5" maxlength="500" required placeholder="Ej.: La impresora del mostrador no toma papel desde ayer."></textarea>
                                 </div>
 
-                                <div class="d-flex gap-2">
+                                <div class="acciones-formulario d-flex gap-2">
                                     <button type="submit" class="btn btn-primary">Crear incidencia</button>
 
                                     <a href="./empleado-municipal-incidencias.html" class="btn btn-danger">Cancelar</a>
@@ -102,6 +103,22 @@
     import { mostrarHeader } from '../../header.js';
     mostrarHeader('EMPLEADO MUNICIPAL');
     </script>
+
+    <script type="module" src="/src/pages/empleado-municipal/empleado-municipal-nueva-incidencia.js"></script>
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/6abfb532d50d3a34cae395ef/1k3um2gg9';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+    <!--End of Tawk.to Script-->
 
 </body>
 

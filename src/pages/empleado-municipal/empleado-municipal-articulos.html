@@ -40,37 +40,35 @@
             <main>
                 
                 <!-- Tabla + Filtros -->
-                <div class="container text-start">  
+                <div class="container-fluid">
                     
                     <!-- Encabezado de la tabla + Filtros -->
                     <div class="row align-items-end mb-3">
 
                         <!-- Encabezado -->
                         <div class="col-md">
-                            <h1>Artículos</h1>
-                            <p>Artículos disponibles para reportar incidencias.</p>
+                            <h2 class="fw-bold mb-1">Artículos</h2>
+                            <p class="text-muted mb-0">Artículos disponibles para reportar incidencias.</p>
                         </div>
 
                         <!-- Filtros -->
-                         <div class="col-md-6 d-flex gap-3">
+                        <div class="col-md-6 d-flex gap-3">
 
                             <input type="search" id="filtro-articulo" class="form-control" placeholder="Buscar por artículo" aria-label="Buscar por artículo">
 
                             <select id="filtro-categoria" class="form-select" aria-label="Filtrar por categoría">
-                                <option value="0">Todas las categorías</option>
-                                <option value="1">Periféricos</option>
-                                <option value="2">Notebooks</option>
-                                <option value="3">PC-Escritorio</option>
-                                <option value="4">Almacenamiento</option>
-                                <option value="5">Equipos de Red</option>
+                                <option value="">Todas las categorías</option>
                             </select>
 
-                         </div>
+                        </div>
 
                     </div>
                 
+                    <div id="mensaje-articulos" class="alert d-none" role="status" aria-live="polite"></div>
+
                     <!-- Tabla -->
-                    <table class="table">
+                    <div class="table-responsive">
+                     <table class="table  align-middle tabla-articulos-municipal">
 
                         <thead>
                             <tr>
@@ -78,33 +76,18 @@
                                 <th scope="col">Artículo</th>
                                 <th scope="col">Categoría</th>
                                 <th scope="col">Área</th>
-                                <th scope="col">Acciones</th>
                             </tr>
                         </thead>
 
-                        <tbody id="tabla-articulos-datos">
-                            <tr>
-                                <td>ART-101</td>
-                                <td>Teclado</td>
-                                <td>Periféricos</td>
-                                <td>Rentas</td>
-                                <td>
-                                    <button type="button" class="btn btn-primary">Informar problema</button>
-                                </td>
-                            </tr>
-
-                            <tr>
-                                <td>ART-102</td>
-                                <td>Mouse</td>
-                                <td>Periféricos</td>
-                                <td>Rentas</td>
-                                <td>
-                                    <button type="button" class="btn btn-primary">Informar problema</button>
-                                </td>
-                            </tr>
-                        </tbody>
+                        <tbody id="tabla-articulos-datos"></tbody>
 
                     </table>
+                    </div>
+
+                    <nav aria-label="Paginación de artículos">
+                        <ul id="paginacion-articulos"
+                            class="pagination pagination-sm justify-content-center"></ul>
+                    </nav>
 
                 </div>
 
@@ -122,6 +105,20 @@
     </script>
 
     <script type="module" src="/src/pages/empleado-municipal/empleado-municipal-articulos.js"></script>
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/6abfb532d50d3a34cae395ef/1k3um2gg9';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+    <!--End of Tawk.to Script-->
     
 </body>
 

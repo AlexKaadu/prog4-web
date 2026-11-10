@@ -40,34 +40,105 @@
             <main>
                 
                 <!-- Tabla + Filtros -->
-                <div class="container text-start">
+                <div class="container-fluid">
                     
                     <!-- Encabezado de la tabla -->
-                    <h1>Mis incidencias</h1>
-                    <p>Solo podés cancelar las que están pendientes.</p>
+                    <div class="mb-4">
+                        <h2 class="fw-bold mb-1">Mis incidencias</h2>
+                        <p class="text-muted mb-0">Solo podés cancelar las que están pendientes.</p>
+                    </div>
                     
                     <!-- Filtros -->
-                    <div class="d-flex flex-wrap gap-2 mb-3">
-                        <button type="button" class="btn btn-primary">
-                            Todas <span>(2)</span>
-                        </button>
-                        <button type="button" class="btn btn-dark">
-                            Pendiente <span>(1)</span>
-                        </button>
-                        <button type="button" class="btn btn-dark">
-                            En proceso <span>(0)</span>
-                        </button>
-                        <button type="button" class="btn btn-dark">
-                            Resuelta <span>(1)</span>
-                        </button>
-                        <button type="button" class="btn btn-dark">
-                            Cancelada <span>(0)</span>
-                        </button>
+                    <div class="filtros-incidencias-municipal d-flex justify-content-end gap-2 mb-3">
+                        <div class="dropdown filtro-municipal">
+                            <button
+                                class="btn btn-outline-secondary btn-sm dropdown-toggle"
+                                type="button"
+                                id="dropdown-filtro-prioridad"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <span id="texto-filtro-prioridad">Prioridad: Todas</span>
+                            </button>
+
+                            <ul class="dropdown-menu" id="menu-filtro-prioridad"
+                                aria-labelledby="dropdown-filtro-prioridad">
+                                <li>
+                                    <button class="dropdown-item active" type="button"
+                                        data-prioridad="todas" data-etiqueta="Prioridad: Todas">
+                                        Todas
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item" type="button"
+                                        data-prioridad="1" data-etiqueta="Prioridad: Baja">
+                                        Baja
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item" type="button"
+                                        data-prioridad="2" data-etiqueta="Prioridad: Media">
+                                        Media
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item" type="button"
+                                        data-prioridad="3" data-etiqueta="Prioridad: Alta">
+                                        Alta
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="dropdown filtro-municipal">
+                            <button
+                                class="btn btn-outline-secondary btn-sm dropdown-toggle"
+                                type="button"
+                                id="dropdown-filtro-estado"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                <span id="texto-filtro-estado">Estado: Todos</span>
+                            </button>
+
+                            <ul class="dropdown-menu" id="menu-filtro-estado"
+                                aria-labelledby="dropdown-filtro-estado">
+                                <li>
+                                    <button class="dropdown-item active" type="button"
+                                        data-estado="todas" data-etiqueta="Estado: Todos">
+                                        Todos
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item" type="button"
+                                        data-estado="1" data-etiqueta="Estado: Pendiente">
+                                        Pendiente
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item" type="button"
+                                        data-estado="2" data-etiqueta="Estado: En proceso">
+                                        En proceso
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item" type="button"
+                                        data-estado="3" data-etiqueta="Estado: Resuelta">
+                                        Resuelta
+                                    </button>
+                                </li>
+                                <li>
+                                    <button class="dropdown-item" type="button"
+                                        data-estado="4" data-etiqueta="Estado: Cancelada">
+                                        Cancelada
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
+                    <div id="mensaje-incidencias" class="alert d-none" role="status"></div>
 
                     <div class="table-responsive">
 
-                        <table class="table">
+                        <table class="table  align-middle tabla-incidencias-municipal">
 
                             <thead>
                                 <tr>
@@ -81,41 +152,18 @@
                                 </tr>
                             </thead>
 
-                            <tbody>
-                                <tr>
-                                    <td>INC-1001</td>
-                                    <td>Teclado</td>
-                                    <td>No responde correctamente</td>
-                                    <td>
-                                        <span class="badge-prioridad badge-media">Media</span>
-                                    </td>
-                                    <td>1/10/2026 10:30</td>
-                                    <td>
-                                        <span class="badge-estado badge-pendiente">Pendiente</span>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-danger">Cancelar</button>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td>INC-1002</td>
-                                    <td>Mouse</td>
-                                    <td>Sensor no responde</td>
-                                    <td>
-                                        <span class="badge-prioridad badge-media">Media</span>
-                                    </td>
-                                    <td>1/10/2026 08:30</td>
-                                    <td>
-                                        <span class="badge-estado badge-resuelto">Resuelta</span>
-                                    </td>
-                                    <td>-</td>
-                                </tr>
-                            </tbody>
+                            <tbody id="tabla-mis-incidencias"></tbody>
 
                         </table>
 
                     </div>
+
+                    <nav aria-label = "Paginación de mis incidencias">
+                        <ul
+                            id="paginacion-mis-incidencias"
+                            class="pagination pagination-sm justify-content-center">
+                        </ul>
+                    </nav>
 
                 </div>
 
@@ -125,12 +173,58 @@
         </div>
     </div>
 
+
+
+
+    <div class="modal fade" id="modal-confirmar-cancelacion" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">Cancelar incidencia</h2>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Cerrar"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p id="mensaje-confirmar-cancelacion">
+                        ¿Estás seguro de cancelar esta incidencia?
+                    </p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        No, volver
+                    </button>
+                    <button type="button" class="btn btn-danger" id="btn-confirmar-cancelacion">
+                        Sí, cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script type="module" src="/src/main.js"></script>
 
     <script type="module">
     import { mostrarHeader } from '../../header.js';
     mostrarHeader('EMPLEADO MUNICIPAL');
     </script>
+
+    <script type="module" src="/src/pages/empleado-municipal/empleado-municipal-incidencias.js"></script>
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/6abfb532d50d3a34cae395ef/1k3um2gg9';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+    <!--End of Tawk.to Script-->
 
 </body>
 
