@@ -55,6 +55,22 @@ class UsuariosRepository {
             };
     };
 
+    listarTecnicos = async () => {
+        const sql = `
+            SELECT
+                id_usuario,
+                nombres,
+                apellidos
+            FROM usuarios
+            WHERE activo = 1
+                AND rol = 2
+            ORDER BY apellidos, nombres, id_usuario
+        `;
+
+        const { rows } = await pool.query(sql);
+        return rows;
+    };
+
     obtenerPorId = async (id) => {
         const sql = `
             SELECT

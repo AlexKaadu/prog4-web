@@ -6,6 +6,7 @@ class ArticulosService {
         this.repository = repository;
     }
 
+    // Obtiene una página de artículos y adapta sus registros a DTO.
     async listar(limite, offset) {
         const resultado = await this.repository.listar(limite, offset);
 
@@ -15,11 +16,13 @@ class ArticulosService {
         };
     }
 
+    // Busca un artículo por ID y transforma el resultado para la API.
     async obtenerPorId(id) {
         const articulo = await this.repository.obtenerPorId(id);
         return this.mapearArticulo(articulo);
     }
 
+    // Verifica que área y categoría sigan activas antes de actualizar.
     async actualizar(id, idArea, idCategoria, descripcion) {
         await this.validarRelacionesActivas(idArea, idCategoria);
         const articulo = await this.repository.actualizar(
@@ -32,6 +35,7 @@ class ArticulosService {
         return this.mapearArticulo(articulo);
     }
 
+    // Verifica las relaciones y crea el artículo con los datos recibidos.
     async crear(idArea, idCategoria, descripcion) {
         await this.validarRelacionesActivas(idArea, idCategoria);
         const articulo = await this.repository.crear(
@@ -43,11 +47,13 @@ class ArticulosService {
         return this.mapearArticulo(articulo);
     }
 
+    // Realiza la baja lógica del artículo y adapta el resultado.
     async eliminar(id) {
         const articulo = await this.repository.eliminar(id);
         return this.mapearArticulo(articulo);
     }
 
+    // Convierte un registro de artículo en DTO o devuelve null si no existe.
     mapearArticulo(articulo) {
         if (!articulo) {
             return null;
@@ -56,6 +62,7 @@ class ArticulosService {
         return new ArticuloResponseDTO(articulo);
     }
 
+    // Rechaza relaciones con áreas o categorías inexistentes o inactivas.
     async validarRelacionesActivas(idArea, idCategoria) {
         const relaciones = await this.repository.obtenerEstadoRelaciones(
             idArea,
@@ -77,4 +84,3 @@ class ArticulosService {
 }
 
 export default new ArticulosService();
-

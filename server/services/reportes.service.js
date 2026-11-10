@@ -1,10 +1,14 @@
-// "31-05-2026 10:15" -> "2026-05-31" (para poder ordenar y comparar)
+import ReportesRepository from '../data-access/reportes.repository.js';
+
+const reportesRepository = new ReportesRepository();
+
+// Convierte una fecha dd-mm-aaaa con hora al formato ISO yyyy-mm-dd.
 function aIso(creado) {
   const f = String(creado).slice(0, 10); // "31-05-2026"
   return `${f.slice(6, 10)}-${f.slice(3, 5)}-${f.slice(0, 2)}`;
 }
 
-// Dice si una incidencia entra en el período elegido en el dashboard
+// Indica si la fecha de una incidencia pertenece al período seleccionado.
 function dentroDelPeriodo(creado, periodo) {
   const [anio, mes, dia] = aIso(creado).split('-').map(Number);
   const fecha = new Date(anio, mes - 1, dia);
@@ -30,9 +34,9 @@ function dentroDelPeriodo(creado, periodo) {
 
 const PRIORIDADES = { 3: 'Alta', 2: 'Media', 1: 'Baja' };
 
+// Agrupa las incidencias del período para llenar el dashboard y el PDF.
 async function obtenerDatosDashboard(periodo) {
-  
-  const { incidencias } = await import('../../datos/incidencias-empleado-sistemas.js');
+  const incidencias = await reportesRepository.listarIncidenciasDashboard();
 
   const lista = incidencias.filter(i => dentroDelPeriodo(i.creado, periodo));
 
@@ -73,7 +77,7 @@ async function obtenerDatosDashboard(periodo) {
     .sort((a, b) => b.total - a.total)
     .slice(0, 6);
 
-  return { totales, porFecha, porPrioridad, categorias };
+  return { incidencias: lista, totales, porFecha, porPrioridad, categorias };
 }
 
 export { obtenerDatosDashboard };

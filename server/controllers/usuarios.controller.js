@@ -20,6 +20,16 @@ class UsuariosController {
         }
     };
 
+    listarTecnicos = async (req, res) => {
+        try {
+            const tecnicos = await this.usuario.listarTecnicos();
+            return res.status(200).json(tecnicos);
+        } catch (error) {
+            console.error('Error al listar técnicos:', error);
+            return res.status(500).json({ error: 'Error al obtener los técnicos' });
+        }
+    };
+
     obtenerPorId = async (req, res) => {
         const { id } = req.params;
 

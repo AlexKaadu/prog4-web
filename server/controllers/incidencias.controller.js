@@ -48,6 +48,9 @@ class IncidenciasController {
             return res.status(200).json(incidencia);
         } catch (error) {
             console.error('Error al finalizar la incidencia:', error);
+            if (error.code === 'NOTIFICATION_FAILED') {
+                return res.status(502).json({ error: error.message });
+            }
             return res.status(500).json({
                 error: 'Error al finalizar la incidencia'
             });
@@ -119,6 +122,9 @@ class IncidenciasController {
             return res.status(200).json(incidenciaCancelada);
         } catch (error) {
             console.error('Error al cancelar la incidencia:', error);
+            if (error.code === 'NOTIFICATION_FAILED') {
+                return res.status(502).json({ error: error.message });
+            }
             return res.status(500).json({
                 error: 'Error al cancelar la incidencia'
             });
@@ -191,6 +197,9 @@ class IncidenciasController {
             return res.status(200).json(incidenciaCancelada);
         } catch (error) {
             console.error('Error al cancelar la incidencia propia:', error);
+            if (error.code === 'NOTIFICATION_FAILED') {
+                return res.status(502).json({ error: error.message });
+            }
             return res.status(500).json({
                 error: 'Error al cancelar la incidencia'
             });

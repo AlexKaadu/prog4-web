@@ -57,8 +57,8 @@ const validarDatosCrearUsuario = [
         .withMessage('La contraseña es obligatoria'),
 
     body('rol')
-        .isInt({ min: 1 })
-        .withMessage('El rol debe ser un entero positivo'),
+        .isInt({ min: 1, max: 3 })
+        .withMessage('El rol debe ser 1 (Director), 2 (Sistemas) o 3 (Municipal)'),
 
     responderValidacion
 ];
@@ -102,8 +102,8 @@ const validarDatosActualizarUsuario = [
         .withMessage('El usuario no puede superar los 255 caracteres'),
 
     body('rol')
-        .isInt({ min: 1 })
-        .withMessage('El rol debe ser un entero positivo'),
+        .isInt({ min: 1, max: 3 })
+        .withMessage('El rol debe ser 1 (Director), 2 (Sistemas) o 3 (Municipal)'),
 
     responderValidacion
 ];

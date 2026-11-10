@@ -1,12 +1,28 @@
-const permisosPorRol = {
-    1: [
+export const ROLES = {
+    ADMIN: 1,
+    TECNICO: 2,
+    USUARIO: 3
+};
 
+const permisosPorRol = {
+    [ROLES.ADMIN]: [
         'incidencias:listar',
         'incidencias:asignar',
         'incidencias:cancelar',
-
+        'usuarios:listar-tecnicos',
+        'usuarios:listar',
+        'usuarios:crear',
+        'usuarios:obtener',
+        'usuarios:actualizar',
+        'usuarios:eliminar',
+        'reportes:dashboard',
+        'areas:listar',
+        'areas:crear',
+        'areas:obtener',
+        'areas:actualizar',
+        'areas:eliminar'
     ],
-    2: [
+    [ROLES.TECNICO]: [
         'incidencias:listar-asignadas',
         'incidencias:finalizar',
         'articulos:listar',
@@ -18,9 +34,10 @@ const permisosPorRol = {
         'categorias:obtener',
         'categorias:crear',
         'categorias:actualizar',
-        'categorias:eliminar'
+        'categorias:eliminar',
+        'areas:listar'
     ],
-    3: [
+    [ROLES.USUARIO]: [
         'incidencias:crear',
         'incidencias:listar-propias',
         'incidencias:cancelar-propia',
@@ -32,9 +49,14 @@ const permisosPorRol = {
 export default function autorizarAccion(accionRequerida) {
     return (req, res, next) => {
         const usuario = req.usuario;
-        const permisosUsuario = permisosPorRol[Number(usuario?.rol)] || [];
 
-        if (!usuario || !permisosUsuario.includes(accionRequerida)) {
+        if (!usuario) {
+            return res.status(401).json({ mensaje: 'No autenticado' });
+        }
+
+        const permisosUsuario = permisosPorRol[Number(usuario.rol)];
+
+        if (!permisosUsuario?.includes(accionRequerida)) {
             return res.status(403).json({
                 mensaje: 'Acceso denegado'
             });

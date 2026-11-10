@@ -2,6 +2,7 @@ import PDFDocument from 'pdfkit';
 
 // ---------- Piezas reutilizables ----------
 
+// Dibuja un panel con borde y título en el documento PDF.
 function panel(doc, x, y, w, h, titulo) {
   doc.roundedRect(x, y, w, h, 6).lineWidth(0.5).stroke('#d9d9d9');
   doc.fillColor('#222').font('Helvetica-Bold').fontSize(12)
@@ -9,6 +10,7 @@ function panel(doc, x, y, w, h, titulo) {
   doc.font('Helvetica');
 }
 
+// Dibuja tarjetas con el total de incidencias agrupadas por estado.
 function tarjetas(doc, totales, x, y, ancho) {
   const items = [
     ['Total de incidencias', totales.total, '#f5d5b8'],
@@ -30,11 +32,13 @@ function tarjetas(doc, totales, x, y, ancho) {
   });
 }
 
+// Inserta en el PDF un gráfico recibido como imagen PNG en base64.
 function insertarGrafico(doc, captura, x, y, w, h) {
   const imagen = Buffer.from(captura.slice('data:image/png;base64,'.length), 'base64');
   doc.image(imagen, x, y, { fit: [w, h], align: 'center', valign: 'center' });
 }
 
+// Dibuja barras proporcionales con la cantidad de incidencias por categoría.
 function barrasCategorias(doc, categorias, x, y, w, base) {
   const denominador = base || 1;
   categorias.forEach((c, i) => {
@@ -49,6 +53,7 @@ function barrasCategorias(doc, categorias, x, y, w, base) {
 
 // ---------- Documento completo ----------
 
+// Genera el reporte PDF del dashboard y lo transmite en la respuesta HTTP.
 function generarDashboard(res, datos) {
   const doc = new PDFDocument({ size: 'A4', layout: 'landscape', margin: 30 });
   doc.pipe(res);

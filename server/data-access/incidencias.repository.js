@@ -148,7 +148,7 @@ class IncidenciasRepository {
             i.id_estado,
             e.descripcion AS estado,
             i.asignado_a,
-            CONCAT(u.nombres, ' ', u.apellidos) AS tecnico_asignado
+            NULLIF(BTRIM(CONCAT(u.nombres, ' ', u.apellidos)), '') AS tecnico_asignado
             
 
         FROM incidencias AS i
@@ -158,7 +158,7 @@ class IncidenciasRepository {
             ON c.id_categoria = a.id_categoria
         JOIN estados AS e
             ON e.id_estado = i.id_estado
-        JOIN usuarios AS u
+        LEFT JOIN usuarios AS u
             ON u.id_usuario = i.asignado_a
         ORDER BY
             (i.asignado_a IS NULL) DESC,
@@ -326,7 +326,7 @@ class IncidenciasRepository {
                     $1,
                     1,
                     $2,
-                    1,
+                    NULL,
                     CURRENT_TIMESTAMP,
                     $3,
                     $4
@@ -472,6 +472,40 @@ class IncidenciasRepository {
         } finally {
             client.release();
         }
+    };
+
+    informacionIncidencia = async ({ id_incidencia, id_estado }) => {
+        const sql = `
+            SELECT
+                to_char(i.creado, 'DD-MM-YYYY HH24:MI') AS creada,
+                ie.fecha_hora_estado::text AS fecha_estado,
+                i.descripcion_resolucion AS resolucion,
+                u.usuario AS destinatario,
+                CASE
+                    WHEN ie.id_estado = 4 THEN 'cancelada'
+                    ELSE 'finalizada'
+                END AS estado
+            FROM incidencias AS i
+            INNER JOIN usuarios AS u
+                ON u.id_usuario = i.creado_por
+            INNER JOIN incidencias_estados AS ie
+                ON ie.id_incidencia = i.id_incidencia
+                AND ie.id_estado = $2
+            WHERE i.id_incidencia = $1
+            ORDER BY ie.fecha_hora_estado DESC
+            LIMIT 1
+        `;
+
+        const { rowCount, rows } = await pool.query(sql, [
+            id_incidencia,
+            id_estado
+        ]);
+
+        if (rowCount === 0) {
+            return null;
+        }
+
+        return rows[0];
     };
 
 

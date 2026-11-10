@@ -26,6 +26,8 @@ class AutenticacionController {
                 token,
                 usuario: {
                     id_usuario: usuarioBD.id_usuario,
+                    nombres: usuarioBD.nombres,
+                    apellidos: usuarioBD.apellidos,
                     rol: usuarioBD.rol
                 }
             });

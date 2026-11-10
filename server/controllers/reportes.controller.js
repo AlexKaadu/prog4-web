@@ -33,4 +33,25 @@ const dashboardPdf = async (req, res, next) => {
   }
 };
 
-export { dashboardPdf };
+const dashboardDatos = async (req, res, next) => {
+  try {
+    const periodo = req.query.periodo || '30dias';
+    const periodosValidos = ['7dias', '30dias', 'mes', 'año'];
+
+    if (!periodosValidos.includes(periodo)) {
+      return res.status(400).json({ error: 'Período no válido.' });
+    }
+
+    const datos = await obtenerDatosDashboard(periodo);
+
+    res.set('Cache-Control', 'no-store');
+    return res.status(200).json({
+      periodo: etiquetasPeriodo[periodo],
+      ...datos,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export { dashboardPdf, dashboardDatos };
