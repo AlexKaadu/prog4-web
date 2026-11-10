@@ -1,6 +1,8 @@
+// Gestiona el inicio de sesión, guarda la sesión y dirige al usuario según su rol.
 const formulario = document.getElementById('form-login');
 const mensaje = document.getElementById('mensaje-login');
 
+// Valida las credenciales, guarda la sesión y redirige según el rol recibido.
 formulario.addEventListener('submit', async (event) => {
     event.preventDefault();
     mensaje.textContent = '';
@@ -29,6 +31,7 @@ formulario.addEventListener('submit', async (event) => {
             return;
         }
         sessionStorage.setItem('token', datos.token);
+        sessionStorage.setItem('usuario', JSON.stringify(datos.usuario));
 
         const pantallasPorRol = {
             1: '/src/pages/director/director-sistemas-dashboard.html',

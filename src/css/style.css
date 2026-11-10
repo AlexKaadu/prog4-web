@@ -250,6 +250,8 @@ footer {
     font-weight: bold;
 }
 
+
+
 .badge-alta { background-color: #fde2e2; color: #e63946; }
 .badge-media { background-color: #fff3e0; color: #f0a500; }
 .badge-baja { background-color: #e0f5f2; color: #2a9d8f; }
@@ -277,6 +279,7 @@ footer {
 /* =========================================================
    RESPONSIVE
    ========================================================= */
+/* En telefonos, el menú lateral pasa arriba del contenido. */
 @media (max-width: 768px) {
     .main-container {
         flex-direction: column;
@@ -289,7 +292,30 @@ footer {
     }
 }
 
+/* Ajustes para encabezado, filtros y botones en teléfonos. */
 @media (max-width: 576px) {
+    header {
+        padding: 0.5rem;
+    }
+
+    header img.logo {
+        height: 44px;
+    }
+
+    .usuario-texto {
+        white-space: nowrap;
+        font-size: 0.85rem;
+    }
+
+    .usuario-cargo {
+        font-size: 0.75rem;
+    }
+
+    .avatar-circulo {
+        width: 36px;
+        height: 36px;
+    }
+
     .dashboard-header {
         flex-wrap: wrap;
         align-items: flex-start !important;
@@ -310,14 +336,35 @@ footer {
         flex: 1 1 0;
         min-width: 0;
     }
+
+
+    .filtro-municipal {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+    min-width: 0;
 }
 
+    .filtro-municipal > .dropdown-toggle {
+        width: 100%;
+    }
+
+    .acciones-formulario > .btn {
+        flex: 1;
+        padding-inline: 0.4rem;
+        font-size: 0.875rem;
+        white-space: nowrap;
+    }
+}
+
+/* En pantallas medianas y grandes, los filtros tienen anchos definidos. */
 @media (min-width: 576px) {
     .filtros-incidencias .filtro-incidencia-dropdown {
         flex: 0 0 160px;
     }
 }
 
+/* En escritorio, los controles de filtro mantienen su ancho según el contenido. */
 @media (min-width: 768px) {
     .filtros .input-group {
         width: auto;
@@ -329,9 +376,14 @@ footer {
     }
 }
 
-@media (max-width: 767.98px) {
+/* La tabla prioritaria del director se convierte en tarjetas en teléfonos. */
+@media (max-width: 768px) {
     .tabla-incidencias-wrapper {
         overflow: visible;
+    }
+
+    .tabla-incidencias-director {
+        --bs-table-hover-bg: transparent;
     }
 
     .tabla-incidencias-director thead {
@@ -359,6 +411,7 @@ footer {
         align-items: flex-start;
         min-width: 0;
         padding: 0.4rem 0;
+        border: 0;
     }
 
     .tabla-incidencias-director tbody td::before {
@@ -387,6 +440,7 @@ footer {
     }
 }
 
+/* Cada fila de Categorías se reorganiza como una tarjeta en teléfono. */
 @media (max-width: 576px) {
     .tabla-categorias,
     .tabla-categorias tbody {
@@ -444,3 +498,291 @@ footer {
     }
 }
 
+/* Cada fila de Artículos se muestra como tarjeta. */
+@media (max-width: 576px) {
+    .tabla-articulos-wrapper {
+        overflow: visible;
+    }
+
+    .tabla-articulos-sistemas,
+    .tabla-articulos-sistemas tbody {
+        display: block;
+        width: 100%;
+    }
+
+    .tabla-articulos-sistemas thead {
+        display: none;
+    }
+
+    .tabla-articulos-sistemas tbody tr {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+        padding: 0.75rem;
+        border: 1px solid #d9dee3;
+        border-radius: 10px;
+        background: #fff;
+    }
+
+    .tabla-articulos-sistemas tbody th,
+    .tabla-articulos-sistemas tbody td {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+        overflow-wrap: anywhere;
+    }
+
+    .tabla-articulos-sistemas tbody th::before {
+        content: "Código";
+    }
+
+    /* El orden coincide con las celdas td: descripción, área, categoría y acciones. */
+    .tabla-articulos-sistemas tbody td:nth-of-type(1)::before {
+        content: "Descripción";
+    }
+
+    .tabla-articulos-sistemas tbody td:nth-of-type(2)::before {
+        content: "Área";
+    }
+
+    .tabla-articulos-sistemas tbody td:nth-of-type(3)::before {
+        content: "Categoría";
+    }
+
+    .tabla-articulos-sistemas tbody td:nth-of-type(4) {
+        grid-column: 1 / -1;
+    }
+
+    .tabla-articulos-sistemas tbody td:nth-of-type(4)::before {
+        content: "Acciones";
+    }
+
+    .tabla-articulos-sistemas tbody th::before,
+    .tabla-articulos-sistemas tbody td::before {
+        margin-bottom: 0.2rem;
+        color: #68727d;
+        font-size: 0.75rem;
+    }
+}
+
+/* Incidencias de Sistemas: conserva los datos y presenta cada fila como tarjeta. */
+@media (max-width: 768px) {
+    .tabla-incidencias-sistemas {
+        display: block;
+        width: 100%;
+    }
+
+    .tabla-incidencias-sistemas thead {
+        display: none;
+    }
+
+    .tabla-incidencias-sistemas tbody {
+        display: grid;
+        gap: 12px;
+    }
+
+    .tabla-incidencias-sistemas tbody tr {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        padding:  0.75rem;
+        border: 1px solid #d9dee3;
+        border-radius: 8px;
+        background: #fff;
+    }
+
+    .tabla-incidencias-sistemas tbody th,
+    .tabla-incidencias-sistemas tbody td {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        min-width: 0;
+        border: 0;
+        overflow-wrap: anywhere;
+    }
+
+    .tabla-incidencias-sistemas tbody th::before,
+    .tabla-incidencias-sistemas tbody td::before {
+        content: attr(data-label);
+        margin-bottom: 4px;
+        color: #68727d;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .tabla-incidencias-sistemas tbody th:first-child {
+        grid-column: 1 / -1;
+    }
+
+    .tabla-incidencias-sistemas tbody td:last-child {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        padding: 0;
+    }
+
+    .tabla-incidencias-sistemas tbody td:last-child::before {
+        content: none;
+    }
+}
+
+
+/* Artículos e incidencias municipales se presentan como tarjetas en teléfono.
+   data-label en cada celda proporciona el texto de sus etiquetas. */
+@media (max-width: 768px) {
+    .tabla-articulos-municipal,
+    .tabla-incidencias-municipal {
+        display: block;
+        width: 100%;
+    }
+
+    .tabla-articulos-municipal thead,
+    .tabla-incidencias-municipal thead {
+        display: none;
+    }
+
+    .tabla-articulos-municipal tbody,
+    .tabla-incidencias-municipal tbody {
+        display: grid;
+        gap: 12px;
+    }
+
+    .tabla-articulos-municipal tbody tr,
+    .tabla-incidencias-municipal tbody tr {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        padding: 0.75rem;
+        border: 1px solid #d9dee3;
+        border-radius: 8px;
+        background: #fff;
+    }
+
+    .tabla-articulos-municipal tbody td,
+    .tabla-incidencias-municipal tbody td {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        min-width: 0;
+        padding: 0.4rem 0;
+        border: 0;
+        overflow-wrap: anywhere;
+    }
+
+    .tabla-articulos-municipal tbody td::before,
+    .tabla-incidencias-municipal tbody td::before {
+        content: attr(data-label);
+        margin-bottom: 4px;
+        color: #68727d;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .tabla-articulos-municipal tbody td[colspan],
+    .tabla-incidencias-municipal tbody td[colspan] {
+        grid-column: 1 / -1;
+    }
+
+    .tabla-incidencias-municipal tbody td:last-child {
+        position: absolute;
+        top: 0.65rem;
+        right: 0.75rem;
+        padding: 0;
+    }
+
+    .tabla-incidencias-municipal tbody td:last-child::before {
+        content: none;
+    }
+}
+
+
+/* =========================================================
+   PANTALLA DE INICIO DE SESIÓN
+   ========================================================= */
+.login-layout {
+    display: flex;
+    min-height: 100vh;
+    padding: 0;
+    background-color: #eaf2e8;
+}
+
+.login-imagen,
+.login-panel {
+    width: 50%;
+    min-height: 100vh;
+}
+
+.login-imagen img {
+    display: block;
+    width: 100%;
+    height: 100vh;
+    object-fit: cover ;
+}
+
+.login-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.login-card h1 {
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+#form-login {
+    display: grid;
+    gap: 1.25rem;
+}
+
+#form-login .form-control {
+    min-height: 54px;
+    border: 2px solid #211842;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+#form-login .btn {
+    min-height: 50px;
+}
+
+.login-card {
+    width: min(100%, 430px);
+    padding: 2.5rem;
+    background-color: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 12px 35px rgba(30, 60, 35, 0.14);
+}
+
+/* En teléfono, la imagen queda arriba y el formulario debajo. */
+@media (max-width: 768px) {
+    .login-layout {
+        flex-direction: column;
+    }
+
+    .login-imagen,
+    .login-panel {
+        width: 100%;
+    }
+
+    .login-imagen {
+        min-width: 0;
+        min-height: 35vh;
+    }
+
+    .login-imagen img {
+        height: 35vh;
+    }
+
+    .login-panel {
+        min-height: 65vh;
+    }
+}
