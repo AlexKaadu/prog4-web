@@ -1,5 +1,7 @@
-import { incidencias } from '../../../datos/incidencias-empleado-sistemas.js';
+// Carga los datos del dashboard del director y permite consultarlos y exportarlos.
 import Chart from 'chart.js/auto';
+
+const token = sessionStorage.getItem('token');
 
 // Plantillas HTML para mostrar los estados y prioridades como etiquetas visuales.
 const badgesEstado = {
@@ -16,6 +18,7 @@ const badgesPrioridad = {
     3: { clase: 'badge-prioridad badge-alta', texto: 'ALTA' }
 };
 
+// Crea una etiqueta visual para el estado o la prioridad de una incidencia.
 function crearBadge(configuracion){
     const badge = document.createElement('span');
     badge.className = configuracion.clase;
@@ -66,7 +69,7 @@ function renderizarTablaPrioritarias(lista) {
 
 
 
-/** Crea los controles de paginación y enlaza cada botón con la página elegida. */
+/** Crea los botones para cambiar la página de incidencias prioritarias. */
 function renderizarPaginacion(lista) {
     const contenedor = document.getElementById('paginacion-prioritarias');
     contenedor.textContent = '';
@@ -83,6 +86,7 @@ function renderizarPaginacion(lista) {
         boton.className = 'page-link';
         boton.textContent = numeroPagina;
 
+        // Actualiza la tabla al seleccionar otra página.
         boton.addEventListener('click', () => {
             paginaActual = numeroPagina;
 
@@ -161,7 +165,7 @@ function actualizarGraficoEstados(lista) {
 let chartFechas = null;
 const graficoFechas = document.getElementById('grafico-fechas');
 
-/** Agrupa las incidencias por fecha, ordena los días y crea o actualiza el gráfico. */
+/** Agrupa las incidencias por fecha y crea o actualiza el gráfico de líneas. */
 function actualizarGraficoFechas(lista){
     const incidenciasPorFecha = {};
 
@@ -265,7 +269,7 @@ function actualizarGraficoPrioridad(lista) {
 
 
 
-/** Muestra cada categoría, su cantidad y su proporción respecto al total filtrado. */
+/** Muestra el total de incidencias por categoría con una barra proporcional. */
 function actualizarGraficoCategoria(lista){
     const contenedor = document.getElementById('grafico-categorias');
     contenedor.replaceChildren();
@@ -321,18 +325,7 @@ function actualizarGraficoCategoria(lista){
     });
 }
 
-
-
-
-
-
-
-
-
-
-
-
-// Convierte una fecha con formato día-mes-año (con hora opcional) a un objeto Date.
+// Convierte una fecha día-mes-año, con hora opcional, en un objeto Date.
 function parsearFechas(texto){
     const soloFecha = texto.split(' ')[0];
     const [dia, mes, anio] = soloFecha.split('-');
@@ -341,81 +334,57 @@ function parsearFechas(texto){
 
 
 
-/** Devuelve las incidencias que corresponden al periodo seleccionado en el menú. */
-function filtrarPorFecha(incidencias, periodoSeleccionado) {
-
-    const hoy = new Date();
-
-    return incidencias.filter(inc => {
-        const fechaInc = parsearFechas(inc.creado);
-
-        
-        switch(periodoSeleccionado){
-            
-            case '7dias': {
-                const limite = new Date(hoy);
-                limite.setDate(limite.getDate() - 7);
-                return fechaInc >= limite;
-            }
-
-            case '30dias': {
-                const limite = new Date(hoy);
-                limite.setDate(limite.getDate() - 30 )
-                return fechaInc >= limite;
-            }
-
-            case 'mes': {
-            
-                const mesHoy = hoy.getMonth();
-                const anioHoy = hoy.getFullYear();
-
-                const mesInc = fechaInc.getMonth();
-                const anioInc = fechaInc.getFullYear();
-
-                return (mesInc === mesHoy) && (anioInc === anioHoy)
-            }
-
-            case 'año': {
-                const anioHoy = hoy.getFullYear();
-                const anioInc = fechaInc.getFullYear();
-
-                return (anioInc === anioHoy);
-            }
-
-            default:
-                return true;
-                
-
-        }
-    });
-
-}
-
 // Periodo inicial del dashboard y referencias a los controles del filtro.
 let periodoFechaSeleccionado = '30dias';
 const menuFiltroFecha = document.getElementById('menu-filtro-fecha');
 const textoFiltroFecha = document.getElementById('texto-filtro-fecha');
+let solicitudDashboard = 0;
 
-/** Filtra los datos y sincroniza tarjetas, gráficos y tabla prioritaria. */
-function actualizarDashboard() {
-    paginaActual = 1;
+/** Solicita los datos reales del período y actualiza tarjetas, gráficos y tabla. */
+async function actualizarDashboard() {
+    const solicitudActual = ++solicitudDashboard;
 
-    const incidenciasFiltradas = filtrarPorFecha(incidencias, periodoFechaSeleccionado);
+    try {
+        if (!token) {
+            throw new Error('No hay una sesión activa. Iniciá sesión nuevamente.');
+        }
 
-    actualizarTarjetas(incidenciasFiltradas);
-    actualizarGraficoEstados(incidenciasFiltradas);
-    actualizarGraficoFechas(incidenciasFiltradas);
-    actualizarGraficoCategoria(incidenciasFiltradas);
-    actualizarGraficoPrioridad(incidenciasFiltradas);
+        const respuesta = await fetch(
+            `http://localhost:3000/api/v1/reportes/dashboard?periodo=${encodeURIComponent(periodoFechaSeleccionado)}`,
+            { headers: { Authorization: `Bearer ${token}` } }
+        );
 
-    const prioritarias = incidenciasFiltradas.filter(inc =>
-        inc.prioridad === 3 && (inc.id_estado === 1 || inc.id_estado === 2)
-    );
+        if (!respuesta.ok) {
+            throw new Error(`Error HTTP ${respuesta.status} al cargar el dashboard.`);
+        }
 
-    renderizarTablaPrioritarias(prioritarias);
-    renderizarPaginacion(prioritarias)
+        const datos = await respuesta.json();
+        if (solicitudActual !== solicitudDashboard) {
+            return;
+        }
+
+        const incidencias = datos.incidencias;
+        paginaActual = 1;
+
+        actualizarTarjetas(incidencias);
+        actualizarGraficoEstados(incidencias);
+        actualizarGraficoFechas(incidencias);
+        actualizarGraficoCategoria(incidencias);
+        actualizarGraficoPrioridad(incidencias);
+
+        const prioritarias = incidencias.filter(inc =>
+            inc.prioridad === 3 && (inc.id_estado === 1 || inc.id_estado === 2)
+        );
+
+        renderizarTablaPrioritarias(prioritarias);
+        renderizarPaginacion(prioritarias);
+    } catch (error) {
+        console.error('Error al cargar los datos del dashboard:', error);
+        alert(error.message);
+    }
 }
 
+// Cambia el período del dashboard cuando se elige una opción del menú.
 menuFiltroFecha.addEventListener('click', event => {
     const opcion = event.target.closest('.dropdown-item[data-valor]');
     if (!opcion) return;
@@ -428,7 +397,7 @@ menuFiltroFecha.addEventListener('click', event => {
     actualizarDashboard();
 });
 
-// Solicita al servidor el PDF del dashboard junto con imágenes de los gráficos.
+// Exporta el dashboard a PDF e incluye imágenes de sus gráficos.
 document.getElementById('btn-exportar-pdf').addEventListener('click', async event => {
     const boton = event.currentTarget;
     const icono = document.getElementById('icono-exportar-pdf'); 
@@ -452,7 +421,10 @@ document.getElementById('btn-exportar-pdf').addEventListener('click', async even
 
         const respuesta = await fetch('http://localhost:3000/api/v1/reportes/dashboard', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
             body: JSON.stringify({ periodo: periodoFechaSeleccionado, graficos })
         });
 
@@ -498,10 +470,6 @@ actualizarDashboard();
 
 
     
-
-
-
-
 
 
 

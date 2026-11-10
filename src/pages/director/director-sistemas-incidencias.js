@@ -1,8 +1,10 @@
-import { incidencias } from "../../../datos/incidencias-empleado-sistemas";
-import * as bootstrap from 'bootstrap';
+// Permite al director consultar, filtrar, asignar y cancelar incidencias.
+import { Modal } from 'bootstrap';
 
+const API_URL = 'http://localhost:3000/api/v1';
+const token = sessionStorage.getItem('token');
+const registrosPorPagina = 10;
 
-// Textos visuales usados para mostrar el estado de cada incidencia.
 const badgesEstado = {
     1: { clase: 'badge-estado badge-pendiente', texto: 'PENDIENTE' },
     2: { clase: 'badge-estado badge-en-proceso', texto: 'EN PROCESO' },
@@ -10,191 +12,285 @@ const badgesEstado = {
     4: { clase: 'badge-estado badge-cancelado', texto: 'CANCELADA' }
 };
 
-// Textos visuales usados para mostrar la prioridad de cada incidencia.
 const badgesPrioridad = {
     1: { clase: 'badge-prioridad badge-baja', texto: 'BAJA' },
     2: { clase: 'badge-prioridad badge-media', texto: 'MEDIA' },
     3: { clase: 'badge-prioridad badge-alta', texto: 'ALTA' }
 };
 
-function crearBadge(configuracion){
+const tabla = document.getElementById('tabla-incidencias-director');
+const paginacion = document.getElementById('paginacion-incidencias-director');
+const selectorTecnico = document.getElementById('select-tecnico');
+const modal = new Modal(document.getElementById('modalIncidencia'));
+const mensaje = document.getElementById('mensaje-incidencias');
+
+let incidencias = [];
+let paginaActual = 1;
+let prioridadSeleccionada = 'todas';
+let estadoSeleccionado = 'todas';
+let incidenciaSeleccionada = null;
+
+// Muestra un aviso con el estilo indicado en la pantalla.
+function mostrarMensaje(texto, tipo = 'danger') {
+    mensaje.className = `alert alert-${tipo}`;
+    mensaje.textContent = texto;
+    mensaje.classList.remove('d-none');
+}
+
+// Crea una etiqueta visual para el estado o la prioridad de una incidencia.
+function crearBadge(configuracion) {
     const badge = document.createElement('span');
     badge.className = configuracion.clase;
     badge.textContent = configuracion.texto;
     return badge;
-
 }
 
-const registrosPorPagina = 10;
-let paginaActual = 1;
-
-// Construye la tabla con las incidencias correspondientes a la página actual.
-function renderTablaDirector(incidencias){
-    const tbody = document.getElementById('tabla-incidencias-director');
-    tbody.replaceChildren();
-
-    const inicio = (paginaActual - 1) * registrosPorPagina;
-    const incidenciasDeLaPagina = incidencias.slice(inicio, inicio + registrosPorPagina);
-
-    for(let inc of incidenciasDeLaPagina){
-        const row = document.createElement('tr');
-
-        const tdId = document.createElement('td');
-        tdId.dataset.label = 'N.º';
-        tdId.textContent = inc.id_incidencia;
-        row.appendChild(tdId);
-
-        const tdArticulo = document.createElement('td');
-        tdArticulo.dataset.label = 'Articulo';
-        tdArticulo.textContent = inc.articulo_descripcion;
-        row.appendChild(tdArticulo);
-
-        const tdPrioridad = document.createElement('td');
-        tdPrioridad.dataset.label = 'Prioridad';
-        tdPrioridad.replaceChildren(crearBadge(badgesPrioridad[inc.prioridad]));
-        row.appendChild(tdPrioridad);
-
-        const tdEstado = document.createElement('td');
-        tdEstado.dataset.label = 'Estado';
-        tdEstado.replaceChildren(crearBadge(badgesEstado[inc.id_estado]));
-        row.appendChild(tdEstado);
-
-        const tdTecnicoAsignado = document.createElement('td');
-        tdTecnicoAsignado.dataset.label = 'Tecnico asignado';
-        tdTecnicoAsignado.textContent = inc.asignado_a ? inc.asignado_a : "Sin asignar";
-        row.appendChild(tdTecnicoAsignado);
-
-        const tdCreado = document.createElement('td');
-        tdCreado.dataset.label = 'Fecha';
-        tdCreado.textContent = inc.creado;
-        row.appendChild(tdCreado);
-
-        const tdAcciones = document.createElement('td');
-        tdAcciones.dataset.label  = 'Acciones';
-        
-        const boton = document.createElement('button');
-        boton.type = 'button';
-        boton.className = 'btn btn-sm btn-outline-secondary';
-        boton.setAttribute('aria-label', 'Ver detalle');
-        const icono = document.createElement('i');
-        icono.className= 'bi bi-eye-fill';
-        icono.setAttribute('aria-hidden', 'true');
-        boton.appendChild(icono);
-
-        // Abre el detalle de la incidencia y prepara sus acciones.
-        boton.addEventListener('click', () => {
-            document.getElementById('modal-id').textContent = inc.id_incidencia;
-            document.getElementById('modal-articulo').textContent = inc.articulo_descripcion;
-            document.getElementById('modal-descripcion').textContent = inc.descripcion_pedido;
-
-            const btnAsignar = document.getElementById('btn-asignar');
-            const btnCancelar = document.getElementById('btn-cancelar');
-
-            if (inc.id_estado === 1 && !inc.asignado_a) {
-                btnAsignar.disabled = false;
-            } else {
-                btnAsignar.disabled = true;
-            }
-
-            if (inc.id_estado === 1) {
-                btnCancelar.disabled = false;
-            } else {
-                btnCancelar.disabled = true;
-            }
-
-            const selectTecnico = document.getElementById('select-tecnico');
-
-            if(inc.id_estado === 1 && !inc.asignado_a){
-                selectTecnico.disabled = false;
-            } else {
-                selectTecnico.disabled = true;
-            }
-
-
-            const modal = new bootstrap.Modal(document.getElementById('modalIncidencia'));
-            modal.show();
-
-
-            btnCancelar.onclick = () => {
-                if(inc.id_estado === 1){
-                    inc.id_estado = 4;
-                    modal.hide();
-                    renderTablaDirector(incidencias);
-                }
-            }
-
-            // Asigna un técnico y pasa la incidencia al estado "En proceso".
-            btnAsignar.onclick = () => {
-                if(inc.id_estado === 1){
-                    inc.asignado_a = selectTecnico.value;
-                    inc.id_estado = 2;
-                    modal.hide();
-                    renderTablaDirector(incidencias);
-                }
-            }
-
-        });
-        tdAcciones.appendChild(boton)
-        row.appendChild(tdAcciones);
-        tbody.appendChild(row);
-        
-
-    }
-}
-
-// Genera los botones para cambiar de página.
-function renderizarPaginacion(incidencias){
-    const contenedor = document.getElementById('paginacion-incidencias-director');
-    contenedor.textContent = '';
-
-    const totalPaginas = Math.ceil(incidencias.length / registrosPorPagina);
-    
-    for (let numeroPagina = 1; numeroPagina <= totalPaginas; numeroPagina++) {
-        const elemento = document.createElement('li');
-        elemento.className = 'page-item';
-
-        const boton = document.createElement('button');
-        boton.className = 'page-link';
-        boton.textContent = numeroPagina;
-
-        boton.addEventListener('click', () => {
-            paginaActual = numeroPagina;
-
-            renderTablaDirector(incidencias);
-            renderizarPaginacion(incidencias);
-        });
-        elemento.appendChild(boton);
-        contenedor.appendChild(elemento);
-    }
-}
-
-// Carga inicialmente la tabla y la paginación.
-renderTablaDirector(incidencias);
-renderizarPaginacion(incidencias);
-
-
-let prioridadSeleccionada = 'todas';
-let estadoSeleccionado = 'todas';
-
-function aplicarFiltros() {
-    const incidenciasFiltradas = incidencias.filter(inc => {
-        const coincidePrioridad = prioridadSeleccionada === 'todas'
-            || inc.prioridad === Number(prioridadSeleccionada);
-        const coincideEstado = estadoSeleccionado === 'todas'
-            || inc.id_estado === Number(estadoSeleccionado);
-
-        return coincidePrioridad && coincideEstado;
+// Envía una solicitud autenticada a la API y valida su respuesta.
+async function solicitar(url, opciones = {}) {
+    const respuesta = await fetch(url, {
+        ...opciones,
+        cache: 'no-store',
+        headers: {
+            Authorization: `Bearer ${token}`,
+            ...(opciones.body ? { 'Content-Type': 'application/json' } : {}),
+            ...opciones.headers
+        }
     });
 
-    paginaActual = 1;
-    renderTablaDirector(incidenciasFiltradas);
-    renderizarPaginacion(incidenciasFiltradas);
+    const datos = await respuesta.json();
+    if (!respuesta.ok) {
+        throw new Error(datos.error || datos.mensaje || `Error HTTP ${respuesta.status}`);
+    }
+
+    return datos;
 }
 
-function configurarFiltroDropdown(menuId, textoId, actualizarSeleccion) {
+// Descarga todas las páginas de incidencias y vuelve a dibujar el listado.
+async function cargarIncidencias() {
+    const limite = 100;
+    const primeraPagina = await solicitar(
+        `${API_URL}/incidencias?pagina=1&limite=${limite}`
+    );
+    const resultado = [...primeraPagina.datos];
+
+    for (let pagina = 2; pagina <= primeraPagina.totalPaginas; pagina++) {
+        const respuesta = await solicitar(
+            `${API_URL}/incidencias?pagina=${pagina}&limite=${limite}`
+        );
+        resultado.push(...respuesta.datos);
+    }
+
+    incidencias = resultado;
+    renderizarIncidencias();
+}
+
+// Carga los técnicos disponibles en el selector de asignación.
+async function cargarTecnicos() {
+    try {
+        const tecnicos = await solicitar(`${API_URL}/usuarios/tecnicos`);
+        selectorTecnico.replaceChildren();
+
+        const opcionInicial = document.createElement('option');
+        opcionInicial.value = '';
+        opcionInicial.textContent = tecnicos.length
+            ? 'Seleccioná un técnico'
+            : 'No hay técnicos activos';
+        opcionInicial.disabled = true;
+        opcionInicial.selected = true;
+        selectorTecnico.appendChild(opcionInicial);
+
+        tecnicos.forEach(tecnico => {
+            const opcion = document.createElement('option');
+            opcion.value = tecnico.id_usuario;
+            opcion.textContent = `${tecnico.nombres} ${tecnico.apellidos}`;
+            selectorTecnico.appendChild(opcion);
+        });
+    } catch (error) {
+        selectorTecnico.replaceChildren();
+        const opcion = document.createElement('option');
+        opcion.value = '';
+        opcion.textContent = 'No se pudieron cargar los técnicos';
+        opcion.disabled = true;
+        opcion.selected = true;
+        selectorTecnico.appendChild(opcion);
+        mostrarMensaje(error.message);
+    }
+}
+
+// Devuelve incidencias que coinciden con los filtros activos.
+function obtenerIncidenciasFiltradas() {
+    return incidencias.filter(incidencia => {
+        const coincidePrioridad = prioridadSeleccionada === 'todas'
+            || incidencia.prioridad === Number(prioridadSeleccionada);
+        const coincideEstado = estadoSeleccionado === 'todas'
+            || incidencia.id_estado === Number(estadoSeleccionado);
+        return coincidePrioridad && coincideEstado;
+    });
+}
+
+// Dibuja la página actual de incidencias filtradas y sus controles.
+function renderizarIncidencias() {
+    const filtradas = obtenerIncidenciasFiltradas();
+    const totalPaginas = Math.ceil(filtradas.length / registrosPorPagina);
+    paginaActual = Math.min(paginaActual, Math.max(totalPaginas, 1));
+    const inicio = (paginaActual - 1) * registrosPorPagina;
+    const pagina = filtradas.slice(inicio, inicio + registrosPorPagina);
+
+    tabla.replaceChildren();
+    if (pagina.length === 0) {
+        const fila = document.createElement('tr');
+        const celda = document.createElement('td');
+        celda.colSpan = 7;
+        celda.className = 'text-center text-muted';
+        celda.textContent = 'No hay incidencias para los filtros seleccionados.';
+        fila.appendChild(celda);
+        tabla.appendChild(fila);
+    }
+
+    pagina.forEach(incidencia => {
+        const fila = document.createElement('tr');
+        const valores = [
+            incidencia.id_incidencia,
+            incidencia.articulo_descripcion
+        ];
+
+        valores.forEach((valor, indice) => {
+            const celda = document.createElement('td');
+            celda.dataset.label = indice === 0 ? 'N.º' : 'Artículo';
+            celda.textContent = valor;
+            fila.appendChild(celda);
+        });
+
+        const celdaPrioridad = document.createElement('td');
+        celdaPrioridad.dataset.label = 'Prioridad';
+        celdaPrioridad.appendChild(crearBadge(badgesPrioridad[incidencia.prioridad]));
+        fila.appendChild(celdaPrioridad);
+
+        const celdaEstado = document.createElement('td');
+        celdaEstado.dataset.label = 'Estado';
+        celdaEstado.appendChild(crearBadge(badgesEstado[incidencia.id_estado]));
+        fila.appendChild(celdaEstado);
+
+        const celdaTecnico = document.createElement('td');
+        celdaTecnico.dataset.label = 'Técnico asignado';
+        celdaTecnico.textContent = incidencia.tecnico_asignado || 'Sin asignar';
+        fila.appendChild(celdaTecnico);
+
+        const celdaFecha = document.createElement('td');
+        celdaFecha.dataset.label = 'Fecha';
+        celdaFecha.textContent = incidencia.creado;
+        fila.appendChild(celdaFecha);
+
+        const celdaAcciones = document.createElement('td');
+        celdaAcciones.dataset.label = 'Acciones';
+        const botonDetalle = document.createElement('button');
+        botonDetalle.type = 'button';
+        botonDetalle.className = 'btn btn-sm btn-outline-secondary';
+        botonDetalle.setAttribute('aria-label', 'Ver detalle');
+        const icono = document.createElement('i');
+        icono.className = 'bi bi-eye-fill';
+        icono.setAttribute('aria-hidden', 'true');
+        botonDetalle.appendChild(icono);
+        // Abre el detalle de la incidencia desde su fila.
+        botonDetalle.addEventListener('click', () => abrirDetalle(incidencia));
+        celdaAcciones.appendChild(botonDetalle);
+        fila.appendChild(celdaAcciones);
+        tabla.appendChild(fila);
+    });
+
+    renderizarPaginacion(totalPaginas);
+}
+
+// Construye botones para navegar entre las páginas del listado.
+function renderizarPaginacion(totalPaginas) {
+    paginacion.replaceChildren();
+
+    for (let numero = 1; numero <= totalPaginas; numero++) {
+        const elemento = document.createElement('li');
+        elemento.className = `page-item ${numero === paginaActual ? 'active' : ''}`;
+        const boton = document.createElement('button');
+        boton.type = 'button';
+        boton.className = 'page-link';
+        boton.textContent = numero;
+        // Actualiza la página visible del listado.
+        boton.addEventListener('click', () => {
+            paginaActual = numero;
+            renderizarIncidencias();
+        });
+        elemento.appendChild(boton);
+        paginacion.appendChild(elemento);
+    }
+}
+
+// Guarda la incidencia seleccionada y prepara el modal de acciones.
+function abrirDetalle(incidencia) {
+    incidenciaSeleccionada = incidencia;
+    document.getElementById('modal-id').textContent = incidencia.id_incidencia;
+    document.getElementById('modal-articulo').textContent = incidencia.articulo_descripcion;
+    document.getElementById('modal-descripcion').textContent = incidencia.descripcion_pedido;
+
+    const esPendiente = incidencia.id_estado === 1;
+    document.getElementById('btn-asignar').disabled = !esPendiente;
+    document.getElementById('btn-cancelar').disabled = !esPendiente;
+    selectorTecnico.disabled = !esPendiente;
+    selectorTecnico.value = '';
+
+    modal.show();
+}
+
+// Asigna o cancela la incidencia y actualiza la lista tras la respuesta.
+async function actualizarIncidencia(accion, cuerpo) {
+    if (!incidenciaSeleccionada) return;
+
+    const botonAsignar = document.getElementById('btn-asignar');
+    const botonCancelar = document.getElementById('btn-cancelar');
+    botonAsignar.disabled = true;
+    botonCancelar.disabled = true;
+    mensaje.classList.add('d-none');
+
+    try {
+        await solicitar(
+            `${API_URL}/incidencias/${incidenciaSeleccionada.id_incidencia}/${accion}`,
+            {
+                method: 'PATCH',
+                ...(cuerpo ? { body: JSON.stringify(cuerpo) } : {})
+            }
+        );
+        modal.hide();
+        incidenciaSeleccionada = null;
+        await cargarIncidencias();
+        mostrarMensaje(
+            accion === 'asignar' ? 'Incidencia asignada correctamente.' : 'Incidencia cancelada correctamente.',
+            'success'
+        );
+    } catch (error) {
+        mostrarMensaje(error.message);
+        botonAsignar.disabled = false;
+        botonCancelar.disabled = false;
+    }
+}
+
+// Valida el técnico elegido y envía la asignación de la incidencia.
+document.getElementById('btn-asignar').addEventListener('click', () => {
+    const idTecnico = Number(selectorTecnico.value);
+    if (!idTecnico) {
+        mostrarMensaje('Seleccioná un técnico para asignar la incidencia.', 'warning');
+        return;
+    }
+    actualizarIncidencia('asignar', { asignado_a: idTecnico });
+});
+
+// Solicita la cancelación de la incidencia seleccionada.
+document.getElementById('btn-cancelar').addEventListener('click', () => {
+    actualizarIncidencia('cancelar');
+});
+
+// Conecta un menú de filtro con la variable que conserva su selección.
+function configurarFiltro(menuId, textoId, actualizarSeleccion) {
     const menu = document.getElementById(menuId);
     const texto = document.getElementById(textoId);
 
+    // Aplica la opción elegida y refresca las incidencias.
     menu.addEventListener('click', event => {
         const opcion = event.target.closest('.dropdown-item[data-valor]');
         if (!opcion) return;
@@ -204,14 +300,25 @@ function configurarFiltroDropdown(menuId, textoId, actualizarSeleccion) {
         menu.querySelectorAll('.dropdown-item').forEach(item => {
             item.classList.toggle('active', item === opcion);
         });
-        aplicarFiltros();
+        paginaActual = 1;
+        renderizarIncidencias();
     });
 }
 
-configurarFiltroDropdown('menu-filtro-prioridad', 'texto-filtro-prioridad', valor => {
+configurarFiltro('menu-filtro-prioridad', 'texto-filtro-prioridad', valor => {
     prioridadSeleccionada = valor;
 });
 
-configurarFiltroDropdown('menu-filtro-estado', 'texto-filtro-estado', valor => {
+configurarFiltro('menu-filtro-estado', 'texto-filtro-estado', valor => {
     estadoSeleccionado = valor;
 });
+
+if (!token) {
+    mostrarMensaje('No se encontró la sesión. Iniciá sesión nuevamente.');
+} else {
+    cargarIncidencias().catch(error => {
+        console.error('Error al cargar las incidencias del director:', error);
+        mostrarMensaje(error.message || 'No se pudieron cargar las incidencias.');
+    });
+    cargarTecnicos();
+}
