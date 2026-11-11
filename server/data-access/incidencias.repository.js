@@ -392,7 +392,7 @@ class IncidenciasRepository {
                 a.descripcion AS articulo_descripcion,
                 i.prioridad,
                 c.descripcion AS categoria,
-                CONCAT(u.apellidos, ' ', u.nombres) AS asignado_a,
+                NULLIF(BTRIM(CONCAT(u.apellidos, ' ', u.nombres)), '') AS asignado_a,
                 e.descripcion AS estado,
                 i.id_estado
             FROM incidencias AS i
@@ -400,7 +400,7 @@ class IncidenciasRepository {
                 ON a.id_articulo = i.id_articulo
             JOIN categorias AS c
                 ON c.id_categoria = a.id_categoria
-            JOIN usuarios AS u
+            LEFT JOIN usuarios AS u
                 ON u.id_usuario = i.asignado_a
             JOIN estados AS e
                 ON e.id_estado = i.id_estado
